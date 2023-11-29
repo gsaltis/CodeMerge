@@ -20,6 +20,7 @@
  *****************************************************************************/
 #include "MainWindow.h"
 #include "main.h"
+#include "MainSettings.h"
 
 /*****************************************************************************!
  * Local Macros
@@ -32,6 +33,14 @@
 /*****************************************************************************!
  * Local Data
  *****************************************************************************/
+QString
+MainOrgName = "Vertiv";
+
+QString
+MainAppName = "CodeMerge";
+
+MainSettings*
+MainSystemSettings;
 
 /*****************************************************************************!
  * Function : main
@@ -40,6 +49,8 @@ int
 main
 (int argc, char** argv)
 {
+  QSize                                 s;
+  QPoint                                p;
   QApplication 				application(argc, argv);
   MainWindow* 				w;
   
@@ -47,10 +58,13 @@ main
   application.setApplicationVersion("0.0.0");
   application.setOrganizationName("Greg Saltis");
   application.setOrganizationDomain("www.gsaltis.com");
+
+  MainSystemSettings = new MainSettings(MainOrgName, MainAppName);
   
   w = new MainWindow(NULL);
-  w->resize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
-  w->move(MAIN_WINDOW_X, MAIN_WINDOW_Y);
+  MainSystemSettings->GetMainWindowGeometry(p, s);
+  w->resize(s);
+  w->move(p);
   w->show();
   
   return application.exec();

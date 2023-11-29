@@ -18,6 +18,7 @@
  * Local Headers
  *****************************************************************************/
 #include "MainWindow.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : MainWindow
@@ -101,6 +102,7 @@ MainWindow::resizeEvent
     displayWindow->move(0, menu_size.height());
     displayWindow->resize(width, height);
   }
+  MainSystemSettings->SetMainWindowGeometry(pos(), size);
 }
 
 /*****************************************************************************!
@@ -133,4 +135,17 @@ void
 MainWindow::SlotExit(void)
 {
   exit(EXIT_SUCCESS);  
+}
+
+/*****************************************************************************!
+ * Function : moveEvent
+ *****************************************************************************/
+void
+MainWindow::moveEvent
+(QMoveEvent* InEvent)
+{
+  QPoint                                p;
+
+  p = InEvent->pos();
+  MainSystemSettings->SetMainWindowGeometry(p, size());
 }

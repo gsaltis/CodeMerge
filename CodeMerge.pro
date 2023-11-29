@@ -29,12 +29,14 @@ DEFINES                         += \
 
 SOURCES                         += \
 				   MainDisplayWindow.cpp                        \
+				   MainSettings.cpp                             \
 				   MainWindow.cpp                               \
 				   SystemConfig.cpp                             \
 				   main.cpp                                     \
 
 HEADERS                         += \
 				   MainDisplayWindow.h                          \
+				   MainSettings.h                               \
 				   MainWindow.h                                 \
 				   SystemConfig.h                               \
 

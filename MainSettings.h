@@ -1,32 +1,71 @@
 /*****************************************************************************
- * FILE NAME    : main.h
+ * FILE NAME    : MainSettings.h
  * DATE         : November 29 2023
- * PROJECT      : CodeMerge
+ * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _main_h_
-#define _main_h_
+#ifndef _mainsettings_h_
+#define _mainsettings_h_
 
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
 #include <QtCore>
-#include <QGuiApplication>
+#include <QtGui>
+#include <QWidget>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "MainSettings.h"
 
 /*****************************************************************************!
- * Exported Functions
+ * Exported Macros
  *****************************************************************************/
 
 /*****************************************************************************!
- * Exported Data
+ * Exported Class : MainSettings
  *****************************************************************************/
-extern
-MainSettings*
-MainSystemSettings;
+class MainSettings : public QSettings
+{
+  Q_OBJECT;
 
-#endif /* _main_h_*/
+ //! Constructors
+ public :
+  MainSettings                  (QString InOrgName, QString InAppName);
+
+ //! Destructor
+ public :
+  ~MainSettings                 ();
+
+ //! Public Methods
+ public :
+  void                          GetMainWindowGeometry   (QPoint &InPosition, QSize &InSize);
+  void                          SetMainWindowGeometry   (QPoint InPosition, QSize InSize);
+
+ //! Public Data
+ public :
+
+ //! Protected Methods
+ protected :
+
+ //! Protected Data
+ protected :
+
+ //! Private Methods
+ private :
+
+ //! Private Data
+ private :
+
+ //! Public Slots
+ public slots :
+
+ //! Public Signals
+ signals :
+
+ //! Public Actions
+ public :
+
+};
+
+#endif /* _mainsettings_h_*/

@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : MainDisplayWindow.h
+ * FILE NAME    : MainWindowHeader.h
  * DATE         : November 29 2023
- * PROJECT      : CodeMerge
+ * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _maindisplaywindow_h_
-#define _maindisplaywindow_h_
+#ifndef _mainwindowheader_h_
+#define _mainwindowheader_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -13,33 +13,34 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <QLabel>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "TrackViewWindow.h"
-#include "ModuleWindow.h"
-#include "MainControlBar.h"
-#include "MainMessageWindow.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
+#define MAIN_WINDOW_HEADER_X            200
+#define MAIN_WINDOW_HEADER_Y            200
+#define MAIN_WINDOW_HEADER_WIDTH        200
+#define MAIN_WINDOW_HEADER_HEIGHT       20
 
 /*****************************************************************************!
- * Exported Class : MainDisplayWindow
+ * Exported Class : MainWindowHeader
  *****************************************************************************/
-class MainDisplayWindow : public QWidget
+class MainWindowHeader : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  MainDisplayWindow             ();
+  MainWindowHeader              (QString InText, QWidget* InParent);
 
  //! Destructor
  public :
-  ~MainDisplayWindow            ();
+  ~MainWindowHeader             ();
 
  //! Public Methods
  public :
@@ -55,18 +56,18 @@ class MainDisplayWindow : public QWidget
 
  //! Private Methods
  private :
-  void                          Initialize              ();
-  void                          InitializeSubWindows    ();
+  void                          initialize              ();
   void                          CreateSubWindows        ();
+  void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
+  void                          paintEvent              (QPaintEvent* InEvent);
 
  //! Private Data
  private :
-  TrackViewWindow*              track2Window;
-  TrackViewWindow*              track3Window;
-  ModuleWindow*                 moduleWindow;
-  MainControlBar*               controlBar;
-  MainMessageWindow*            messageWindow;
+  QColor                        StartingColor;
+  QColor                        EndingColor;
+  QLabel*                       TextLabel;
+  QString                       text;
 
  //! Public Slots
  public slots :
@@ -79,4 +80,4 @@ class MainDisplayWindow : public QWidget
 
 };
 
-#endif /* _maindisplaywindow_h_*/
+#endif /* _mainwindowheader_h_*/

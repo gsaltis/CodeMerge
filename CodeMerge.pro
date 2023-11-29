@@ -28,17 +28,27 @@ QT                              += core gui widgets
 DEFINES                         += \
 
 SOURCES                         += \
+				   MainControlBar.cpp                           \
 				   MainDisplayWindow.cpp                        \
+				   MainMessageWindow.cpp                        \
 				   MainSettings.cpp                             \
 				   MainWindow.cpp                               \
+				   MainWindowHeader.cpp                         \
+				   ModuleWindow.cpp                             \
 				   SystemConfig.cpp                             \
+				   TrackViewWindow.cpp                          \
 				   main.cpp                                     \
 
 HEADERS                         += \
+				   MainControlBar.h                             \
 				   MainDisplayWindow.h                          \
+				   MainMessageWindow.h                          \
 				   MainSettings.h                               \
 				   MainWindow.h                                 \
+				   MainWindowHeader.h                           \
+				   ModuleWindow.h                               \
 				   SystemConfig.h                               \
+				   TrackViewWindow.h                            \
 
 FORMS                           += \
 

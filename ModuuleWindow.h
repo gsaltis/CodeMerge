@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : MainDisplayWindow.h
+ * FILE NAME    : ModuuleWindow.h
  * DATE         : November 29 2023
- * PROJECT      : CodeMerge
+ * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _maindisplaywindow_h_
-#define _maindisplaywindow_h_
+#ifndef _moduulewindow_h_
+#define _moduulewindow_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -17,29 +17,29 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "TrackViewWindow.h"
-#include "ModuleWindow.h"
-#include "MainControlBar.h"
-#include "MainMessageWindow.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
+#define MODUULE_WINDOW_X                200
+#define MODUULE_WINDOW_Y                200
+#define MODUULE_WINDOW_WIDTH            200
+#define MODUULE_WINDOW_HEIGHT           200
 
 /*****************************************************************************!
- * Exported Class : MainDisplayWindow
+ * Exported Class : ModuuleWindow
  *****************************************************************************/
-class MainDisplayWindow : public QWidget
+class ModuuleWindow : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  MainDisplayWindow             ();
+  ModuuleWindow                 ();
 
  //! Destructor
  public :
-  ~MainDisplayWindow            ();
+  ~ModuuleWindow                ();
 
  //! Public Methods
  public :
@@ -55,18 +55,13 @@ class MainDisplayWindow : public QWidget
 
  //! Private Methods
  private :
-  void                          Initialize              ();
-  void                          InitializeSubWindows    ();
+  void                          initialize              ();
   void                          CreateSubWindows        ();
+  void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Private Data
  private :
-  TrackViewWindow*              track2Window;
-  TrackViewWindow*              track3Window;
-  ModuleWindow*                 moduleWindow;
-  MainControlBar*               controlBar;
-  MainMessageWindow*            messageWindow;
 
  //! Public Slots
  public slots :
@@ -79,4 +74,4 @@ class MainDisplayWindow : public QWidget
 
 };
 
-#endif /* _maindisplaywindow_h_*/
+#endif /* _moduulewindow_h_*/

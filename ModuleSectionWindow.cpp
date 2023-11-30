@@ -1,5 +1,5 @@
 /*****************************************************************************
- * FILE NAME    : MainWindowHeader.cpp
+ * FILE NAME    : ModuleSectionWindow.cpp
  * DATE         : November 29 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -15,28 +16,29 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "MainWindowHeader.h"
+#include "ModuleSectionWindow.h"
 
 /*****************************************************************************!
- * Function : MainWindowHeader
+ * Function : ModuleSectionWindow
  *****************************************************************************/
-MainWindowHeader::MainWindowHeader
-(QString InText, QWidget* InParent) : QWidget(InParent)
+ModuleSectionWindow::ModuleSectionWindow
+(QString InTitleText) : QWidget()
 {
-  QPalette pal;
-  text = InText;
-  FontSize = 9;
-  pal = palette();
-  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
-  setPalette(pal);
+
+  StartingColor = QColor(240, 240, 240);
+  EndingColor = QColor(192, 192, 192);
+  
+  HeaderStartingColor = QColor(127, 146, 155);
+  HeaderEndingColor = QColor(202, 229, 250);
+  titleText = InTitleText;
   setAutoFillBackground(true);
   initialize();
 }
 
 /*****************************************************************************!
- * Function : ~MainWindowHeader
+ * Function : ~ModuleSectionWindow
  *****************************************************************************/
-MainWindowHeader::~MainWindowHeader
+ModuleSectionWindow::~ModuleSectionWindow
 ()
 {
 }
@@ -45,10 +47,8 @@ MainWindowHeader::~MainWindowHeader
  * Function : initialize
  *****************************************************************************/
 void
-MainWindowHeader::initialize()
+ModuleSectionWindow::initialize()
 {
-  StartingColor = QColor(142, 142, 142);
-  EndingColor = QColor(240, 240, 240);
   InitializeSubWindows();  
   CreateSubWindows();
 }
@@ -57,36 +57,33 @@ MainWindowHeader::initialize()
  * Function : CreateSubWindows
  *****************************************************************************/
 void
-MainWindowHeader::CreateSubWindows()
+ModuleSectionWindow::CreateSubWindows()
 {
-
-  //! Create label  
-  TextLabel = new QLabel();
-  TextLabel->setParent(this);
-  TextLabel->move(0, 0);
-  TextLabel->resize(size().width(), size().height());
-  TextLabel->setText(text);
-  TextLabel->setAlignment(Qt::AlignLeft);
-  TextLabel->setIndent(5);
-  TextLabel->setFont(QFont("Segoe UI", FontSize, QFont::Normal));
+  header = new MainWindowHeader(titleText, this);
+  header->SetColors(HeaderStartingColor, HeaderEndingColor);
+  header->SetFontSize(8);
 }
 
 /*****************************************************************************!
  * Function : InitializeSubWindows
  *****************************************************************************/
 void
-MainWindowHeader::InitializeSubWindows()
+ModuleSectionWindow::InitializeSubWindows()
 {
-  
+  header = NULL;  
 }
 
 /*****************************************************************************!
  * Function : resizeEvent
  *****************************************************************************/
 void
-MainWindowHeader::resizeEvent
+ModuleSectionWindow::resizeEvent
 (QResizeEvent* InEvent)
 {
+  int                                   headerW;
+  int                                   headerH;
+  int                                   headerY;
+  int                                   headerX;
   QSize					size;  
   int					width;
   int					height;
@@ -94,14 +91,22 @@ MainWindowHeader::resizeEvent
   size = InEvent->size();
   width = size.width();
   height = size.height();
-  TextLabel->resize(width, height);
+  (void)height;
+  (void)width;
+
+  headerX = 0;
+  headerY = 0;
+  headerW = width;
+  headerH = MAIN_WINDOW_HEADER_SHORT_HEIGHT;
+  header->move(headerX, headerY);
+  header->resize(headerW, headerH);
 }
 
 /*****************************************************************************!
  * Function : paintEvent
  *****************************************************************************/
 void
-MainWindowHeader::paintEvent
+ModuleSectionWindow::paintEvent
 (QPaintEvent* )
 {
   QPainter                              painter(this);
@@ -116,37 +121,6 @@ MainWindowHeader::paintEvent
   grad.setColorAt(1, EndingColor);
   painter.setBrush(QBrush(grad));
   painter.setPen(QPen(QColor(StartingColor)));
-  painter.drawRect(QRect(QPoint(0, 0), s));
+  painter.drawRect(QRect(QPoint(0, 0), s));  
 }
 
-/*****************************************************************************!
- * Function : SetColors
- *****************************************************************************/
-void
-MainWindowHeader::SetColors
-(QColor InStartingColor, QColor InEndingColor)
-{
-  StartingColor = InStartingColor;
-  EndingColor = InEndingColor;
-  repaint();
-}
-
-/*****************************************************************************!
- * Function : GetFontSize
- *****************************************************************************/
-int
-MainWindowHeader::GetFontSize(void)
-{
-  return FontSize;  
-}
-
-/*****************************************************************************!
- * Function : SetFontSize
- *****************************************************************************/
-void
-MainWindowHeader::SetFontSize
-(int InFontSize)
-{
-  FontSize = InFontSize;  
-  TextLabel->setFont(QFont("Segoe UI", FontSize, QFont::Normal));
-}

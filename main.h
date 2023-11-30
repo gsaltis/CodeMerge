@@ -17,6 +17,8 @@
  * Local Headers
  *****************************************************************************/
 #include "MainSettings.h"
+#include "BuildModuleSet.h"
+#include "CodeDatabase.h"
 
 /*****************************************************************************!
  * Exported Functions
@@ -28,5 +30,13 @@
 extern
 MainSettings*
 MainSystemSettings;
+
+extern
+QHash<QString, BuildModuleSet*>
+MainBuildModules;
+
+extern
+CodeDatabase*
+MainCodeDatabase;
 
 #endif /* _main_h_*/

@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : MainWindowHeader.h
+ * FILE NAME    : ModuleSectionWindow.h
  * DATE         : November 29 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _mainwindowheader_h_
-#define _mainwindowheader_h_
+#ifndef _modulesectionwindow_h_
+#define _modulesectionwindow_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -13,41 +13,37 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
-#include <QLabel>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
+#include "MainWindowHeader.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define MAIN_WINDOW_HEADER_X            200
-#define MAIN_WINDOW_HEADER_Y            200
-#define MAIN_WINDOW_HEADER_WIDTH        200
-#define MAIN_WINDOW_HEADER_HEIGHT       20
-#define MAIN_WINDOW_HEADER_SHORT_HEIGHT 15
+#define MODULE_SECTION_WINDOW_X         200
+#define MODULE_SECTION_WINDOW_Y         200
+#define MODULE_SECTION_WINDOW_WIDTH     200
+#define MODULE_SECTION_WINDOW_HEIGHT    200
 
 /*****************************************************************************!
- * Exported Class : MainWindowHeader
+ * Exported Class : ModuleSectionWindow
  *****************************************************************************/
-class MainWindowHeader : public QWidget
+class ModuleSectionWindow : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  MainWindowHeader              (QString InText, QWidget* InParent);
+  ModuleSectionWindow           (QString InTitleText);
 
  //! Destructor
  public :
-  ~MainWindowHeader             ();
+  ~ModuleSectionWindow          ();
 
  //! Public Methods
  public :
-  void                          SetColors               (QColor InStartingColor, QColor InEndingColor);
-  int                           GetFontSize             (void);
-  void                          SetFontSize             (int InFontSize);
 
  //! Public Data
  public :
@@ -68,11 +64,12 @@ class MainWindowHeader : public QWidget
 
  //! Private Data
  private :
+  MainWindowHeader*             header;
+  QString                       titleText;
+  QColor                        HeaderStartingColor;
+  QColor                        HeaderEndingColor;
   QColor                        StartingColor;
   QColor                        EndingColor;
-  QLabel*                       TextLabel;
-  QString                       text;
-  int                           FontSize;
 
  //! Public Slots
  public slots :
@@ -85,4 +82,4 @@ class MainWindowHeader : public QWidget
 
 };
 
-#endif /* _mainwindowheader_h_*/
+#endif /* _modulesectionwindow_h_*/

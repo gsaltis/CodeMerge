@@ -1,0 +1,3 @@
+CREATE TABLE BuildTarget (TrackName text, Type text, Name text, Path text);
+CREATE TABLE Track (TrackName text, BasePath text);
+CREATE TABLE BuildSource (TrackName text, TargetName text, SourceName text, SourcePath text, SourceType text);

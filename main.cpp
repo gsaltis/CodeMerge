@@ -8,19 +8,20 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QApplication>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <QtGui>
+#include <sqlite3.h>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
 #include "MainWindow.h"
 #include "main.h"
-#include "MainSettings.h"
 
 /*****************************************************************************!
  * Local Macros
@@ -29,6 +30,13 @@
 /*****************************************************************************!
  * Local Functions
  *****************************************************************************/
+void
+MainCreateBuildModuleSets
+(void);
+
+void
+MainOpenCodeDatabase
+();
 
 /*****************************************************************************!
  * Local Data
@@ -41,6 +49,12 @@ MainAppName = "CodeMerge";
 
 MainSettings*
 MainSystemSettings;
+
+QHash<QString, BuildModuleSet*>
+MainBuildModules;
+
+CodeDatabase*
+MainCodeDatabase;
 
 /*****************************************************************************!
  * Function : main
@@ -60,6 +74,8 @@ main
   application.setOrganizationDomain("www.gsaltis.com");
 
   MainSystemSettings = new MainSettings(MainOrgName, MainAppName);
+  MainOpenCodeDatabase();
+  MainCreateBuildModuleSets();
   
   w = new MainWindow(NULL);
   MainSystemSettings->GetMainWindowGeometry(p, s);
@@ -68,4 +84,44 @@ main
   w->show();
   
   return application.exec();
+}
+
+/*****************************************************************************!
+ * Function : MainCreateBuildModuleSets
+ *****************************************************************************/
+void
+MainCreateBuildModuleSets
+(void)
+{
+  BuildModuleSet*                       buildModule;
+  QString                               trackPath;
+  QString                               trackName;
+  int                                   n;
+  QStringList                           trackNames;
+
+  MainCodeDatabase->ClearBuildModules();
+  trackNames = MainCodeDatabase->GetTrackNames();
+  n = trackNames.size();
+  TRACE_FUNCTION_INT(n);
+
+  for (int i = 0; i < n; i++) {
+    trackName = trackNames[i];
+    trackPath = MainCodeDatabase->GetTrackPathByName(trackName);
+    buildModule = new BuildModuleSet();
+    buildModule->SetTrackName(trackName);
+    buildModule->SetTrackPath(trackPath);
+    buildModule->BuildDatabase();
+    MainBuildModules[trackName] = buildModule;
+  }
+}
+
+/*****************************************************************************!
+ * Function : MainOpenCodeDatabase
+ *****************************************************************************/
+void
+MainOpenCodeDatabase
+()
+{
+  MainCodeDatabase = new CodeDatabase("D:\\Source\\Vertiv\\CodeDB\\Code.db");
+  MainCodeDatabase->OpenDatabase();
 }

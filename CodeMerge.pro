@@ -8,11 +8,11 @@ QMAKE_LINK                      = @echo [LD] $@ && g++
 
 QMAKE_RC                        = @echo [RC] $@ && windres 
 
-QMAKE_LFLAGS_WINDOWS            += -mwindows
+QMAKE_LFLAGS_WINDOWS            += -mwindows -Ld:/usr/local/lib
 
-QMAKE_CXXFLAGS                  += 
+QMAKE_CXXFLAGS                  += -Id:/usr/local/include
 
-QMAKE_LIBS                      = 
+QMAKE_LIBS                      = -lwsock32 -ltraceclient -lsqlite3
 
 TARGET                          = CodeMerge
 
@@ -28,24 +28,32 @@ QT                              += core gui widgets
 DEFINES                         += \
 
 SOURCES                         += \
+				   BuildModule.cpp                              \
+				   BuildModuleSet.cpp                           \
+				   CodeDatabase.cpp                             \
 				   MainControlBar.cpp                           \
 				   MainDisplayWindow.cpp                        \
 				   MainMessageWindow.cpp                        \
 				   MainSettings.cpp                             \
 				   MainWindow.cpp                               \
 				   MainWindowHeader.cpp                         \
+				   ModuleSectionWindow.cpp                      \
 				   ModuleWindow.cpp                             \
 				   SystemConfig.cpp                             \
 				   TrackViewWindow.cpp                          \
 				   main.cpp                                     \
 
 HEADERS                         += \
+				   BuildModule.h                                \
+				   BuildModuleSet.h                             \
+				   CodeDatabase.h                               \
 				   MainControlBar.h                             \
 				   MainDisplayWindow.h                          \
 				   MainMessageWindow.h                          \
 				   MainSettings.h                               \
 				   MainWindow.h                                 \
 				   MainWindowHeader.h                           \
+				   ModuleSectionWindow.h                        \
 				   ModuleWindow.h                               \
 				   SystemConfig.h                               \
 				   TrackViewWindow.h                            \

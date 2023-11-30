@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : ModuleWindow.h
- * DATE         : November 29 2023
+ * FILE NAME    : BuildModuleSet.h
+ * DATE         : November 30 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _modulewindow_h_
-#define _modulewindow_h_
+#ifndef _buildmoduleset_h_
+#define _buildmoduleset_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -17,34 +17,35 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "MainWindowHeader.h"
-#include "ModuleSectionWindow.h"
+#include "BuildModule.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define MODULE_WINDOW_X                 200
-#define MODULE_WINDOW_Y                 200
-#define MODULE_WINDOW_WIDTH             200
-#define MODULE_WINDOW_HEIGHT            200
 
 /*****************************************************************************!
- * Exported Class : ModuleWindow
+ * Exported Class : BuildModuleSet
  *****************************************************************************/
-class ModuleWindow : public QWidget
+class BuildModuleSet : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  ModuleWindow                  ();
+  BuildModuleSet                ();
 
  //! Destructor
  public :
-  ~ModuleWindow                 ();
+  ~BuildModuleSet               ();
 
  //! Public Methods
  public :
+  int                           GetModuleCount          (void);
+  QString                       GetTrackName            (void);
+  void                          SetTrackName            (QString InTrackName);
+  QString                       GetTrackPath            (void);
+  void                          SetTrackPath            (QString InTrackPath);
+  void                          BuildDatabase           (void);
 
  //! Public Data
  public :
@@ -57,19 +58,13 @@ class ModuleWindow : public QWidget
 
  //! Private Methods
  private :
-  void                          initialize              ();
-  void                          CreateSubWindows        ();
-  void                          InitializeSubWindows    ();
-  void                          resizeEvent             (QResizeEvent* InEvent);
+  void                          BuildDatabase           (QString InFilePath);
 
  //! Private Data
  private :
-  MainWindowHeader*             header;
-  ModuleSectionWindow*          binariesSection;
-  ModuleSectionWindow*          librariesSection;
-  ModuleSectionWindow*          loadableObjectsSection;
-  ModuleSectionWindow*          headersSection;
-  ModuleSectionWindow*          othersSection;
+  QList<BuildModule*>           modules;
+  QString                       TrackName;
+  QString                       TrackPath;
 
  //! Public Slots
  public slots :
@@ -82,4 +77,4 @@ class ModuleWindow : public QWidget
 
 };
 
-#endif /* _modulewindow_h_*/
+#endif /* _buildmoduleset_h_*/

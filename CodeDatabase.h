@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : ModuleWindow.h
- * DATE         : November 29 2023
+ * FILE NAME    : CodeDatabase.h
+ * DATE         : November 30 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _modulewindow_h_
-#define _modulewindow_h_
+#ifndef _codedatabase_h_
+#define _codedatabase_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -13,38 +13,39 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <sqlite3.h>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "MainWindowHeader.h"
-#include "ModuleSectionWindow.h"
+#include "BuildModule.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define MODULE_WINDOW_X                 200
-#define MODULE_WINDOW_Y                 200
-#define MODULE_WINDOW_WIDTH             200
-#define MODULE_WINDOW_HEIGHT            200
 
 /*****************************************************************************!
- * Exported Class : ModuleWindow
+ * Exported Class : CodeDatabase
  *****************************************************************************/
-class ModuleWindow : public QWidget
+class CodeDatabase : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  ModuleWindow                  ();
+  CodeDatabase                  (QString InDatabaseFilename);
 
  //! Destructor
  public :
-  ~ModuleWindow                 ();
+  ~CodeDatabase                 ();
 
  //! Public Methods
  public :
+  QStringList                   GetTrackNames           (void);
+  QString                       GetTrackPathByName      (QString InName);
+  void                          OpenDatabase            (void);
+  void                          ClearBuildModules       (void);
+  void                          SaveBuildModule         (BuildModule* InModule);
 
  //! Public Data
  public :
@@ -57,19 +58,11 @@ class ModuleWindow : public QWidget
 
  //! Private Methods
  private :
-  void                          initialize              ();
-  void                          CreateSubWindows        ();
-  void                          InitializeSubWindows    ();
-  void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Private Data
  private :
-  MainWindowHeader*             header;
-  ModuleSectionWindow*          binariesSection;
-  ModuleSectionWindow*          librariesSection;
-  ModuleSectionWindow*          loadableObjectsSection;
-  ModuleSectionWindow*          headersSection;
-  ModuleSectionWindow*          othersSection;
+  QString                       DatabaseFilename;
+  sqlite3*                      Database;
 
  //! Public Slots
  public slots :
@@ -82,4 +75,4 @@ class ModuleWindow : public QWidget
 
 };
 
-#endif /* _modulewindow_h_*/
+#endif /* _codedatabase_h_*/

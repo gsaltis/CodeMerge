@@ -56,6 +56,20 @@ void
 ModuleWindow::CreateSubWindows()
 {
   header = new MainWindowHeader("Modules", this);
+  binariesSection = new ModuleSectionWindow("Binaries");
+  binariesSection->setParent(this);
+  
+  librariesSection = new ModuleSectionWindow("Libraries");
+  librariesSection->setParent(this);
+  
+  loadableObjectsSection = new ModuleSectionWindow("Loadable Objects");
+  loadableObjectsSection->setParent(this);
+
+  headersSection = new ModuleSectionWindow("Headers");
+  headersSection->setParent(this);
+
+  othersSection = new ModuleSectionWindow("Others");
+  othersSection->setParent(this);
 }
 
 /*****************************************************************************!
@@ -65,6 +79,11 @@ void
 ModuleWindow::InitializeSubWindows()
 {
   header = NULL;  
+  binariesSection = NULL;
+  librariesSection = NULL;
+  loadableObjectsSection = NULL;
+  headersSection = NULL;
+  othersSection = NULL;
 }
 
 /*****************************************************************************!
@@ -74,6 +93,26 @@ void
 ModuleWindow::resizeEvent
 (QResizeEvent* InEvent)
 {
+  int                                   othersSectionW;
+  int                                   othersSectionH;
+  int                                   othersSectionY;
+  int                                   othersSectionX;
+  int                                   headersSectionW;
+  int                                   headersSectionH;
+  int                                   headersSectionY;
+  int                                   headersSectionX;
+  int                                   loadableObjectsSectionW;
+  int                                   loadableObjectsSectionH;
+  int                                   loadableObjectsSectionY;
+  int                                   loadableObjectsSectionX;
+  int                                   librariesSectionW;
+  int                                   librariesSectionH;
+  int                                   librariesSectionY;
+  int                                   librariesSectionX;
+  int                                   binariesSectionW;
+  int                                   binariesSectionH;
+  int                                   binariesSectionY;
+  int                                   binariesSectionX;
   int                                   headerW;
   int                                   headerY;
   int                                   headerX;
@@ -95,4 +134,39 @@ ModuleWindow::resizeEvent
 
   header->move(headerX, headerY);
   header->resize(headerW, headerH);
+
+  binariesSectionX = 0;
+  binariesSectionY = MAIN_WINDOW_HEADER_HEIGHT + 10;
+  binariesSectionW = width;
+  binariesSectionH = 100;
+  binariesSection->move(binariesSectionX, binariesSectionY);
+  binariesSection->resize(binariesSectionW, binariesSectionH);
+
+  librariesSectionX = 0;
+  librariesSectionY = MAIN_WINDOW_HEADER_HEIGHT + 120;
+  librariesSectionW = width;
+  librariesSectionH = 100;
+  librariesSection->move(librariesSectionX, librariesSectionY);
+  librariesSection->resize(librariesSectionW, librariesSectionH);
+
+  loadableObjectsSectionX = 0;
+  loadableObjectsSectionY = MAIN_WINDOW_HEADER_HEIGHT + 230;
+  loadableObjectsSectionW = width;
+  loadableObjectsSectionH = 100;
+  loadableObjectsSection->move(loadableObjectsSectionX, loadableObjectsSectionY);
+  loadableObjectsSection->resize(loadableObjectsSectionW, loadableObjectsSectionH);
+
+  headersSectionX = 0;
+  headersSectionY = MAIN_WINDOW_HEADER_HEIGHT + 340;
+  headersSectionW = width;
+  headersSectionH = 100;
+  headersSection->move(headersSectionX, headersSectionY);
+  headersSection->resize(headersSectionW, headersSectionH);
+
+  othersSectionX = 0;
+  othersSectionY = MAIN_WINDOW_HEADER_HEIGHT + 430;
+  othersSectionW = width;
+  othersSectionH = 100;
+  othersSection->move(othersSectionX, othersSectionY);
+  othersSection->resize(othersSectionW, othersSectionH);
 }

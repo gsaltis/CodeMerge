@@ -11,6 +11,7 @@
 #include <trace_winnetqt.h>
 #include <QtCore>
 #include <QApplication>
+#include <QCommandLineParser>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -38,6 +39,10 @@ void
 MainOpenCodeDatabase
 ();
 
+void
+MainCreateBuildTargets
+();
+
 /*****************************************************************************!
  * Local Data
  *****************************************************************************/
@@ -56,6 +61,9 @@ MainBuildModules;
 CodeDatabase*
 MainCodeDatabase;
 
+bool
+MainCreateDatabases = false;
+
 /*****************************************************************************!
  * Function : main
  *****************************************************************************/
@@ -67,15 +75,30 @@ main
   QPoint                                p;
   QApplication 				application(argc, argv);
   MainWindow* 				w;
+  QCommandLineParser                    commandLineParser;
   
   application.setApplicationName("CodeMerge");
   application.setApplicationVersion("0.0.0");
   application.setOrganizationName("Greg Saltis");
   application.setOrganizationDomain("www.gsaltis.com");
 
+  commandLineParser.setApplicationDescription("Code Merge Tool");
+  commandLineParser.addHelpOption();
+  commandLineParser.addVersionOption();
+  
+  QCommandLineOption                    createDBOption(QStringList() << "d" << "database", QString("Create new database items"));
+  commandLineParser.addOption(createDBOption);
+  commandLineParser.process(application);
+                                                       
+  TRACE_COMMAND_CLEAR();
+  MainCreateDatabases = commandLineParser.isSet(createDBOption);
+
   MainSystemSettings = new MainSettings(MainOrgName, MainAppName);
   MainOpenCodeDatabase();
-  MainCreateBuildModuleSets();
+  if ( MainCreateDatabases ) {
+    MainCreateBuildModuleSets();
+    MainCreateBuildTargets();
+  }
   
   w = new MainWindow(NULL);
   MainSystemSettings->GetMainWindowGeometry(p, s);
@@ -99,11 +122,10 @@ MainCreateBuildModuleSets
   int                                   n;
   QStringList                           trackNames;
 
+  TRACE_FUNCTION_LOCATION();
   MainCodeDatabase->ClearBuildModules();
   trackNames = MainCodeDatabase->GetTrackNames();
   n = trackNames.size();
-  TRACE_FUNCTION_INT(n);
-
   for (int i = 0; i < n; i++) {
     trackName = trackNames[i];
     trackPath = MainCodeDatabase->GetTrackPathByName(trackName);
@@ -124,4 +146,27 @@ MainOpenCodeDatabase
 {
   MainCodeDatabase = new CodeDatabase("D:\\Source\\Vertiv\\CodeDB\\Code.db");
   MainCodeDatabase->OpenDatabase();
+}
+
+/*****************************************************************************!
+ * Function : MainCreateBuildTargets
+ *****************************************************************************/
+void
+MainCreateBuildTargets
+()
+{
+  BuildModuleSet*                       moduleSet;
+  QStringList                           trackNames;
+
+  TRACE_FUNCTION_LOCATION();
+  trackNames = MainCodeDatabase->GetTrackNames();
+
+  MainCodeDatabase->ClearBuildTargets();
+  MainCodeDatabase->ClearBuildSources();
+  
+  for ( auto trackName : trackNames ) {
+    moduleSet = MainBuildModules[trackName];
+    TRACE_FUNCTION_LOCATION();
+    moduleSet->BuildTargetDatabase();
+  }
 }

@@ -46,10 +46,14 @@ class BuildModule : public QWidget
   void                          SetFullPathName         (QString InFullPathName);
   QString                       GetTrackName            (void);
   void                          SetTrackName            (QString InTrackName);
+  int                           Execute                 (QString &InErrors, QString &InOutput);
+  void                          BuildTargetDatabase     (void);
 
  //! Public Data
  public :
-
+  static QString                MakeExeName;
+  static QString                MakeExeArgs;
+  
  //! Protected Methods
  protected :
 
@@ -58,6 +62,15 @@ class BuildModule : public QWidget
 
  //! Private Methods
  private :
+  void                          ExecuteSetup            (void);
+  void                          ProcessOutput           (QString InBuildLine);
+  bool                          BuildLineIsCommentLine  (QString InLine);
+  bool                          BuildLineIsTargetLine   (QString InBuildCommand);
+  void                          ProcessBuildTarget      (QStringList InElements);
+  void                          ProcessBuildCompile     (QStringList InElements);
+  void                          ProcessBuildArchive     (QStringList InElements);
+  void                          ProcessBuildRanlib      (QStringList InElements);
+  QString                       GetTargetType           (QString InTargetName);
 
  //! Private Data
  private :

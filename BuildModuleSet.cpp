@@ -128,7 +128,6 @@ BuildModuleSet::BuildDatabase
     BuildModule*                                buildModule;
     int n = TrackPath.length();
     QString s = InFilePath.sliced(n);
-    TRACE_FUNCTION_QSTRING(InFilePath);
     buildModule = new BuildModule(TrackName, s, InFilePath);
     MainCodeDatabase->SaveBuildModule(buildModule);
     modules << buildModule;
@@ -140,3 +139,14 @@ BuildModuleSet::BuildDatabase
   }
 }
 
+/*****************************************************************************!
+ * Function : BuildTargetDatabase
+ *****************************************************************************/
+void
+BuildModuleSet::BuildTargetDatabase(void)
+{
+  MainCodeDatabase->ClearBuildTargets();
+  for ( auto module : modules ) {
+    module->BuildTargetDatabase();
+  }
+}

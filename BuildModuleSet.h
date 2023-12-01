@@ -46,6 +46,7 @@ class BuildModuleSet : public QWidget
   QString                       GetTrackPath            (void);
   void                          SetTrackPath            (QString InTrackPath);
   void                          BuildDatabase           (void);
+  void                          BuildTargetDatabase     (void);
 
  //! Public Data
  public :

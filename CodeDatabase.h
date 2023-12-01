@@ -45,7 +45,12 @@ class CodeDatabase : public QWidget
   QString                       GetTrackPathByName      (QString InName);
   void                          OpenDatabase            (void);
   void                          ClearBuildModules       (void);
+  void                          ClearBuildTargets       (void);
+  void                          ClearBuildSources       (void);
   void                          SaveBuildModule         (BuildModule* InModule);
+  void                          SaveBuildTarget         (QString InTrackName, QString InTargetName, QString InType, QString InPath);
+  void                          SaveBuildSource         (QString InTrackName, QString InTargetName, QString InSourceName, QString InPath, QString InText);
+
 
  //! Public Data
  public :
@@ -58,6 +63,7 @@ class CodeDatabase : public QWidget
 
  //! Private Methods
  private :
+  void                          ExecuteStatement        (QString InSQLStatement);
 
  //! Private Data
  private :

@@ -208,26 +208,34 @@ CodeDatabase::OpenDatabase(void)
 void
 CodeDatabase::ClearBuildModules(void)
 {
-  QString                               errorString;
-  int                                   n;
-  char*                                 e;
   QString                               statement;
-  QMessageBox*                          box;
 
   statement = "DELETE FROM BuildModule;";
+  ExecuteStatement(statement);
+}
 
-  n = sqlite3_exec(Database, statement.toStdString().c_str(), NULL, NULL, &e);
-  if ( n != SQLITE_OK ) {
-    errorString = QString("sqlite3_exec() FAIL\n"
-                          "%1 %2\n"
-                          "%3\n"
-                          "%4").arg(__FILE__).arg(__LINE__).arg(statement).arg(e);
-    
-    box = new QMessageBox(QMessageBox::Critical, "sqlite3_exec() FAIL",
-                          errorString);
-    box->exec();
-    exit(EXIT_FAILURE);
-  }
+/*****************************************************************************!
+ * Function : ClearBuildSources
+ *****************************************************************************/
+void
+CodeDatabase::ClearBuildSources(void)
+{
+  QString                               statement;
+
+  statement = "DELETE FROM BuildSource;";
+  ExecuteStatement(statement);
+}
+
+/*****************************************************************************!
+ * Function : ClearBuildTargets
+ *****************************************************************************/
+void
+CodeDatabase::ClearBuildTargets(void)
+{
+  QString                               statement;
+
+  statement = "DELETE FROM BuildTarget;";
+  ExecuteStatement(statement);
 }
 
 /*****************************************************************************!
@@ -237,14 +245,9 @@ void
 CodeDatabase::SaveBuildModule
 (BuildModule* InModule)
 {
-  QString                               errorString;
-  int                                   n;
-  char*                                 e;
   QString                               statement;
-  QMessageBox*                          box;
-
   statement =
-    "INSERT INTO BuildModule VALUES('"   +
+    "INSERT INTO BuildModule VALUES('"  +
     InModule->GetTrackName()            +
     "', '"                              +
     InModule->GetName()                 +
@@ -252,17 +255,80 @@ CodeDatabase::SaveBuildModule
     InModule->GetFullPathName()         +
     "');";
 
-  n = sqlite3_exec(Database, statement.toStdString().c_str(), NULL, NULL, &e);
+  ExecuteStatement(statement);
+}
+
+/*****************************************************************************!
+ * Function : SaveBuildTarget
+ *****************************************************************************/
+void
+CodeDatabase::SaveBuildTarget
+(QString InTrackName, QString InTargetName, QString InType, QString InPath)
+{
+  QString                               statement;
+
+  statement =
+    "INSERT INTO BuildTarget VALUES('"  +
+    InTrackName                         +
+    "', '"                              +
+    InType                              +
+    "', '"                              +
+    InTargetName                        +
+    "', '"                              +
+    InPath                              +
+    "');";
+
+  ExecuteStatement(statement);
+}
+
+/*****************************************************************************!
+ * Function : SaveBuildSource
+ *****************************************************************************/
+void
+CodeDatabase::SaveBuildSource
+(QString InTrackName, QString InTargetName, QString InSourceName, QString InPath, QString InText)
+{
+  QString                               statement;
+
+  statement =
+    "INSERT INTO BuildSource VALUES('"  +
+    InTrackName                         +
+    "', '"                              +
+    InTargetName                        +
+    "', '"                              +
+    InSourceName                        +
+    "', '"                              +
+    InPath                              +
+    "', '"                              +
+    InText                              +
+    "');";
+
+  ExecuteStatement(statement);
+}
+
+/*****************************************************************************!
+ * Function : ExecuteStatement
+ *****************************************************************************/
+void
+CodeDatabase::ExecuteStatement
+(QString InSQLStatement)
+{
+  QString                               errorString;
+  int                                   n;
+  char*                                 e;
+  QMessageBox*                          box;
+
+  n = sqlite3_exec(Database, InSQLStatement.toStdString().c_str(), NULL, NULL, &e);
   if ( n != SQLITE_OK ) {
     errorString = QString("sqlite3_exec() FAIL\n"
                           "%1 %2\n"
                           "%3\n"
-                          "%4").arg(__FILE__).arg(__LINE__).arg(statement).arg(e);
+                          "%4").arg(__FILE__).arg(__LINE__).arg(InSQLStatement).arg(e);
     
     box = new QMessageBox(QMessageBox::Critical, "sqlite3_exec() FAIL",
                           errorString);
     box->exec();
     exit(EXIT_FAILURE);
-  }
-  
+  }  
 }
+ 

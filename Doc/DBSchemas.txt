@@ -1,3 +1,5 @@
 CREATE TABLE BuildTarget (TrackName text, Type text, Name text, Path text);
 CREATE TABLE Track (TrackName text, BasePath text);
-CREATE TABLE BuildSource (TrackName text, TargetName text, SourceName text, SourcePath text, SourceType text);
+CREATE TABLE BuildSource (TrackName text, TargetName text, SourceName text, ModuleName text, SourceType text);
+CREATE TABLE BuildModule (TrackName text, Name text, FullPath text);
+

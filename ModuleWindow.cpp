@@ -57,8 +57,6 @@ ModuleWindow::initialize()
 void
 ModuleWindow::CreateSubWindows()
 {
-  header = new MainWindowHeader("Modules", this);
-
   binariesSection = new ModuleSectionWindow("Binaries");
   binariesSection->setParent(this);
   
@@ -80,8 +78,8 @@ ModuleWindow::CreateSubWindows()
   headersSection->hide();
   othersSection->hide();
   
-  moduleTree = new ModuleTree();
-  moduleTree->setParent(this);
+  moduleWindow = new ModuleContainerWindow();
+  moduleWindow->setParent(this);
 }
 
 /*****************************************************************************!
@@ -90,13 +88,12 @@ ModuleWindow::CreateSubWindows()
 void
 ModuleWindow::InitializeSubWindows()
 {
-  header = NULL;  
   binariesSection = NULL;
   librariesSection = NULL;
   loadableObjectsSection = NULL;
   headersSection = NULL;
   othersSection = NULL;
-  moduleTree = NULL;
+  moduleWindow = NULL;
 }
 
 /*****************************************************************************!
@@ -106,10 +103,10 @@ void
 ModuleWindow::resizeEvent
 (QResizeEvent* InEvent)
 {
-  int                                   moduleTreeW;
-  int                                   moduleTreeH;
-  int                                   moduleTreeY;
-  int                                   moduleTreeX;
+  int                                   moduleWindowW;
+  int                                   moduleWindowH;
+  int                                   moduleWindowY;
+  int                                   moduleWindowX;
   int                                   othersSectionW;
   int                                   othersSectionH;
   int                                   othersSectionY;
@@ -130,10 +127,6 @@ ModuleWindow::resizeEvent
   int                                   binariesSectionH;
   int                                   binariesSectionY;
   int                                   binariesSectionX;
-  int                                   headerW;
-  int                                   headerY;
-  int                                   headerX;
-  int                                   headerH;
   QSize					size;  
   int					width;
   int					height;
@@ -143,14 +136,6 @@ ModuleWindow::resizeEvent
   size = InEvent->size();
   width = size.width();
   height = size.height();
-
-  headerX = 0;
-  headerY = 0;
-  headerW = width;
-  headerH = MAIN_WINDOW_HEADER_HEIGHT;
-
-  header->move(headerX, headerY);
-  header->resize(headerW, headerH);
 
   binariesSectionX = 0;
   binariesSectionY = MAIN_WINDOW_HEADER_HEIGHT + 10;
@@ -187,12 +172,12 @@ ModuleWindow::resizeEvent
   othersSection->move(othersSectionX, othersSectionY);
   othersSection->resize(othersSectionW, othersSectionH);
 
-  moduleTreeX = 0;
-  moduleTreeY = MAIN_WINDOW_HEADER_HEIGHT;
-  moduleTreeW = width;
-  moduleTreeH = height - MAIN_WINDOW_HEADER_HEIGHT;
-  moduleTree->move(moduleTreeX, moduleTreeY);
-  moduleTree->resize(moduleTreeW, moduleTreeH);
+  moduleWindowX = 0;
+  moduleWindowY = 0;
+  moduleWindowW = width;
+  moduleWindowH = height;
+  moduleWindow->move(moduleWindowX, moduleWindowY);
+  moduleWindow->resize(moduleWindowW, moduleWindowH);
 }
 
 /*****************************************************************************!
@@ -203,5 +188,5 @@ ModuleWindow::PostWindowCreateProcess(void)
 {
   QList<QString>                        keys;
   keys = MainBuildModules.keys();
-  moduleTree->AddModuleSet(MainBuildModules[keys[0]], MainBuildModules[keys[1]]);
+  moduleWindow->AddModuleSet(MainBuildModules[keys[0]], MainBuildModules[keys[1]]);
 }

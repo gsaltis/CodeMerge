@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -90,15 +91,17 @@ StringTuple::SetString2
  *****************************************************************************/
 int
 StringTuple::Compare
-(StringTuple InTuple)
+(StringTuple* InTuple)
 {
   QString                       s1;
   QString                       s2;
   
 
-  s1 = string1.isEmpty() ? string1 : string2;
-  s2 = InTuple.GetString1().isEmpty() ? InTuple.GetString2() : InTuple.GetString1();
+  s1 = string1.isEmpty() ? string2 : string1;
+  s2 = InTuple->GetString1().isEmpty() ? InTuple->GetString2() : InTuple->GetString1();
 
+  TRACE_FUNCTION_QSTRING(s1);
+  TRACE_FUNCTION_QSTRING(s2);
   if ( s1.isEmpty() && s2.isEmpty() ) {
     return 0;
   }

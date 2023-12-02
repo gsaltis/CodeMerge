@@ -422,7 +422,7 @@ CodeDatabase::ReadBuildModules
   QMessageBox*                          box;
   QString                               statement;
 
-  statement = QString("SELECT * FROM BuildModule WHERE TrackName is '%1';").arg(InBuildModuleSet->GetTrackName());
+  statement = QString("SELECT * FROM BuildModule WHERE TrackName is '%1' ORDER BY Name;").arg(InBuildModuleSet->GetTrackName());
 
   n = sqlite3_exec(Database, statement.toStdString().c_str(), ReadBuildModulesCB, InBuildModuleSet, &e);
   if ( n != SQLITE_OK ) {

@@ -1,6 +1,6 @@
 /*****************************************************************************
- * FILE NAME    : ModuleTree.cpp
- * DATE         : December 01 2023
+ * FILE NAME    : TargetTree.cpp
+ * DATE         : December 02 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
@@ -8,7 +8,6 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
-#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -16,28 +15,26 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "ModuleTree.h"
-#include "ModuleTreeModuleSet.h"
+#include "TargetTree.h"
 
 /*****************************************************************************!
- * Function : ModuleTree
+ * Function : TargetTree
  *****************************************************************************/
-ModuleTree::ModuleTree
+TargetTree::TargetTree
 () : QTreeWidget()
 {
   QPalette pal;
-
   pal = palette();
-  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 192)));
+  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
   setPalette(pal);
   setAutoFillBackground(true);
   initialize();
 }
 
 /*****************************************************************************!
- * Function : ~ModuleTree
+ * Function : ~TargetTree
  *****************************************************************************/
-ModuleTree::~ModuleTree
+TargetTree::~TargetTree
 ()
 {
 }
@@ -46,9 +43,8 @@ ModuleTree::~ModuleTree
  * Function : initialize
  *****************************************************************************/
 void
-ModuleTree::initialize()
+TargetTree::initialize()
 {
-  setColumnCount(2);
   InitializeSubWindows();  
   CreateSubWindows();
 }
@@ -57,7 +53,7 @@ ModuleTree::initialize()
  * Function : CreateSubWindows
  *****************************************************************************/
 void
-ModuleTree::CreateSubWindows()
+TargetTree::CreateSubWindows()
 {
   
 }
@@ -66,7 +62,7 @@ ModuleTree::CreateSubWindows()
  * Function : InitializeSubWindows
  *****************************************************************************/
 void
-ModuleTree::InitializeSubWindows()
+TargetTree::InitializeSubWindows()
 {
   
 }
@@ -75,7 +71,7 @@ ModuleTree::InitializeSubWindows()
  * Function : resizeEvent
  *****************************************************************************/
 void
-ModuleTree::resizeEvent
+TargetTree::resizeEvent
 (QResizeEvent* InEvent)
 {
   QSize					size;  
@@ -87,17 +83,4 @@ ModuleTree::resizeEvent
   height = size.height();
   (void)height;
   (void)width;
-}
-
-/*****************************************************************************!
- * Function : AddModuleSet
- *****************************************************************************/
-void
-ModuleTree::AddModuleSet
-(BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2)
-{
-  ModuleTreeModuleSet*                  treeItem;
-
-  treeItem = new ModuleTreeModuleSet(InModuleSet1, InModuleSet2);
-  addTopLevelItem(treeItem);
 }

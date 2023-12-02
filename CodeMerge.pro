@@ -34,17 +34,26 @@ SOURCES                         += \
 				   BuildTarget.cpp                              \
 				   CodeDatabase.cpp                             \
 				   MainControlBar.cpp                           \
+				   MainDisplaySplitter.cpp                      \
 				   MainDisplayWindow.cpp                        \
 				   MainMessageWindow.cpp                        \
 				   MainSettings.cpp                             \
 				   MainWindow.cpp                               \
 				   MainWindowHeader.cpp                         \
+				   ModuleContainerWindow.cpp                    \
 				   ModuleSectionWindow.cpp                      \
+				   ModuleToolBar.cpp                            \
 				   ModuleTree.cpp                               \
 				   ModuleTreeModuleSet.cpp                      \
+				   ModuleTreeWindow.cpp                         \
 				   ModuleWindow.cpp                             \
+				   SourceTree.cpp                               \
+				   SourceTreeWindow.cpp                         \
 				   StringTuple.cpp                              \
 				   SystemConfig.cpp                             \
+				   TargetTree.cpp                               \
+				   TargetTreeWindow.cpp                         \
+				   TrackViewContainer.cpp                       \
 				   TrackViewWindow.cpp                          \
 				   main.cpp                                     \
 
@@ -54,17 +63,26 @@ HEADERS                         += \
 				   BuildTarget.h                                \
 				   CodeDatabase.h                               \
 				   MainControlBar.h                             \
+				   MainDisplaySplitter.h                        \
 				   MainDisplayWindow.h                          \
 				   MainMessageWindow.h                          \
 				   MainSettings.h                               \
 				   MainWindow.h                                 \
 				   MainWindowHeader.h                           \
+				   ModuleContainerWindow.h                      \
 				   ModuleSectionWindow.h                        \
+				   ModuleToolBar.h                              \
 				   ModuleTree.h                                 \
 				   ModuleTreeModuleSet.h                        \
+				   ModuleTreeWindow.h                           \
 				   ModuleWindow.h                               \
+				   SourceTree.h                                 \
+				   SourceTreeWindow.h                           \
 				   StringTuple.h                                \
 				   SystemConfig.h                               \
+				   TargetTree.h                                 \
+				   TargetTreeWindow.h                           \
+				   TrackViewContainer.h                         \
 				   TrackViewWindow.h                            \
 
 FORMS                           += \

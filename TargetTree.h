@@ -1,47 +1,46 @@
 /*****************************************************************************
- * FILE NAME    : MainDisplayWindow.h
- * DATE         : November 29 2023
- * PROJECT      : CodeMerge
+ * FILE NAME    : TargetTree.h
+ * DATE         : December 02 2023
+ * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _maindisplaywindow_h_
-#define _maindisplaywindow_h_
+#ifndef _targettree_h_
+#define _targettree_h_
 
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
 #include <QtCore>
 #include <QtGui>
+#include <QTreeWidget>
 #include <QWidget>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "TrackViewWindow.h"
-#include "ModuleWindow.h"
-#include "MainControlBar.h"
-#include "MainMessageWindow.h"
-#include "TrackViewContainer.h"
-#include "MainDisplaySplitter.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
+#define TARGET_TREE_X                   200
+#define TARGET_TREE_Y                   200
+#define TARGET_TREE_WIDTH               200
+#define TARGET_TREE_HEIGHT              200
 
 /*****************************************************************************!
- * Exported Class : MainDisplayWindow
+ * Exported Class : TargetTree
  *****************************************************************************/
-class MainDisplayWindow : public QWidget
+class TargetTree : public QTreeWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  MainDisplayWindow             ();
+  TargetTree                    ();
 
  //! Destructor
  public :
-  ~MainDisplayWindow            ();
+  ~TargetTree                   ();
 
  //! Public Methods
  public :
@@ -57,17 +56,13 @@ class MainDisplayWindow : public QWidget
 
  //! Private Methods
  private :
-  void                          Initialize              ();
-  void                          InitializeSubWindows    ();
+  void                          initialize              ();
   void                          CreateSubWindows        ();
+  void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Private Data
  private :
-  ModuleWindow*                 moduleWindow;
-  MainControlBar*               controlBar;
-  TrackViewContainer*           trackViewContainer;
-  MainDisplaySplitter*          splitter;
 
  //! Public Slots
  public slots :
@@ -80,4 +75,4 @@ class MainDisplayWindow : public QWidget
 
 };
 
-#endif /* _maindisplaywindow_h_*/
+#endif /* _targettree_h_*/

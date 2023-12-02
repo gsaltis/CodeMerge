@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : MainDisplayWindow.h
- * DATE         : November 29 2023
- * PROJECT      : CodeMerge
+ * FILE NAME    : TrackViewContainer.h
+ * DATE         : December 02 2023
+ * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _maindisplaywindow_h_
-#define _maindisplaywindow_h_
+#ifndef _trackviewcontainer_h_
+#define _trackviewcontainer_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -17,31 +17,31 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "TrackViewWindow.h"
-#include "ModuleWindow.h"
-#include "MainControlBar.h"
 #include "MainMessageWindow.h"
-#include "TrackViewContainer.h"
-#include "MainDisplaySplitter.h"
+#include "TrackViewWindow.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
+#define TRACK_VIEW_CONTAINER_X          200
+#define TRACK_VIEW_CONTAINER_Y          200
+#define TRACK_VIEW_CONTAINER_WIDTH      200
+#define TRACK_VIEW_CONTAINER_HEIGHT     200
 
 /*****************************************************************************!
- * Exported Class : MainDisplayWindow
+ * Exported Class : TrackViewContainer
  *****************************************************************************/
-class MainDisplayWindow : public QWidget
+class TrackViewContainer : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  MainDisplayWindow             ();
+  TrackViewContainer            ();
 
  //! Destructor
  public :
-  ~MainDisplayWindow            ();
+  ~TrackViewContainer           ();
 
  //! Public Methods
  public :
@@ -57,17 +57,16 @@ class MainDisplayWindow : public QWidget
 
  //! Private Methods
  private :
-  void                          Initialize              ();
-  void                          InitializeSubWindows    ();
+  void                          initialize              ();
   void                          CreateSubWindows        ();
+  void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Private Data
  private :
-  ModuleWindow*                 moduleWindow;
-  MainControlBar*               controlBar;
-  TrackViewContainer*           trackViewContainer;
-  MainDisplaySplitter*          splitter;
+  MainMessageWindow*            messageWindow;
+  TrackViewWindow*              track2Window;
+  TrackViewWindow*              track3Window;
 
  //! Public Slots
  public slots :
@@ -80,4 +79,4 @@ class MainDisplayWindow : public QWidget
 
 };
 
-#endif /* _maindisplaywindow_h_*/
+#endif /* _trackviewcontainer_h_*/

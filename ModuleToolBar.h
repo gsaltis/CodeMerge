@@ -1,47 +1,45 @@
 /*****************************************************************************
- * FILE NAME    : MainDisplayWindow.h
- * DATE         : November 29 2023
- * PROJECT      : CodeMerge
+ * FILE NAME    : ModuleToolBar.h
+ * DATE         : December 02 2023
+ * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _maindisplaywindow_h_
-#define _maindisplaywindow_h_
+#ifndef _moduletoolbar_h_
+#define _moduletoolbar_h_
 
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
 #include <QtCore>
 #include <QtGui>
+#include <QFrame>
 #include <QWidget>
+#include <QPushButton>
+#include <QAction>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "TrackViewWindow.h"
-#include "ModuleWindow.h"
-#include "MainControlBar.h"
-#include "MainMessageWindow.h"
-#include "TrackViewContainer.h"
-#include "MainDisplaySplitter.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
+#define MODULE_TOOL_BAR_HEIGHT          25
 
 /*****************************************************************************!
- * Exported Class : MainDisplayWindow
+ * Exported Class : ModuleToolBar
  *****************************************************************************/
-class MainDisplayWindow : public QWidget
+class ModuleToolBar : public QFrame
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  MainDisplayWindow             ();
+  ModuleToolBar                 ();
 
  //! Destructor
  public :
-  ~MainDisplayWindow            ();
+  ~ModuleToolBar                ();
 
  //! Public Methods
  public :
@@ -57,27 +55,34 @@ class MainDisplayWindow : public QWidget
 
  //! Private Methods
  private :
-  void                          Initialize              ();
-  void                          InitializeSubWindows    ();
+  void                          initialize              ();
   void                          CreateSubWindows        ();
+  void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Private Data
  private :
-  ModuleWindow*                 moduleWindow;
-  MainControlBar*               controlBar;
-  TrackViewContainer*           trackViewContainer;
-  MainDisplaySplitter*          splitter;
+  QPushButton*                  DisplayModulesButton;
+  QPushButton*                  DisplaySourceFilesButton;
+  QPushButton*                  DisplayTargetsButton;
 
  //! Public Slots
  public slots :
+  void                          SlotDisplayModulesButtonPushed (void);
+  void                          SlotDisplaySourceFilesButtonPushed (void);
+  void                          SlotDisplayTargetsButtonPushed (void);
 
  //! Public Signals
  signals :
-
+  void                          SignalDisplaySource     (void);
+  void                          SignalDisplayModules    (void);
+  void                          SignalDisplayTargets    (void);
  //! Public Actions
  public :
+  QAction*                      ActionDisplayModulesButtonPushed;
+  QAction*                      ActionDisplaySourceFilesButtonPushed;
+  QAction*                      ActionDisplayTargetsButtonPushed;
 
 };
 
-#endif /* _maindisplaywindow_h_*/
+#endif /* _moduletoolbar_h_*/

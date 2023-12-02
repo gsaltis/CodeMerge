@@ -1,24 +1,34 @@
 MainWindow
   MainDisplayWindow                             displayWindow
-    TrackViewWindow                             track2Window
+    MainDisplaySplitter
+      TrackViewContainer
+        TrackViewWindow                         track2Window
+        TrackViewWindow                         track3Window
+        MainMessageWindow                       messageWindow
+          MainWindowHeader                      header
     
-    TrackViewWindow                             track3Window
     
-    ModuleWindow                                moduleWindow
-      MainWindowHeader                          header
-      ModuleSectionWindow                       binariesSection
-      ModuleSectionWindow                       binariesSection
-      ModuleSectionWindow                       librariesSection
-      ModuleSectionWindow                       headersSection
-      ModuleSectionWindow                       otherSection
-      ModuleTree                                moduleTree
-        ModuleTreeModuleSet                     *
-      
+      ModuleWindow                              moduleWindow
+        MainWindowHeader                        header
+        ModuleSectionWindow                     binariesSection
+        ModuleSectionWindow                     binariesSection
+        ModuleSectionWindow                     librariesSection
+        ModuleSectionWindow                     headersSection
+        ModuleSectionWindow                     otherSection
+        ModuleContainerWindow                   moduleContainer
+          ModuleToolBar                         toolbar
+          ModuleTreeWindow                      moduleTreeWindow
+            MainWindowHeader                    header
+            ModuleTree                          moduleTree
+              ModuleTreeModuleSet               *
+          SourceTreeWindow                      sourceTreeWindow
+            MainWindowHeader                    header
+            SourceTree                          sourceTree
+          TargetTreeWindow                      targetTreeWindow
+            MainWindowHeader                    header
+            TargetTree                          targetTree
     MainControlBar                              controlBar
 
-    MainMessageWindow                           messageWindow
-      MainWindowHeader                          header
-    
 
 TrackViewWindow
   MainWindowHeader                              header

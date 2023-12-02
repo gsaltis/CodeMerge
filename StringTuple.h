@@ -44,7 +44,7 @@ class StringTuple : public QWidget
   void                          SetString1              (QString InString1);
   QString                       GetString2              (void);
   void                          SetString2              (QString InString2);
-  int                           Compare                 (StringTuple InTuple);
+  int                           Compare                 (StringTuple* InTuple);
 
  //! Public Data
  public :

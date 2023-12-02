@@ -20,11 +20,13 @@
 #include "MainWindowHeader.h"
 #include "ModuleSectionWindow.h"
 #include "ModuleTree.h"
+#include "ModuleContainerWindow.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
 #define MODULE_WINDOW_WIDTH             300
+#define MODULE_WINDOW_MAX_WIDTH         500
 
 /*****************************************************************************!
  * Exported Class : ModuleWindow
@@ -70,6 +72,7 @@ private :
   ModuleSectionWindow*          headersSection;
   ModuleSectionWindow*          othersSection;
   ModuleTree*                   moduleTree;
+  ModuleContainerWindow*        moduleWindow;
 
   //! Public Slots
 public slots :

@@ -18,6 +18,7 @@
  *****************************************************************************/
 #include "ModuleTreeModuleSet.h"
 #include "StringTuple.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : ModuleTreeModuleSet
@@ -146,8 +147,13 @@ ModuleTreeModuleSet::CreateModules(void)
     strings << st;
   }
 
+  std::sort(strings.begin(), strings.end(),
+            [](StringTuple* InSt1, StringTuple* InSt2) {
+              return InSt2->Compare(InSt1) < 0;
+            });
+  
   n = strings.size();
-
+  
   // Build the tree widgets
   for ( i = 0 ; i < n ; i++ ) {
     st = strings[i];

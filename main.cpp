@@ -23,6 +23,7 @@
  *****************************************************************************/
 #include "MainWindow.h"
 #include "main.h"
+#include "StringTuple.h"
 
 /*****************************************************************************!
  * Local Macros
@@ -45,6 +46,10 @@ MainCreateBuildTargets
 
 void
 MainReadDatabases
+();
+
+void
+MainTestTuples
 ();
 
 /*****************************************************************************!
@@ -90,13 +95,20 @@ main
   commandLineParser.addHelpOption();
   commandLineParser.addVersionOption();
   
-  QCommandLineOption                    createDBOption(QStringList() << "d" << "database", QString("Create new database items"));
-  commandLineParser.addOption(createDBOption);
-  commandLineParser.process(application);
-                                                       
-  TRACE_COMMAND_CLEAR();
-  MainCreateDatabases = commandLineParser.isSet(createDBOption);
+  QCommandLineOption                    CreateDBOption(QStringList() << "d" << "database", QString("Create new database items"));
+  commandLineParser.addOption(CreateDBOption);
 
+  QCommandLineOption                    TestTupleOption(QStringList() << "t" << "tuple", QString("Test Tuple creation and sorting"));
+  commandLineParser.addOption(TestTupleOption);
+
+  commandLineParser.process(application);
+
+  TRACE_COMMAND_CLEAR();
+  MainCreateDatabases = commandLineParser.isSet(CreateDBOption);
+  if ( commandLineParser.isSet(TestTupleOption) ) {
+    MainTestTuples();
+    exit(EXIT_SUCCESS);
+  }
   MainSystemSettings = new MainSettings(MainOrgName, MainAppName);
   MainOpenCodeDatabase();
   MainCreateBuildModuleSets();
@@ -198,3 +210,57 @@ MainReadDatabases
   }
   TRACE_FUNCTION_END();
 }
+
+/*****************************************************************************!
+ * Function : MainTestTuples
+ *****************************************************************************/
+void
+MainTestTuples
+()
+{
+  QList<StringTuple*>                   tuples;
+  StringTuple*                          tuple;
+
+  tuple = new StringTuple(QString("C"), QString("C"));
+  tuples << tuple;
+
+  tuple = new StringTuple(QString(""), QString("B"));
+  tuples << tuple;
+  
+  tuple = new StringTuple(QString("D"), QString(""));
+  tuples << tuple;
+  
+  tuple = new StringTuple(QString("E"), QString(""));
+  tuples << tuple;
+  
+  tuple = new StringTuple(QString("F"), QString("F"));
+  tuples << tuple;
+  
+  tuple = new StringTuple(QString("A"), QString("A"));
+  tuples << tuple;
+
+  MainSortStringTupleList(tuples);
+  for ( int i = 0 ; i < tuples.size(); i++ ) {
+    QString                             s =
+      tuples[i]->GetString1()   +
+      QString(" / ")            +
+      tuples[i]->GetString2();
+    TRACE_FUNCTION_QSTRING(s);
+  }
+}
+
+
+/*****************************************************************************!
+ * Function : MainSortStringTupleList
+ *****************************************************************************/
+void
+MainSortStringTupleList
+(QList<StringTuple*> InTuples)
+{
+  std::sort(InTuples.begin(), InTuples.end(),
+            [](StringTuple* InSt1, StringTuple* InSt2) {
+              return InSt2->Compare(InSt1) < 0;
+            });
+}
+
+

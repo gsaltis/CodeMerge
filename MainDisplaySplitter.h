@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : MainDisplayWindow.h
- * DATE         : November 29 2023
- * PROJECT      : CodeMerge
+ * FILE NAME    : MainDisplaySplitter.h
+ * DATE         : December 02 2023
+ * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _maindisplaywindow_h_
-#define _maindisplaywindow_h_
+#ifndef _maindisplaysplitter_h_
+#define _maindisplaysplitter_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -13,35 +13,30 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <QSplitter>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "TrackViewWindow.h"
-#include "ModuleWindow.h"
-#include "MainControlBar.h"
-#include "MainMessageWindow.h"
-#include "TrackViewContainer.h"
-#include "MainDisplaySplitter.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
 
 /*****************************************************************************!
- * Exported Class : MainDisplayWindow
+ * Exported Class : MainDisplaySplitter
  *****************************************************************************/
-class MainDisplayWindow : public QWidget
+class MainDisplaySplitter : public QSplitter
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  MainDisplayWindow             ();
+  MainDisplaySplitter           ();
 
  //! Destructor
  public :
-  ~MainDisplayWindow            ();
+  ~MainDisplaySplitter          ();
 
  //! Public Methods
  public :
@@ -57,17 +52,9 @@ class MainDisplayWindow : public QWidget
 
  //! Private Methods
  private :
-  void                          Initialize              ();
-  void                          InitializeSubWindows    ();
-  void                          CreateSubWindows        ();
-  void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Private Data
  private :
-  ModuleWindow*                 moduleWindow;
-  MainControlBar*               controlBar;
-  TrackViewContainer*           trackViewContainer;
-  MainDisplaySplitter*          splitter;
 
  //! Public Slots
  public slots :
@@ -80,4 +67,4 @@ class MainDisplayWindow : public QWidget
 
 };
 
-#endif /* _maindisplaywindow_h_*/
+#endif /* _maindisplaysplitter_h_*/

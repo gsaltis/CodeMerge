@@ -1,6 +1,6 @@
 /*****************************************************************************
- * FILE NAME    : ModuleTree.cpp
- * DATE         : December 01 2023
+ * FILE NAME    : ModuleTreeWindow.cpp
+ * DATE         : December 02 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
@@ -8,7 +8,6 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
-#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -16,28 +15,26 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "ModuleTree.h"
-#include "ModuleTreeModuleSet.h"
+#include "ModuleTreeWindow.h"
 
 /*****************************************************************************!
- * Function : ModuleTree
+ * Function : ModuleTreeWindow
  *****************************************************************************/
-ModuleTree::ModuleTree
-() : QTreeWidget()
+ModuleTreeWindow::ModuleTreeWindow
+() : QWidget()
 {
   QPalette pal;
-
   pal = palette();
-  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 192)));
+  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
   setPalette(pal);
   setAutoFillBackground(true);
   initialize();
 }
 
 /*****************************************************************************!
- * Function : ~ModuleTree
+ * Function : ~ModuleTreeWindow
  *****************************************************************************/
-ModuleTree::~ModuleTree
+ModuleTreeWindow::~ModuleTreeWindow
 ()
 {
 }
@@ -46,9 +43,8 @@ ModuleTree::~ModuleTree
  * Function : initialize
  *****************************************************************************/
 void
-ModuleTree::initialize()
+ModuleTreeWindow::initialize()
 {
-  setColumnCount(2);
   InitializeSubWindows();  
   CreateSubWindows();
 }
@@ -57,27 +53,38 @@ ModuleTree::initialize()
  * Function : CreateSubWindows
  *****************************************************************************/
 void
-ModuleTree::CreateSubWindows()
+ModuleTreeWindow::CreateSubWindows()
 {
-  
+  header = new MainWindowHeader("Modules", this);
+  moduleTree = new ModuleTree();
+  moduleTree->setParent(this);
 }
 
 /*****************************************************************************!
  * Function : InitializeSubWindows
  *****************************************************************************/
 void
-ModuleTree::InitializeSubWindows()
+ModuleTreeWindow::InitializeSubWindows()
 {
-  
+  header = NULL;  
+  moduleTree = NULL;
 }
 
 /*****************************************************************************!
  * Function : resizeEvent
  *****************************************************************************/
 void
-ModuleTree::resizeEvent
+ModuleTreeWindow::resizeEvent
 (QResizeEvent* InEvent)
 {
+  int                                   moduleTreeW;
+  int                                   moduleTreeH;
+  int                                   moduleTreeY;
+  int                                   moduleTreeX;
+  int                                   headerW;
+  int                                   headerH;
+  int                                   headerY;
+  int                                   headerX;
   QSize					size;  
   int					width;
   int					height;
@@ -87,17 +94,28 @@ ModuleTree::resizeEvent
   height = size.height();
   (void)height;
   (void)width;
+
+  headerX = 0;
+  headerY = 0;
+  headerW = width;
+  headerH = MAIN_WINDOW_HEADER_HEIGHT;;
+  header->move(headerX, headerY);
+  header->resize(headerW, headerH);
+
+  moduleTreeX = 0;
+  moduleTreeY = MAIN_WINDOW_HEADER_HEIGHT;
+  moduleTreeW = width;
+  moduleTreeH = height - MAIN_WINDOW_HEADER_HEIGHT;
+  moduleTree->move(moduleTreeX, moduleTreeY);
+  moduleTree->resize(moduleTreeW, moduleTreeH);
 }
 
 /*****************************************************************************!
  * Function : AddModuleSet
  *****************************************************************************/
 void
-ModuleTree::AddModuleSet
+ModuleTreeWindow::AddModuleSet
 (BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2)
 {
-  ModuleTreeModuleSet*                  treeItem;
-
-  treeItem = new ModuleTreeModuleSet(InModuleSet1, InModuleSet2);
-  addTopLevelItem(treeItem);
+  moduleTree->AddModuleSet(InModuleSet1, InModuleSet2);
 }

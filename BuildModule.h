@@ -17,6 +17,7 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
+#include "BuildTarget.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -48,6 +49,8 @@ class BuildModule : public QWidget
   void                          SetTrackName            (QString InTrackName);
   int                           Execute                 (QString &InErrors, QString &InOutput);
   void                          BuildTargetDatabase     (void);
+  void                          AddBuildTarget          (BuildTarget* InTarget);
+  void                          Set                     (QString InTrackName, QString InName, QString InFullPathName);
 
  //! Public Data
  public :
@@ -77,7 +80,8 @@ class BuildModule : public QWidget
   QString                       Name;
   QString                       FullPathName;
   QString                       TrackName;
-
+  QList<BuildTarget*>           Targets;
+  
  //! Public Slots
  public slots :
 

@@ -1,0 +1,20 @@
+BuildModuleSet
+  modules[]                     BuildModule
+  TrackName                     QString
+  TrackPath                     QString
+
+BuildModule
+  Name                          QString
+  FullPathName                  QString
+  TrackName                     QString
+  Targets                       BuildTarget
+
+BuildTarget
+  TrackName
+  Type
+  Name
+  Path
+  
+  
+  
+  

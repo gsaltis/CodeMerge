@@ -1,85 +1,71 @@
 /*****************************************************************************
- * FILE NAME    : ModuleWindow.h
- * DATE         : November 29 2023
+ * FILE NAME    : ModuleTreeModuleSet.h
+ * DATE         : December 01 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _modulewindow_h_
-#define _modulewindow_h_
+#ifndef _moduletreemoduleset_h_
+#define _moduletreemoduleset_h_
 
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
 #include <QtCore>
 #include <QtGui>
+#include <QTreeWidgetItem>
 #include <QWidget>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "MainWindowHeader.h"
-#include "ModuleSectionWindow.h"
-#include "ModuleTree.h"
+#include "BuildModuleSet.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define MODULE_WINDOW_WIDTH             300
+#define MODULE_TREE_MODULE_SET_WIDGET_X 200
+#define MODULE_TREE_MODULE_SET_WIDGET_Y 200
+#define MODULE_TREE_MODULE_SET_WIDGET_WIDTH 200
+#define MODULE_TREE_MODULE_SET_WIDGET_HEIGHT 200
 
 /*****************************************************************************!
- * Exported Class : ModuleWindow
+ * Exported Class : ModuleTreeModuleSet
  *****************************************************************************/
-class ModuleWindow : public QWidget
+class ModuleTreeModuleSet : public QTreeWidgetItem
 {
-  Q_OBJECT;
+ //! Constructors
+ public :
+  ModuleTreeModuleSet     (BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2);
 
-  //! Constructors
-public :
-  ModuleWindow                  ();
+ //! Destructor
+ public :
+  ~ModuleTreeModuleSet    ();
 
-  //! Destructor
-public :
-  ~ModuleWindow                 ();
+ //! Public Methods
+ public :
 
-  //! Public Methods
-public :
+ //! Public Data
+ public :
 
-  //! Public Data
-public :
+ //! Protected Methods
+ protected :
 
-  //! Protected Methods
-protected :
+ //! Protected Data
+ protected :
 
-  //! Protected Data
-protected :
-
-  //! Private Methods
-private :
+ //! Private Methods
+ private :
   void                          initialize              ();
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
-  void                          PostWindowCreateProcess (void);
+  void                          CreateModules           (void);
 
-  //! Private Data
-private :
-  MainWindowHeader*             header;
-  ModuleSectionWindow*          binariesSection;
-  ModuleSectionWindow*          librariesSection;
-  ModuleSectionWindow*          loadableObjectsSection;
-  ModuleSectionWindow*          headersSection;
-  ModuleSectionWindow*          othersSection;
-  ModuleTree*                   moduleTree;
-
-  //! Public Slots
-public slots :
-
-  //! Public Signals
-signals :
-
-  //! Public Actions
-public :
+ //! Private Data
+ private :
+  BuildModuleSet*               ModuleSet1;
+  BuildModuleSet*               ModuleSet2;
 
 };
 
-#endif /* _modulewindow_h_*/
+#endif /* _moduletreemoduleset_h_*/

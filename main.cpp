@@ -43,6 +43,10 @@ void
 MainCreateBuildTargets
 ();
 
+void
+MainReadDatabases
+();
+
 /*****************************************************************************!
  * Local Data
  *****************************************************************************/
@@ -95,9 +99,11 @@ main
 
   MainSystemSettings = new MainSettings(MainOrgName, MainAppName);
   MainOpenCodeDatabase();
+  MainCreateBuildModuleSets();
   if ( MainCreateDatabases ) {
-    MainCreateBuildModuleSets();
     MainCreateBuildTargets();
+  } else {
+    MainReadDatabases();
   }
   
   w = new MainWindow(NULL);
@@ -123,7 +129,6 @@ MainCreateBuildModuleSets
   QStringList                           trackNames;
 
   TRACE_FUNCTION_LOCATION();
-  MainCodeDatabase->ClearBuildModules();
   trackNames = MainCodeDatabase->GetTrackNames();
   n = trackNames.size();
   for (int i = 0; i < n; i++) {
@@ -132,7 +137,6 @@ MainCreateBuildModuleSets
     buildModule = new BuildModuleSet();
     buildModule->SetTrackName(trackName);
     buildModule->SetTrackPath(trackPath);
-    buildModule->BuildDatabase();
     MainBuildModules[trackName] = buildModule;
   }
 }
@@ -158,15 +162,39 @@ MainCreateBuildTargets
   BuildModuleSet*                       moduleSet;
   QStringList                           trackNames;
 
-  TRACE_FUNCTION_LOCATION();
   trackNames = MainCodeDatabase->GetTrackNames();
 
   MainCodeDatabase->ClearBuildTargets();
   MainCodeDatabase->ClearBuildSources();
+  MainCodeDatabase->ClearBuildModules();
   
   for ( auto trackName : trackNames ) {
     moduleSet = MainBuildModules[trackName];
-    TRACE_FUNCTION_LOCATION();
+    moduleSet->BuildDatabase();
     moduleSet->BuildTargetDatabase();
   }
+}
+
+/*****************************************************************************!
+ * Function : MainReadDatabases 
+ *****************************************************************************/
+void
+MainReadDatabases
+()
+{
+  int                                   moduleCount;
+  BuildModuleSet*                       moduleSet;
+  QStringList                           trackNames;
+
+  TRACE_FUNCTION_START();
+  trackNames = MainCodeDatabase->GetTrackNames();
+
+  for ( auto trackName : trackNames ) {
+    moduleSet = MainBuildModules[trackName];
+    moduleSet->ReadDatabases();
+    moduleCount = moduleSet->GetBuildModulesCount();
+    TRACE_FUNCTION_QSTRING(trackName);
+    TRACE_FUNCTION_INT(moduleCount);
+  }
+  TRACE_FUNCTION_END();
 }

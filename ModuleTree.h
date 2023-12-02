@@ -1,48 +1,52 @@
 /*****************************************************************************
- * FILE NAME    : ModuleWindow.h
- * DATE         : November 29 2023
+ * FILE NAME    : ModuleTree.h
+ * DATE         : December 01 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _modulewindow_h_
-#define _modulewindow_h_
+#ifndef _moduletree_h_
+#define _moduletree_h_
 
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
 #include <QtCore>
 #include <QtGui>
+#include <QTreeWidget>
 #include <QWidget>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "MainWindowHeader.h"
-#include "ModuleSectionWindow.h"
-#include "ModuleTree.h"
+#include "BuildModuleSet.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define MODULE_WINDOW_WIDTH             300
+#define MODULE_TREE_X                   200
+#define MODULE_TREE_Y                   200
+#define MODULE_TREE_WIDTH               200
+#define MODULE_TREE_HEIGHT              200
 
 /*****************************************************************************!
- * Exported Class : ModuleWindow
+ * Exported Class : ModuleTree
  *****************************************************************************/
-class ModuleWindow : public QWidget
+class ModuleTree : public QTreeWidget
 {
   Q_OBJECT;
 
   //! Constructors
 public :
-  ModuleWindow                  ();
+  ModuleTree                    ();
 
   //! Destructor
 public :
-  ~ModuleWindow                 ();
+  ~ModuleTree                   ();
 
   //! Public Methods
 public :
+  void                          AddModuleSet            (BuildModuleSet* InModuleSet1,
+                                                         BuildModuleSet* InModuleSet2);
 
   //! Public Data
 public :
@@ -59,17 +63,9 @@ private :
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
-  void                          PostWindowCreateProcess (void);
 
   //! Private Data
 private :
-  MainWindowHeader*             header;
-  ModuleSectionWindow*          binariesSection;
-  ModuleSectionWindow*          librariesSection;
-  ModuleSectionWindow*          loadableObjectsSection;
-  ModuleSectionWindow*          headersSection;
-  ModuleSectionWindow*          othersSection;
-  ModuleTree*                   moduleTree;
 
   //! Public Slots
 public slots :
@@ -82,4 +78,4 @@ public :
 
 };
 
-#endif /* _modulewindow_h_*/
+#endif /* _moduletree_h_*/

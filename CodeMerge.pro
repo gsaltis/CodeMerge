@@ -31,6 +31,7 @@ DEFINES                         += \
 SOURCES                         += \
 				   BuildModule.cpp                              \
 				   BuildModuleSet.cpp                           \
+				   BuildTarget.cpp                              \
 				   CodeDatabase.cpp                             \
 				   MainControlBar.cpp                           \
 				   MainDisplayWindow.cpp                        \
@@ -39,7 +40,10 @@ SOURCES                         += \
 				   MainWindow.cpp                               \
 				   MainWindowHeader.cpp                         \
 				   ModuleSectionWindow.cpp                      \
+				   ModuleTree.cpp                               \
+				   ModuleTreeModuleSet.cpp                      \
 				   ModuleWindow.cpp                             \
+				   StringTuple.cpp                              \
 				   SystemConfig.cpp                             \
 				   TrackViewWindow.cpp                          \
 				   main.cpp                                     \
@@ -47,6 +51,7 @@ SOURCES                         += \
 HEADERS                         += \
 				   BuildModule.h                                \
 				   BuildModuleSet.h                             \
+				   BuildTarget.h                                \
 				   CodeDatabase.h                               \
 				   MainControlBar.h                             \
 				   MainDisplayWindow.h                          \
@@ -55,7 +60,10 @@ HEADERS                         += \
 				   MainWindow.h                                 \
 				   MainWindowHeader.h                           \
 				   ModuleSectionWindow.h                        \
+				   ModuleTree.h                                 \
+				   ModuleTreeModuleSet.h                        \
 				   ModuleWindow.h                               \
+				   StringTuple.h                                \
 				   SystemConfig.h                               \
 				   TrackViewWindow.h                            \
 

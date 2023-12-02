@@ -97,7 +97,6 @@ BuildModuleSet::BuildDatabase(void)
   QFileInfo                                     makeFileInfo(makefileName);
   if ( makeFileInfo.exists() ) {
     BuildModule*                                buildModule;
-    TRACE_FUNCTION_QSTRING(TrackPath);
     buildModule = new BuildModule(TrackName, QString("src"), TrackPath);
     MainCodeDatabase->SaveBuildModule(buildModule);
     modules << buildModule;
@@ -149,4 +148,82 @@ BuildModuleSet::BuildTargetDatabase(void)
   for ( auto module : modules ) {
     module->BuildTargetDatabase();
   }
+}
+
+/*****************************************************************************!
+ * Function : AddBuildModule
+ *****************************************************************************/
+void
+BuildModuleSet::AddBuildModule
+(BuildModule* InModule)
+{
+  modules << InModule;
+}
+
+/*****************************************************************************!
+ * Function : ReadDatabases
+ *****************************************************************************/
+void
+BuildModuleSet::ReadDatabases(void)
+{
+  ReadBuildModules();
+  ReadBuildTargets();
+}
+
+/*****************************************************************************!
+ * Function : ReadBuildModules
+ *****************************************************************************/
+void
+BuildModuleSet::ReadBuildModules(void)
+{
+  MainCodeDatabase->ReadBuildModules(this); 
+}
+
+/*****************************************************************************!
+ * Function : ReadTargetDatabase
+ *****************************************************************************/
+void
+BuildModuleSet::ReadBuildTargets(void)
+{
+  MainCodeDatabase->ClearBuildTargets();
+  for ( auto module : modules ) {
+    MainCodeDatabase->ReadBuildTargets(module);
+  }
+}
+
+/*****************************************************************************!
+ * Function : GetBuildModulesCount
+ *****************************************************************************/
+int
+BuildModuleSet::GetBuildModulesCount(void)
+{
+  return modules.size();
+}
+
+/*****************************************************************************!
+ * Function : GetBuildModuleByIndex
+ *****************************************************************************/
+BuildModule*
+BuildModuleSet::GetBuildModuleByIndex
+(int InIndex)
+{
+  if ( InIndex >= modules.size() ) {
+    return NULL;
+  }
+  return modules[InIndex];
+}
+
+/*****************************************************************************!
+ * Function : GetBuildModuleByName
+ *****************************************************************************/
+BuildModule*
+BuildModuleSet::GetBuildModuleByName
+(QString InName)
+{
+  for ( auto m : modules ) {
+    if ( m->GetName() == InName ) {
+      return m;
+    }
+  }
+  return NULL;
 }

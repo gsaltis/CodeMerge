@@ -347,3 +347,25 @@ BuildModule::GetTargetType
   }
   return type;
 }
+
+/*****************************************************************************!
+ * Function : AddBuildTarget
+ *****************************************************************************/
+void
+BuildModule::AddBuildTarget
+(BuildTarget* InTarget)
+{
+  Targets << InTarget;
+}
+
+/*****************************************************************************!
+ * Function : Set
+ *****************************************************************************/
+void
+BuildModule::Set
+(QString InTrackName, QString InName, QString InFullPathName)
+{
+  TrackName = InTrackName;
+  Name = InName;
+  FullPathName = InFullPathName;
+}

@@ -1,0 +1,27 @@
+MainWindow
+  MainDisplayWindow                             displayWindow
+    TrackViewWindow                             track2Window
+    
+    TrackViewWindow                             track3Window
+    
+    ModuleWindow                                moduleWindow
+      MainWindowHeader                          header
+      ModuleSectionWindow                       binariesSection
+      ModuleSectionWindow                       binariesSection
+      ModuleSectionWindow                       librariesSection
+      ModuleSectionWindow                       headersSection
+      ModuleSectionWindow                       otherSection
+      ModuleTree                                moduleTree
+        ModuleTreeModuleSet                     *
+      
+    MainControlBar                              controlBar
+
+    MainMessageWindow                           messageWindow
+      MainWindowHeader                          header
+    
+
+TrackViewWindow
+  MainWindowHeader                              header
+
+ModuleSectionWindow
+  MainWindowHeader                              header

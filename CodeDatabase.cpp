@@ -332,3 +332,152 @@ CodeDatabase::ExecuteStatement
   }  
 }
  
+
+/*****************************************************************************!
+ * Function : ReadBuildTargets
+ *****************************************************************************/
+void
+CodeDatabase::ReadBuildTargets
+(BuildModule* InModule)
+{
+  QString                               errorString;
+  int                                   n;
+  char*                                 e;
+  QMessageBox*                          box;
+  QString                               statement;
+
+  statement = QString("SELECT * FROM BuildTarget WHERE TrackName is '%1';").arg(InModule->GetTrackName());
+
+  n = sqlite3_exec(Database, statement.toStdString().c_str(), ReadBuildTargetsCB, InModule, &e);
+  if ( n != SQLITE_OK ) {
+    errorString = QString("sqlite3_exec() FAIL\n"
+                          "%1 %2\n"
+                          "%3\n"
+                          "%4").arg(__FILE__).arg(__LINE__).arg(statement).arg(e);
+    
+    box = new QMessageBox(QMessageBox::Critical, "sqlite3_exec() FAIL",
+                          errorString);
+    box->exec();
+    exit(EXIT_FAILURE);
+  }  
+}
+
+/*****************************************************************************!
+ * Function : ReadBuildTargetsCB
+ *****************************************************************************/
+int
+CodeDatabase::ReadBuildTargetsCB
+(void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames)
+{
+  BuildTarget*                          buildTarget;
+  QString                               trackName;
+  QString                               type;
+  QString                               name;
+  QString                               path;
+  QString                               columnName;
+  int                                   i;
+  QString                               columnValue;
+  BuildModule*                          buildModule;
+
+  buildModule = (BuildModule*)InPointer;
+
+  for (i = 0; i < InColumnCount; i++) {
+    columnValue = InColumnValues[i];
+    columnName  = InColumnNames[i];
+
+    if ( columnName == "TrackName" ) {
+      trackName = columnValue;
+      continue;
+    }
+    if ( columnName == "Type" ) {
+      type = columnValue;
+      continue;
+    }
+    if ( columnName == "Name" ) {
+      name != columnValue;
+      continue;
+    }
+    if ( columnName == "Path" ) {
+      path != columnValue;
+      continue;
+    }
+  }
+
+  buildTarget = new BuildTarget();
+  buildTarget->Set(trackName, type, name, path);
+  buildModule->AddBuildTarget(buildTarget);
+  return 0;
+}
+
+/*****************************************************************************!
+ * Function : ReadBuildModules
+ *****************************************************************************/
+void
+CodeDatabase::ReadBuildModules
+(BuildModuleSet* InBuildModuleSet)
+{
+  QString                               errorString;
+  int                                   n;
+  char*                                 e;
+  QMessageBox*                          box;
+  QString                               statement;
+
+  statement = QString("SELECT * FROM BuildModule WHERE TrackName is '%1';").arg(InBuildModuleSet->GetTrackName());
+
+  n = sqlite3_exec(Database, statement.toStdString().c_str(), ReadBuildModulesCB, InBuildModuleSet, &e);
+  if ( n != SQLITE_OK ) {
+    errorString = QString("sqlite3_exec() FAIL\n"
+                          "%1 %2\n"
+                          "%3\n"
+                          "%4").arg(__FILE__).arg(__LINE__).arg(statement).arg(e);
+    
+    box = new QMessageBox(QMessageBox::Critical, "sqlite3_exec() FAIL",
+                          errorString);
+    box->exec();
+    exit(EXIT_FAILURE);
+  }    
+}
+
+/*****************************************************************************!
+ * Function : ReadBuildModulesCB
+ *****************************************************************************/
+int
+CodeDatabase::ReadBuildModulesCB
+(void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames)
+{
+  BuildModuleSet*                       buildModuleSet;
+  QString                               trackName;
+  QString                               type;
+  QString                               name;
+  QString                               path;
+  QString                               columnName;
+  int                                   i;
+  QString                               columnValue;
+  BuildModule*                          buildModule;
+
+  buildModuleSet = (BuildModuleSet*)InPointer;
+
+  for (i = 0; i < InColumnCount; i++) {
+    columnValue = InColumnValues[i];
+    columnName  = InColumnNames[i];
+
+    if ( columnName == "TrackName" ) {
+      trackName = columnValue;
+      continue;
+    }
+    if ( columnName == "Name" ) {
+      name = columnValue;
+      continue;
+    }
+    if ( columnName == "FullPath" ) {
+      path = columnValue;
+      continue;
+    }
+  }
+
+  buildModule = new BuildModule();
+  buildModule->Set(trackName, name, path);
+  buildModuleSet->AddBuildModule(buildModule);
+  return 0;
+}
+

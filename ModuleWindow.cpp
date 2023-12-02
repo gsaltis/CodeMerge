@@ -16,6 +16,7 @@
  * Local Headers
  *****************************************************************************/
 #include "ModuleWindow.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : ModuleWindow
@@ -47,6 +48,7 @@ ModuleWindow::initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
+  PostWindowCreateProcess();
 }
 
 /*****************************************************************************!
@@ -56,6 +58,7 @@ void
 ModuleWindow::CreateSubWindows()
 {
   header = new MainWindowHeader("Modules", this);
+
   binariesSection = new ModuleSectionWindow("Binaries");
   binariesSection->setParent(this);
   
@@ -70,6 +73,15 @@ ModuleWindow::CreateSubWindows()
 
   othersSection = new ModuleSectionWindow("Others");
   othersSection->setParent(this);
+
+  binariesSection->hide();
+  librariesSection->hide();
+  loadableObjectsSection->hide();
+  headersSection->hide();
+  othersSection->hide();
+  
+  moduleTree = new ModuleTree();
+  moduleTree->setParent(this);
 }
 
 /*****************************************************************************!
@@ -84,6 +96,7 @@ ModuleWindow::InitializeSubWindows()
   loadableObjectsSection = NULL;
   headersSection = NULL;
   othersSection = NULL;
+  moduleTree = NULL;
 }
 
 /*****************************************************************************!
@@ -93,6 +106,10 @@ void
 ModuleWindow::resizeEvent
 (QResizeEvent* InEvent)
 {
+  int                                   moduleTreeW;
+  int                                   moduleTreeH;
+  int                                   moduleTreeY;
+  int                                   moduleTreeX;
   int                                   othersSectionW;
   int                                   othersSectionH;
   int                                   othersSectionY;
@@ -169,4 +186,22 @@ ModuleWindow::resizeEvent
   othersSectionH = 100;
   othersSection->move(othersSectionX, othersSectionY);
   othersSection->resize(othersSectionW, othersSectionH);
+
+  moduleTreeX = 0;
+  moduleTreeY = MAIN_WINDOW_HEADER_HEIGHT;
+  moduleTreeW = width;
+  moduleTreeH = height - MAIN_WINDOW_HEADER_HEIGHT;
+  moduleTree->move(moduleTreeX, moduleTreeY);
+  moduleTree->resize(moduleTreeW, moduleTreeH);
+}
+
+/*****************************************************************************!
+ * Function : PostWindowCreateProcess
+ *****************************************************************************/
+void
+ModuleWindow::PostWindowCreateProcess(void)
+{
+  QList<QString>                        keys;
+  keys = MainBuildModules.keys();
+  moduleTree->AddModuleSet(MainBuildModules[keys[0]], MainBuildModules[keys[1]]);
 }

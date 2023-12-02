@@ -19,6 +19,7 @@
  * Local Headers
  *****************************************************************************/
 #include "BuildModule.h"
+#include "BuildModuleSet.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -50,8 +51,12 @@ class CodeDatabase : public QWidget
   void                          SaveBuildModule         (BuildModule* InModule);
   void                          SaveBuildTarget         (QString InTrackName, QString InTargetName, QString InType, QString InPath);
   void                          SaveBuildSource         (QString InTrackName, QString InTargetName, QString InSourceName, QString InPath, QString InText);
+  void                          ReadBuildTargets        (BuildModule* InModule);
+  void                          ReadBuildModules        (BuildModuleSet* InBuildModuleSet);
 
-
+  static int                    ReadBuildTargetsCB      (void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames);
+  static int                    ReadBuildModulesCB      (void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames);
+  
  //! Public Data
  public :
 

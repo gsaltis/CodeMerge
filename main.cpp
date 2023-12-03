@@ -140,7 +140,6 @@ MainCreateBuildModuleSets
   int                                   n;
   QStringList                           trackNames;
 
-  TRACE_FUNCTION_LOCATION();
   trackNames = MainCodeDatabase->GetTrackNames();
   n = trackNames.size();
   for (int i = 0; i < n; i++) {
@@ -194,21 +193,15 @@ void
 MainReadDatabases
 ()
 {
-  int                                   moduleCount;
   BuildModuleSet*                       moduleSet;
   QStringList                           trackNames;
 
-  TRACE_FUNCTION_START();
   trackNames = MainCodeDatabase->GetTrackNames();
 
   for ( auto trackName : trackNames ) {
     moduleSet = MainBuildModules[trackName];
     moduleSet->ReadDatabases();
-    moduleCount = moduleSet->GetBuildModulesCount();
-    TRACE_FUNCTION_QSTRING(trackName);
-    TRACE_FUNCTION_INT(moduleCount);
   }
-  TRACE_FUNCTION_END();
 }
 
 /*****************************************************************************!
@@ -245,7 +238,6 @@ MainTestTuples
       tuples[i]->GetString1()   +
       QString(" / ")            +
       tuples[i]->GetString2();
-    TRACE_FUNCTION_QSTRING(s);
   }
 }
 

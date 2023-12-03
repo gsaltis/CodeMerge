@@ -66,3 +66,12 @@ MainSettings::SetMainWindowGeometry
   setValue("MainWindow/Geometry/Width", InSize.width());
   setValue("MainWindow/Geometry/Height", InSize.height());
 }
+
+/*****************************************************************************!
+ * Function : GetTreeHeaderFont
+ *****************************************************************************/
+QFont
+MainSettings::GetTreeHeaderFont(void)
+{
+  return QFont("Segoe UI", 10, QFont::Bold);
+}

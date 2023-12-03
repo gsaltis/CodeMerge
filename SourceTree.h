@@ -18,6 +18,7 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
+#include "BuildModuleSet.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -44,6 +45,8 @@ class SourceTree : public QTreeWidget
 
  //! Public Methods
  public :
+  void                          AddModuleSet            (BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2);
+  QString                       GetSourceName           (QString InName, QString InModuleName, QString InSourcePath);
 
  //! Public Data
  public :

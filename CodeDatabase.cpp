@@ -489,8 +489,6 @@ void
 CodeDatabase::ReadBuildSources
 (BuildModule* InModule)
 {
-  QString                               moduleName;
-  int                                   sourceCount;
   QString                               errorString;
   int                                   n;
   char*                                 e;
@@ -511,11 +509,6 @@ CodeDatabase::ReadBuildSources
     box->exec();
     exit(EXIT_FAILURE);
   }
-  sourceCount = InModule->GetSourceCount();
-  moduleName = InModule->GetName();
-
-  TRACE_FUNCTION_QSTRING(moduleName);
-  TRACE_FUNCTION_INT(sourceCount);
 }
 
 /*****************************************************************************!
@@ -559,11 +552,11 @@ CodeDatabase::ReadBuildSourcesCB
       continue;
     }
     if ( columnName == "TrackName" ) {
-      trackName != columnValue;
+      trackName = columnValue;
       continue;
     }
     if ( columnName == "ModuleName" ) {
-      moduleName != columnValue;
+      moduleName = columnValue;
       continue;
     }
   }

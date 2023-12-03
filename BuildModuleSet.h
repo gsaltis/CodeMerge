@@ -57,6 +57,7 @@ class BuildModuleSet : public QWidget
   int                           GetBuildModulesCount    (void);
   BuildModule*                  GetBuildModuleByIndex   (int InIndex);
   BuildModule*                  GetBuildModuleByName    (QString InName);
+  QList<BuildSource*>           GetAllBuildSources      (void);
 
  //! Public Data
  public :

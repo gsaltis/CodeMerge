@@ -55,6 +55,7 @@ class BuildModule : public QWidget
   void                          Set                     (QString InTrackName, QString InName, QString InFullPathName);
   int                           GetTargetCount          (void);
   int                           GetSourceCount          (void);
+  QList<BuildSource*>           GetBuildSources         (void);
 
  //! Public Data
  public :

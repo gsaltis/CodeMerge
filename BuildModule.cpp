@@ -143,7 +143,6 @@ BuildModule::BuildTargetDatabase(void)
   QString                               s;
 
   s = QString(TrackName) + QString("/") + QString(Name);
-  TRACE_FUNCTION_QSTRING(s);
   ExecuteSetup();
   Execute(errors, output);
 }
@@ -267,7 +266,6 @@ BuildModule::ProcessBuildCompile
   type = GetTargetType(target);
   
   s = TrackName + QString("/") + target + "/" + type;
-  TRACE_FUNCTION_QSTRING(s);
     
   MainCodeDatabase->SaveBuildTarget(TrackName, target, type, Name);
   for ( i = n + 1 ; i < m ; i++ ) {
@@ -396,4 +394,13 @@ int
 BuildModule::GetSourceCount(void)
 {
   return Sources.size();
+}
+
+/*****************************************************************************!
+ * Function : GetBuildSources
+ *****************************************************************************/
+QList<BuildSource*>
+BuildModule::GetBuildSources(void)
+{
+  return Sources;
 }

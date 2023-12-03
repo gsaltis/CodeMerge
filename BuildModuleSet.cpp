@@ -238,3 +238,19 @@ BuildModuleSet::GetBuildModuleByName
   }
   return NULL;
 }
+
+/*****************************************************************************!
+ * Function : GetAllBuildSources
+ *****************************************************************************/
+QList<BuildSource*>
+BuildModuleSet::GetAllBuildSources(void)
+{
+  QList<BuildSource*>                   returnSources;
+  QList<BuildSource*>                   sources;
+
+  for ( auto module : modules ) {
+    sources = module->GetBuildSources();
+    returnSources << sources;
+  }
+  return returnSources;
+}

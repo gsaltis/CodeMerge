@@ -41,6 +41,7 @@ class MainSettings : public QSettings
  public :
   void                          GetMainWindowGeometry   (QPoint &InPosition, QSize &InSize);
   void                          SetMainWindowGeometry   (QPoint InPosition, QSize InSize);
+  QFont                         GetTreeHeaderFont       (void);
 
  //! Public Data
  public :

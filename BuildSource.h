@@ -41,6 +41,10 @@ class BuildSource : public QWidget
  //! Public Methods
  public :
   void                          Set                     (QString InTrackName, QString InTargetName, QString InSourceName, QString InModuleName, QString InSourceType);
+  QString                       GetSourceName           (void);
+  QString                       GetModuleName           (void);
+
+  static QString                NormalizeFilename       (QString InName, QString InModuleName, QString InSourcePath);
 
  //! Public Data
  public :

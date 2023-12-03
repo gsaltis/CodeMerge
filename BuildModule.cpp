@@ -19,6 +19,7 @@
  *****************************************************************************/
 #include "BuildModule.h"
 #include "main.h"
+#include "BuildModuleSet.h"
 
 /*****************************************************************************!
  * Static Data
@@ -35,6 +36,7 @@ BuildModule::MakeExeArgs = "-B -n";
 BuildModule::BuildModule
 () : QWidget()
 {
+  Initialize();
 }
 
 /*****************************************************************************!
@@ -43,9 +45,10 @@ BuildModule::BuildModule
 BuildModule::BuildModule
 (QString InTrackName, QString InName, QString InFullPathName) : QWidget()
 {
-  TrackName = InTrackName;
-  Name = InName;
-  FullPathName = InFullPathName;
+  Initialize();
+  TrackName     = InTrackName;
+  Name          = InName;
+  FullPathName  = InFullPathName;
 }
 
 /*****************************************************************************!
@@ -376,6 +379,7 @@ BuildModule::AddBuildSource
 (BuildSource* InSource)
 {
   Sources << InSource;
+  InSource->SetBuildModuleParent(this);
 }
 
 /*****************************************************************************!
@@ -403,4 +407,35 @@ QList<BuildSource*>
 BuildModule::GetBuildSources(void)
 {
   return Sources;
+}
+
+/*****************************************************************************!
+ * Function : GetBuildModuleSetParent
+ *****************************************************************************/
+BuildModuleSet*
+BuildModule::GetBuildModuleSetParent(void)
+{
+  return BuildModuleSetParent;
+}
+
+/*****************************************************************************!
+ * Function : SetBuildModuleSetParent
+ *****************************************************************************/
+void
+BuildModule::SetBuildModuleSetParent
+(BuildModuleSet* InBuildModuleSetParent)
+{
+  BuildModuleSetParent = InBuildModuleSetParent;
+}
+
+/*****************************************************************************!
+ * Function : Initialize
+ *****************************************************************************/
+void
+BuildModule::Initialize(void)
+{
+  BuildModuleSetParent  = NULL;
+  Name                  = QString();
+  FullPathName          = QString();
+  TrackName             = QString();
 }

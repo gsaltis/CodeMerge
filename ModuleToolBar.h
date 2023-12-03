@@ -20,6 +20,7 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
+#include "CodeMergeCheckBox.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -65,6 +66,8 @@ class ModuleToolBar : public QFrame
   QPushButton*                  DisplayModulesButton;
   QPushButton*                  DisplaySourceFilesButton;
   QPushButton*                  DisplayTargetsButton;
+  CodeMergeCheckBox*            track2CheckBox;
+  CodeMergeCheckBox*            track3CheckBox;
 
  //! Public Slots
  public slots :

@@ -89,6 +89,12 @@ ModuleToolBar::CreateSubWindows()
   DisplayTargetsButton->move(50, 1);
   DisplayTargetsButton->resize(24,24);
   connect(DisplayTargetsButton, SIGNAL(pressed()), this, SLOT(SlotDisplayTargetsButtonPushed()));
+
+  track2CheckBox = new CodeMergeCheckBox(this);
+  track2CheckBox->SetChecked(true);
+  
+  track3CheckBox = new CodeMergeCheckBox(this);
+  track3CheckBox->SetChecked(false);
 }
 
 /*****************************************************************************!
@@ -97,7 +103,8 @@ ModuleToolBar::CreateSubWindows()
 void
 ModuleToolBar::InitializeSubWindows()
 {
-  
+  track2CheckBox = NULL;
+  track3CheckBox = NULL;
 }
 
 /*****************************************************************************!
@@ -107,6 +114,15 @@ void
 ModuleToolBar::resizeEvent
 (QResizeEvent* InEvent)
 {
+  int                                   horizontalGap;
+  int                                   track3CheckBoxW;
+  int                                   track3CheckBoxH;
+  int                                   track3CheckBoxY;
+  int                                   track3CheckBoxX;
+  int                                   track2CheckBoxW;
+  int                                   track2CheckBoxH;
+  int                                   track2CheckBoxY;
+  int                                   track2CheckBoxX;
   QSize					size;  
   int					width;
   int					height;
@@ -114,8 +130,22 @@ ModuleToolBar::resizeEvent
   size = InEvent->size();
   width = size.width();
   height = size.height();
-  (void)height;
-  (void)width;
+
+  horizontalGap = 5;
+  
+  track2CheckBoxW = height - 4;
+  track2CheckBoxX = width - ((track2CheckBoxW + horizontalGap) * 2);
+  track2CheckBoxY = 2;
+  track2CheckBoxH = height - 4;
+  track2CheckBox->move(track2CheckBoxX, track2CheckBoxY);
+  track2CheckBox->resize(track2CheckBoxW, track2CheckBoxH);
+
+  track3CheckBoxW = height - 4;
+  track3CheckBoxX = width - (track3CheckBoxW + horizontalGap);
+  track3CheckBoxY = 2;
+  track3CheckBoxH = height - 4;
+  track3CheckBox->move(track3CheckBoxX, track3CheckBoxY);
+  track3CheckBox->resize(track3CheckBoxW, track3CheckBoxH);
 }
 
 /*****************************************************************************!

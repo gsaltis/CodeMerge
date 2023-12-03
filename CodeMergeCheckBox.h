@@ -1,51 +1,48 @@
 /*****************************************************************************
- * FILE NAME    : SourceTree.h
- * DATE         : December 02 2023
+ * FILE NAME    : CodeMergeCheckBox.h
+ * DATE         : December 03 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _sourcetree_h_
-#define _sourcetree_h_
+#ifndef _codemergecheckbox_h_
+#define _codemergecheckbox_h_
 
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
 #include <QtCore>
 #include <QtGui>
-#include <QTreeWidget>
 #include <QWidget>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "BuildModuleSet.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define SOURCE_TREE_X                   200
-#define SOURCE_TREE_Y                   200
-#define SOURCE_TREE_WIDTH               200
-#define SOURCE_TREE_HEIGHT              200
+#define CODE_MERGE_CHECK_BOX_WIDTH      20
+#define CODE_MERGE_CHECK_BOX_HEIGHT     20
 
 /*****************************************************************************!
- * Exported Class : SourceTree
+ * Exported Class : CodeMergeCheckBox
  *****************************************************************************/
-class SourceTree : public QTreeWidget
+class CodeMergeCheckBox : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  SourceTree                    ();
+  CodeMergeCheckBox             (QWidget *parent);
 
  //! Destructor
  public :
-  ~SourceTree                   ();
+  ~CodeMergeCheckBox            ();
 
  //! Public Methods
  public :
-  void                          AddModuleSet            (BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2);
+  void                          SetChecked              (bool InChecked);
+  bool                          GetChecked              (void);
 
  //! Public Data
  public :
@@ -59,22 +56,30 @@ class SourceTree : public QTreeWidget
  //! Private Methods
  private :
   void                          initialize              ();
+  void                          CreateSubWindows        ();
+  void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
-  void                          CreateConnections       (void);
+  void                          mousePressed            (QMouseEvent* InEvent);
+  void                          paintEvent              (QPaintEvent* InEvent);
 
  //! Private Data
  private :
+  bool                          Checked;
+  QColor                        StartingColor;
+  QColor                        EndingColor;
 
  //! Public Slots
  public slots :
-  void                          SlotItemSelected        (QTreeWidgetItem* InItem);
 
  //! Public Signals
  signals :
+  void                          SignalChecked           (void);
+  void                          SignalUnChecked         (void);
+  void                          SignalCheckStateChanged (bool InChecked);
 
  //! Public Actions
  public :
 
 };
 
-#endif /* _sourcetree_h_*/
+#endif /* _codemergecheckbox_h_*/

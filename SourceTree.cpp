@@ -19,6 +19,7 @@
 #include "SourceTree.h"
 #include "main.h"
 #include "StringTuple.h"
+#include "SourceTreeItem.h"
 
 /*****************************************************************************!
  * Function : SourceTree
@@ -48,26 +49,7 @@ SourceTree::~SourceTree
 void
 SourceTree::initialize()
 {
-  InitializeSubWindows();  
-  CreateSubWindows();
-}
-
-/*****************************************************************************!
- * Function : CreateSubWindows
- *****************************************************************************/
-void
-SourceTree::CreateSubWindows()
-{
-  
-}
-
-/*****************************************************************************!
- * Function : InitializeSubWindows
- *****************************************************************************/
-void
-SourceTree::InitializeSubWindows()
-{
-  
+  CreateConnections();
 }
 
 /*****************************************************************************!
@@ -100,7 +82,7 @@ SourceTree::AddModuleSet
   QTreeWidgetItem*                      commonItems;
   QString                               source2TrackPath;
   QString                               source1TrackPath;
-  QTreeWidgetItem*                      treeItem;
+  SourceTreeItem*                       treeItem;
   QString                               s1;
   bool                                  found;
   int                                   i;
@@ -128,7 +110,6 @@ SourceTree::AddModuleSet
     name = i2->GetSourceName();
     modName = i2->GetModuleName();
     s2 = BuildSource::NormalizeFilename(name, modName, source1TrackPath);
-
     n = sources.size();
     found = false;
     for (i = 0; i < n; i++) {
@@ -182,17 +163,18 @@ SourceTree::AddModuleSet
     s1 = st3->GetString1();
     s2 = st3->GetString2();
     if ( s1 == s2 ) {
-      treeItem = new QTreeWidgetItem();
-      treeItem->setText(0, s1);
+      treeItem = new SourceTreeItem(s1);
+      treeItem->SetModuleSet1(InModuleSet1);
+      treeItem->SetModuleSet2(InModuleSet2);
       commonItems->addChild(treeItem);
       continue;
     }
     if ( s1.isEmpty() ) {
-      treeItem = new QTreeWidgetItem();
-      treeItem->setText(0, s2);
+      treeItem = new SourceTreeItem(s2);
       if ( track3Items == NULL ) {
         track3Items = new QTreeWidgetItem();
         track3Items->setText(0, "Track3 Only");
+        treeItem->SetModuleSet2(InModuleSet2);
         addTopLevelItem(track3Items);
       }
       track3Items->addChild(treeItem);
@@ -203,60 +185,36 @@ SourceTree::AddModuleSet
       track2Items->setText(0, "Track2 Only");
       addTopLevelItem(track2Items);
     }
-    treeItem = new QTreeWidgetItem();
-    treeItem->setText(0, s1);
+    treeItem = new SourceTreeItem(s1);
     track2Items->addChild(treeItem);
+    treeItem->SetModuleSet1(InModuleSet1);
   }
 }
 
 /*****************************************************************************!
- * Function : GetSourceName
+ * Function : SlotItemSelected
  *****************************************************************************/
-QString
-SourceTree::GetSourceName
-(QString InName, QString InModuleName, QString InSourcePath)
+void
+SourceTree::SlotItemSelected
+(QTreeWidgetItem* InItem)
 {
-  QStringList                           stl;
-  QString                               st;
-  int                                   n;
-  int                                   i;
-  int                                   j;
-  QString                               st2;
-  QString                               name;
-  
-  n = InSourcePath.length();
-  name = InName;
-  if ( name.left(n) == InSourcePath ) {
-    name = name.sliced(n);
-    while (name[0] == '/' ) {
-      name = name.sliced(1);
-    }
-    return name;
-  }
-  if ( name[0] == '/' ) {
-    name = name.sliced(1);
-    return name;
-  }
-  st = InModuleName + QString("/") + name;
-  stl = st.split("/");
+  QString                               text;
+  SourceTreeItem*                       item;
 
-  st2 = QString();
-  n = stl.size();
-
-  for ( i = 0 ; i < n ; i++ ) {
-    j = i + 1;
-    if ( j < n ) {
-      if ( stl[j] == ".." ) {
-        i = j;
-        continue;
-      }
-    }
-    if ( !st2.isEmpty() ) {
-      st2 += "/";
-    }
-    st2 += stl[i];
-  }         
-  return st2;
+  item = (SourceTreeItem*)InItem;
+  item->ProcessSelected();
+  text = item->GetText();
+  TRACE_FUNCTION_QSTRING(text);
 }
 
-
+/*****************************************************************************!
+ * Function : CreateConnections
+ *****************************************************************************/
+void
+SourceTree::CreateConnections(void)
+{
+  connect(this,
+          QTreeWidget::itemClicked,
+          this,
+          SourceTree::SlotItemSelected);
+}

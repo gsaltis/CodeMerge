@@ -34,6 +34,7 @@ SOURCES                         += \
 				   BuildSource.cpp                              \
 				   BuildTarget.cpp                              \
 				   CodeDatabase.cpp                             \
+				   CodeMergeCheckBox.cpp                        \
 				   MainControlBar.cpp                           \
 				   MainDisplaySplitter.cpp                      \
 				   MainDisplayWindow.cpp                        \
@@ -49,6 +50,7 @@ SOURCES                         += \
 				   ModuleTreeWindow.cpp                         \
 				   ModuleWindow.cpp                             \
 				   SourceTree.cpp                               \
+				   SourceTreeItem.cpp                           \
 				   SourceTreeWindow.cpp                         \
 				   StringTuple.cpp                              \
 				   SystemConfig.cpp                             \
@@ -64,6 +66,7 @@ HEADERS                         += \
 				   BuildSource.h                                \
 				   BuildTarget.h                                \
 				   CodeDatabase.h                               \
+				   CodeMergeCheckBox.h                          \
 				   MainControlBar.h                             \
 				   MainDisplaySplitter.h                        \
 				   MainDisplayWindow.h                          \
@@ -79,6 +82,7 @@ HEADERS                         += \
 				   ModuleTreeWindow.h                           \
 				   ModuleWindow.h                               \
 				   SourceTree.h                                 \
+				   SourceTreeItem.h                             \
 				   SourceTreeWindow.h                           \
 				   StringTuple.h                                \
 				   SystemConfig.h                               \

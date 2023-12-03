@@ -16,6 +16,7 @@
  * Local Headers
  *****************************************************************************/
 #include "BuildSource.h"
+#include "BuildModule.h"
 
 /*****************************************************************************!
  * Function : BuildSource
@@ -125,3 +126,21 @@ BuildSource::NormalizeFilename
 }
 
 
+/*****************************************************************************!
+ * Function : GetBuildModuleParent
+ *****************************************************************************/
+BuildModule*
+BuildSource::GetBuildModuleParent(void)
+{
+  return BuildModuleParent;  
+}
+
+/*****************************************************************************!
+ * Function : SetBuildModuleParent
+ *****************************************************************************/
+void
+BuildSource::SetBuildModuleParent
+(BuildModule* InBuildModuleParent)
+{
+  BuildModuleParent = InBuildModuleParent;  
+}

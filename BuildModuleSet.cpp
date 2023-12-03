@@ -158,6 +158,7 @@ BuildModuleSet::AddBuildModule
 (BuildModule* InModule)
 {
   modules << InModule;
+  InModule->SetBuildModuleSetParent(this);
 }
 
 /*****************************************************************************!

@@ -61,9 +61,10 @@ ModuleContainerWindow::CreateSubWindows()
 
   moduleTreeWindow = new ModuleTreeWindow();
   moduleTreeWindow->setParent(this);
+  moduleTreeWindow->hide();
   sourceTreeWindow = new SourceTreeWindow();
   sourceTreeWindow->setParent(this);
-  sourceTreeWindow->hide();
+  sourceTreeWindow->show();
   targetTreeWindow = new TargetTreeWindow();
   targetTreeWindow->setParent(this);
   targetTreeWindow->hide();

@@ -45,6 +45,8 @@ class BuildSource : public QWidget
   QString                       GetModuleName           (void);
 
   static QString                NormalizeFilename       (QString InName, QString InModuleName, QString InSourcePath);
+  class BuildModule*            GetBuildModuleParent    (void);
+  void                          SetBuildModuleParent    (class BuildModule* InBuildModuleParent);
 
  //! Public Data
  public :
@@ -65,6 +67,7 @@ class BuildSource : public QWidget
   QString                               SourceName;
   QString                               ModuleName;
   QString                               SourceType;
+  class BuildModule*                    BuildModuleParent;
 
  //! Public Slots
  public slots :

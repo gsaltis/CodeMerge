@@ -56,6 +56,8 @@ class BuildModule : public QWidget
   int                           GetTargetCount          (void);
   int                           GetSourceCount          (void);
   QList<BuildSource*>           GetBuildSources         (void);
+  class BuildModuleSet*         GetBuildModuleSetParent (void);
+  void                          SetBuildModuleSetParent (class BuildModuleSet* InBuildModuleSetParent);
 
  //! Public Data
  public :
@@ -79,6 +81,7 @@ class BuildModule : public QWidget
   void                          ProcessBuildArchive     (QStringList InElements);
   void                          ProcessBuildRanlib      (QStringList InElements);
   QString                       GetTargetType           (QString InTargetName);
+  void                          Initialize              (void);
 
  //! Private Data
  private :
@@ -87,7 +90,8 @@ class BuildModule : public QWidget
   QString                       TrackName;
   QList<BuildTarget*>           Targets;
   QList<BuildSource*>           Sources;
-  
+  class BuildModuleSet*         BuildModuleSetParent;
+
  //! Public Slots
  public slots :
 

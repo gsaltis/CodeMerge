@@ -1,18 +1,18 @@
 /*****************************************************************************
- * FILE NAME    : SourceTree.h
- * DATE         : December 02 2023
+ * FILE NAME    : SourceTreeItem.h
+ * DATE         : December 03 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _sourcetree_h_
-#define _sourcetree_h_
+#ifndef _sourcetreeitem_h_
+#define _sourcetreeitem_h_
 
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
 #include <QtCore>
 #include <QtGui>
-#include <QTreeWidget>
+#include <QTreeWidgetItem>
 #include <QWidget>
 
 /*****************************************************************************!
@@ -23,29 +23,33 @@
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define SOURCE_TREE_X                   200
-#define SOURCE_TREE_Y                   200
-#define SOURCE_TREE_WIDTH               200
-#define SOURCE_TREE_HEIGHT              200
+#define SOURCE_TREE_ITEM_X              200
+#define SOURCE_TREE_ITEM_Y              200
+#define SOURCE_TREE_ITEM_WIDTH          200
+#define SOURCE_TREE_ITEM_HEIGHT         200
 
 /*****************************************************************************!
- * Exported Class : SourceTree
+ * Exported Class : SourceTreeItem
  *****************************************************************************/
-class SourceTree : public QTreeWidget
+class SourceTreeItem : public QTreeWidgetItem
 {
-  Q_OBJECT;
-
  //! Constructors
  public :
-  SourceTree                    ();
+  SourceTreeItem                (QString InText);
 
  //! Destructor
  public :
-  ~SourceTree                   ();
+  ~SourceTreeItem               ();
 
  //! Public Methods
  public :
-  void                          AddModuleSet            (BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2);
+  QString                       GetText                 (void);
+  void                          SetText                 (QString InText);
+  BuildModuleSet*               GetModuleSet1           (void);
+  void                          SetModuleSet1           (BuildModuleSet* InModuleSet1);
+  BuildModuleSet*               GetModuleSet2           (void);
+  void                          SetModuleSet2           (BuildModuleSet* InModuleSet2);
+  void                          ProcessSelected         (void);
 
  //! Public Data
  public :
@@ -59,15 +63,15 @@ class SourceTree : public QTreeWidget
  //! Private Methods
  private :
   void                          initialize              ();
-  void                          resizeEvent             (QResizeEvent* InEvent);
-  void                          CreateConnections       (void);
 
  //! Private Data
  private :
+  QString                       text;
+  BuildModuleSet*               moduleSet1;
+  BuildModuleSet*               moduleSet2;
 
  //! Public Slots
  public slots :
-  void                          SlotItemSelected        (QTreeWidgetItem* InItem);
 
  //! Public Signals
  signals :
@@ -77,4 +81,4 @@ class SourceTree : public QTreeWidget
 
 };
 
-#endif /* _sourcetree_h_*/
+#endif /* _sourcetreeitem_h_*/

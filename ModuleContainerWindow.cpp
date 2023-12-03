@@ -153,6 +153,7 @@ ModuleContainerWindow::AddModuleSet
 (BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2)
 {
   moduleTreeWindow->AddModuleSet(InModuleSet1, InModuleSet2);
+  sourceTreeWindow->AddModuleSet(InModuleSet1, InModuleSet2);
 }
 
 /*****************************************************************************!

@@ -369,3 +369,31 @@ BuildModule::Set
   Name = InName;
   FullPathName = InFullPathName;
 }
+
+/*****************************************************************************!
+ * Function : AddBuildSource
+ *****************************************************************************/
+void
+BuildModule::AddBuildSource
+(BuildSource* InSource)
+{
+  Sources << InSource;
+}
+
+/*****************************************************************************!
+ * Function : GetTargetCount
+ *****************************************************************************/
+int
+BuildModule::GetTargetCount(void)
+{
+  return Targets.size();
+}
+
+/*****************************************************************************!
+ * Function : GetSourceCount
+ *****************************************************************************/
+int
+BuildModule::GetSourceCount(void)
+{
+  return Sources.size();
+}

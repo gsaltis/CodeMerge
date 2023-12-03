@@ -109,3 +109,13 @@ SourceTreeWindow::resizeEvent
   sourceTree->move(sourceTreeX, sourceTreeY);
   sourceTree->resize(sourceTreeW, sourceTreeH);
 }
+
+/*****************************************************************************!
+ * Function : AddModuleSet
+ *****************************************************************************/
+void
+SourceTreeWindow::AddModuleSet
+(BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2)
+{
+  sourceTree->AddModuleSet(InModuleSet1, InModuleSet2);
+}

@@ -48,9 +48,12 @@ class BuildModuleSet : public QWidget
   void                          BuildDatabase           (void);
   void                          BuildTargetDatabase     (void);
   void                          AddBuildModule          (BuildModule* InModule);
-  void                          ReadBuildTargets        (void);
-  void                          ReadDatabases           (void);
+
   void                          ReadBuildModules        (void);
+  void                          ReadBuildTargets        (void);
+  void                          ReadBuildSources        (void);
+
+  void                          ReadDatabases           (void);
   int                           GetBuildModulesCount    (void);
   BuildModule*                  GetBuildModuleByIndex   (int InIndex);
   BuildModule*                  GetBuildModuleByName    (QString InName);

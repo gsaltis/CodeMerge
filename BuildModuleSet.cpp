@@ -168,6 +168,7 @@ BuildModuleSet::ReadDatabases(void)
 {
   ReadBuildModules();
   ReadBuildTargets();
+  ReadBuildSources();
 }
 
 /*****************************************************************************!
@@ -185,9 +186,19 @@ BuildModuleSet::ReadBuildModules(void)
 void
 BuildModuleSet::ReadBuildTargets(void)
 {
-  MainCodeDatabase->ClearBuildTargets();
   for ( auto module : modules ) {
     MainCodeDatabase->ReadBuildTargets(module);
+  }
+}
+
+/*****************************************************************************!
+ * Function : ReadBuildSources
+ *****************************************************************************/
+void
+BuildModuleSet::ReadBuildSources(void)
+{
+  for ( auto module : modules ) {
+    MainCodeDatabase->ReadBuildSources(module);
   }
 }
 

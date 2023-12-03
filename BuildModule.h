@@ -18,6 +18,7 @@
  * Local Headers
  *****************************************************************************/
 #include "BuildTarget.h"
+#include "BuildSource.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -50,7 +51,10 @@ class BuildModule : public QWidget
   int                           Execute                 (QString &InErrors, QString &InOutput);
   void                          BuildTargetDatabase     (void);
   void                          AddBuildTarget          (BuildTarget* InTarget);
+  void                          AddBuildSource          (BuildSource* InSource);
   void                          Set                     (QString InTrackName, QString InName, QString InFullPathName);
+  int                           GetTargetCount          (void);
+  int                           GetSourceCount          (void);
 
  //! Public Data
  public :
@@ -81,6 +85,7 @@ class BuildModule : public QWidget
   QString                       FullPathName;
   QString                       TrackName;
   QList<BuildTarget*>           Targets;
+  QList<BuildSource*>           Sources;
   
  //! Public Slots
  public slots :

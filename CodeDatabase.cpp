@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -478,6 +479,98 @@ CodeDatabase::ReadBuildModulesCB
   buildModule = new BuildModule();
   buildModule->Set(trackName, name, path);
   buildModuleSet->AddBuildModule(buildModule);
+  return 0;
+}
+
+/*****************************************************************************!
+ * Function : ReadBuildTargets
+ *****************************************************************************/
+void
+CodeDatabase::ReadBuildSources
+(BuildModule* InModule)
+{
+  QString                               moduleName;
+  int                                   sourceCount;
+  QString                               errorString;
+  int                                   n;
+  char*                                 e;
+  QMessageBox*                          box;
+  QString                               statement;
+
+  statement = QString("SELECT * FROM BuildSource WHERE TrackName is '%1' AND ModuleName is '%2' AND SourceType is 'Source';").arg(InModule->GetTrackName()).arg(InModule->GetName());
+
+  n = sqlite3_exec(Database, statement.toStdString().c_str(), ReadBuildSourcesCB, InModule, &e);
+  if ( n != SQLITE_OK ) {
+    errorString = QString("sqlite3_exec() FAIL\n"
+                          "%1 %2\n"
+                          "%3\n"
+                          "%4").arg(__FILE__).arg(__LINE__).arg(statement).arg(e);
+    
+    box = new QMessageBox(QMessageBox::Critical, "sqlite3_exec() FAIL",
+                          errorString);
+    box->exec();
+    exit(EXIT_FAILURE);
+  }
+  sourceCount = InModule->GetSourceCount();
+  moduleName = InModule->GetName();
+
+  TRACE_FUNCTION_QSTRING(moduleName);
+  TRACE_FUNCTION_INT(sourceCount);
+}
+
+/*****************************************************************************!
+ * Function : ReadBuildSourcesCB
+ *****************************************************************************/
+int
+CodeDatabase::ReadBuildSourcesCB
+(void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames)
+{
+  BuildSource*                          buildSource;
+
+  QString                               trackName;
+  QString                               sourceType;
+  QString                               sourceName;
+  QString                               targetName;
+  QString                               moduleName;
+
+  QString                               columnName;
+  int                                   i;
+  QString                               columnValue;
+  BuildModule*                          buildModule;
+
+  buildModule = (BuildModule*)InPointer;
+
+  for (i = 0; i < InColumnCount; i++) {
+    columnValue = InColumnValues[i];
+    columnName  = InColumnNames[i];
+
+    if ( columnName == "SourceName" ) {
+      sourceName = columnValue;
+      continue;
+    }
+
+    if ( columnName == "TargetName" ) {
+      targetName = columnValue;
+      continue;
+    }
+
+    if ( columnName == "SourceType" ) {
+      sourceType = columnValue;
+      continue;
+    }
+    if ( columnName == "TrackName" ) {
+      trackName != columnValue;
+      continue;
+    }
+    if ( columnName == "ModuleName" ) {
+      moduleName != columnValue;
+      continue;
+    }
+  }
+
+  buildSource = new BuildSource();
+  buildSource->Set(trackName, targetName, sourceName, moduleName, sourceType);
+  buildModule->AddBuildSource(buildSource);
   return 0;
 }
 

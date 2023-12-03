@@ -100,8 +100,6 @@ StringTuple::Compare
   s1 = string1.isEmpty() ? string2 : string1;
   s2 = InTuple->GetString1().isEmpty() ? InTuple->GetString2() : InTuple->GetString1();
 
-  TRACE_FUNCTION_QSTRING(s1);
-  TRACE_FUNCTION_QSTRING(s2);
   if ( s1.isEmpty() && s2.isEmpty() ) {
     return 0;
   }

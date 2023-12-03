@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : SourceTreeWindow.h
+ * FILE NAME    : BuildSource.h
  * DATE         : December 02 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _sourcetreewindow_h_
-#define _sourcetreewindow_h_
+#ifndef _buildsource_h_
+#define _buildsource_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -17,35 +17,30 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "MainWindowHeader.h"
-#include "SourceTree.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define SOURCE_TREE_WINDOW_X            200
-#define SOURCE_TREE_WINDOW_Y            200
-#define SOURCE_TREE_WINDOW_WIDTH        200
-#define SOURCE_TREE_WINDOW_HEIGHT       200
 
 /*****************************************************************************!
- * Exported Class : SourceTreeWindow
+ * Exported Class : BuildSource
  *****************************************************************************/
-class SourceTreeWindow : public QWidget
+class BuildSource : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  SourceTreeWindow              ();
+  BuildSource                   ();
+  BuildSource                   (QString InTrackName, QString InTargetName, QString InSourceName, QString InModuleName, QString InSourceType);
 
  //! Destructor
  public :
-  ~SourceTreeWindow             ();
+  ~BuildSource                  ();
 
  //! Public Methods
  public :
-  void                          AddModuleSet            (BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2);
+  void                          Set                     (QString InTrackName, QString InTargetName, QString InSourceName, QString InModuleName, QString InSourceType);
 
  //! Public Data
  public :
@@ -58,15 +53,14 @@ class SourceTreeWindow : public QWidget
 
  //! Private Methods
  private :
-  void                          initialize              ();
-  void                          CreateSubWindows        ();
-  void                          InitializeSubWindows    ();
-  void                          resizeEvent             (QResizeEvent* InEvent);
- 
+
  //! Private Data
  private :
-  MainWindowHeader*             header;
-  SourceTree*                   sourceTree;
+  QString                               TrackName;
+  QString                               TargetName;
+  QString                               SourceName;
+  QString                               ModuleName;
+  QString                               SourceType;
 
  //! Public Slots
  public slots :
@@ -79,4 +73,4 @@ class SourceTreeWindow : public QWidget
 
 };
 
-#endif /* _sourcetreewindow_h_*/
+#endif /* _buildsource_h_*/

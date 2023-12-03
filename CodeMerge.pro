@@ -31,6 +31,7 @@ DEFINES                         += \
 SOURCES                         += \
 				   BuildModule.cpp                              \
 				   BuildModuleSet.cpp                           \
+				   BuildSource.cpp                              \
 				   BuildTarget.cpp                              \
 				   CodeDatabase.cpp                             \
 				   MainControlBar.cpp                           \
@@ -60,6 +61,7 @@ SOURCES                         += \
 HEADERS                         += \
 				   BuildModule.h                                \
 				   BuildModuleSet.h                             \
+				   BuildSource.h                                \
 				   BuildTarget.h                                \
 				   CodeDatabase.h                               \
 				   MainControlBar.h                             \

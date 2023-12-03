@@ -84,3 +84,14 @@ SourceTree::resizeEvent
   (void)height;
   (void)width;
 }
+
+/*****************************************************************************!
+ * Function : AddModuleSet
+ *****************************************************************************/
+void
+SourceTree::AddModuleSet
+(BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2)
+{
+  (void)InModuleSet1;
+  (void)InModuleSet2;
+}

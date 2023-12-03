@@ -52,8 +52,10 @@ class CodeDatabase : public QWidget
   void                          SaveBuildTarget         (QString InTrackName, QString InTargetName, QString InType, QString InPath);
   void                          SaveBuildSource         (QString InTrackName, QString InTargetName, QString InSourceName, QString InPath, QString InText);
   void                          ReadBuildTargets        (BuildModule* InModule);
+  void                          ReadBuildSources        (BuildModule* InModule);
   void                          ReadBuildModules        (BuildModuleSet* InBuildModuleSet);
 
+  static int                    ReadBuildSourcesCB      (void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames);
   static int                    ReadBuildTargetsCB      (void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames);
   static int                    ReadBuildModulesCB      (void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames);
   

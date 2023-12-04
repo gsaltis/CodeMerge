@@ -98,17 +98,10 @@ main
   QCommandLineOption                    CreateDBOption(QStringList() << "d" << "database", QString("Create new database items"));
   commandLineParser.addOption(CreateDBOption);
 
-  QCommandLineOption                    TestTupleOption(QStringList() << "t" << "tuple", QString("Test Tuple creation and sorting"));
-  commandLineParser.addOption(TestTupleOption);
-
   commandLineParser.process(application);
 
   TRACE_COMMAND_CLEAR();
   MainCreateDatabases = commandLineParser.isSet(CreateDBOption);
-  if ( commandLineParser.isSet(TestTupleOption) ) {
-    MainTestTuples();
-    exit(EXIT_SUCCESS);
-  }
   MainSystemSettings = new MainSettings(MainOrgName, MainAppName);
   MainOpenCodeDatabase();
   MainCreateBuildModuleSets();
@@ -135,19 +128,16 @@ MainCreateBuildModuleSets
 (void)
 {
   BuildModuleSet*                       buildModule;
-  QString                               trackPath;
-  QString                               trackName;
   int                                   n;
   QStringList                           trackNames;
-
+  QString                               trackName;
+  
   trackNames = MainCodeDatabase->GetTrackNames();
   n = trackNames.size();
   for (int i = 0; i < n; i++) {
     trackName = trackNames[i];
-    trackPath = MainCodeDatabase->GetTrackPathByName(trackName);
-    buildModule = new BuildModuleSet();
-    buildModule->SetTrackName(trackName);
-    buildModule->SetTrackPath(trackPath);
+    buildModule = new BuildModuleSet(trackName);
+    MainCodeDatabase->ReadBuildModuleSet(buildModule);
     MainBuildModules[trackName] = buildModule;
   }
 }
@@ -203,44 +193,6 @@ MainReadDatabases
     moduleSet->ReadDatabases();
   }
 }
-
-/*****************************************************************************!
- * Function : MainTestTuples
- *****************************************************************************/
-void
-MainTestTuples
-()
-{
-  QList<StringTuple*>                   tuples;
-  StringTuple*                          tuple;
-
-  tuple = new StringTuple(QString("C"), QString("C"));
-  tuples << tuple;
-
-  tuple = new StringTuple(QString(""), QString("B"));
-  tuples << tuple;
-  
-  tuple = new StringTuple(QString("D"), QString(""));
-  tuples << tuple;
-  
-  tuple = new StringTuple(QString("E"), QString(""));
-  tuples << tuple;
-  
-  tuple = new StringTuple(QString("F"), QString("F"));
-  tuples << tuple;
-  
-  tuple = new StringTuple(QString("A"), QString("A"));
-  tuples << tuple;
-
-  MainSortStringTupleList(tuples);
-  for ( int i = 0 ; i < tuples.size(); i++ ) {
-    QString                             s =
-      tuples[i]->GetString1()   +
-      QString(" / ")            +
-      tuples[i]->GetString2();
-  }
-}
-
 
 /*****************************************************************************!
  * Function : MainSortStringTupleList

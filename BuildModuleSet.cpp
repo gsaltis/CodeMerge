@@ -28,6 +28,15 @@ BuildModuleSet::BuildModuleSet
 }
 
 /*****************************************************************************!
+ * Function : BuildModuleSet
+ *****************************************************************************/
+BuildModuleSet::BuildModuleSet
+(QString InTrackName) : QWidget()
+{
+  TrackName = InTrackName;
+}
+
+/*****************************************************************************!
  * Function : ~BuildModuleSet
  *****************************************************************************/
 BuildModuleSet::~BuildModuleSet
@@ -254,4 +263,23 @@ BuildModuleSet::GetAllBuildSources(void)
     returnSources << sources;
   }
   return returnSources;
+}
+
+/*****************************************************************************!
+ * Function : GetASTPath
+ *****************************************************************************/
+QString
+BuildModuleSet::GetASTPath(void)
+{
+  return ASTPath;  
+}
+
+/*****************************************************************************!
+ * Function : SetASTPath
+ *****************************************************************************/
+void
+BuildModuleSet::SetASTPath
+(QString InASTPath)
+{
+  ASTPath = InASTPath;  
 }

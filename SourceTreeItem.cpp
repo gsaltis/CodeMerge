@@ -22,7 +22,7 @@
  * Function : SourceTreeItem
  *****************************************************************************/
 SourceTreeItem::SourceTreeItem
-(QString InText) : QTreeWidgetItem()
+(QString InText) : QWidget(), QTreeWidgetItem()
 {
   initialize();
   text = InText;
@@ -112,25 +112,38 @@ SourceTreeItem::SetModuleSet2
 void
 SourceTreeItem::ProcessSelected(void)
 {
-  bool                                  exists;
-  QFileInfo                             fileInfo;
+  QString                               includeDir1;
+  QString                               includeDir2;
+  QString                               astPath1;
+  QString                               astPath2;
+  QString                               baseName;
+  QString                               filePath;
   QString                               path;
-  QString                               fullPath;
+  QString                               fullPath1;
+  QString                               fullPath2;
+  QFileInfo                             info;
+  
   if ( moduleSet1 ) {
     path = moduleSet1->GetTrackPath();
-    fullPath = path + "/" + text;
-    fileInfo.setFile(fullPath);
-    exists = fileInfo.exists();
-    TRACE_FUNCTION_QSTRING(fullPath);
-    TRACE_FUNCTION_BOOL(exists);
+    fullPath1 = path + text;
+
+    info.setFile(text);
+    filePath = info.path();
+    baseName = info.completeBaseName();
+    astPath1 = moduleSet1->GetASTPath() + filePath.replace(QChar('/'), QChar('-')) + "-" + baseName + ".ast";
+    includeDir1 = path + "include";
   }
 
   if ( moduleSet2 ) {
     path = moduleSet2->GetTrackPath();
-    fullPath = path + "/" + text;
-    fileInfo.setFile(fullPath);
-    exists = fileInfo.exists();
-    TRACE_FUNCTION_QSTRING(fullPath);
-    TRACE_FUNCTION_BOOL(exists);
+    fullPath2 = path + text;
+
+    info.setFile(text);
+    filePath = info.path();
+    baseName = info.completeBaseName();
+    astPath2 = moduleSet2->GetASTPath() + filePath.replace(QChar('/'), QChar('-')) + "-" + baseName + ".ast";
+    includeDir2 = path + "include";
   }
+
+  emit SignalFilesSelected(fullPath1, astPath1, includeDir1, fullPath2, astPath2, includeDir2);
 }

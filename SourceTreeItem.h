@@ -31,8 +31,10 @@
 /*****************************************************************************!
  * Exported Class : SourceTreeItem
  *****************************************************************************/
-class SourceTreeItem : public QTreeWidgetItem
+class SourceTreeItem : public QWidget, public QTreeWidgetItem
 {
+  Q_OBJECT;
+  
  //! Constructors
  public :
   SourceTreeItem                (QString InText);
@@ -75,6 +77,8 @@ class SourceTreeItem : public QTreeWidgetItem
 
  //! Public Signals
  signals :
+  void                          SignalFilesSelected     (QString InFilename1, QString InASTPath1, QString InIncludeDir,
+                                                         QString InFilename2, QString InASTPath2, QString InIncludeDir2);
 
  //! Public Actions
  public :

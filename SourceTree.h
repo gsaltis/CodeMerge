@@ -61,13 +61,21 @@ class SourceTree : public QTreeWidget
   void                          initialize              ();
   void                          resizeEvent             (QResizeEvent* InEvent);
   void                          CreateConnections       (void);
-
+  int                           Execute                 (QString &InErrors, QString &InOutput, QString InArgs, BuildModuleSet* InModuleSet);
+  void                          ExecuteSetup            (BuildModuleSet* InModuleSet);
+  void                          ProcessOutput           (QString InOutput);
+  void                          ProcessError            (QString InError);
+  
  //! Private Data
  private :
+  BuildModuleSet*               ModuleSet1;
+  BuildModuleSet*               ModuleSet2;
 
  //! Public Slots
  public slots :
   void                          SlotItemSelected        (QTreeWidgetItem* InItem);
+  void                          SlotFilesSelected       (QString InFileName1, QString InASTPath1, QString InLocalIncludeDir1,
+                                                         QString InFileName2, QString InASTPath2, QString InLocalIncludeDir2);
 
  //! Public Signals
  signals :

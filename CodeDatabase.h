@@ -54,10 +54,12 @@ class CodeDatabase : public QWidget
   void                          ReadBuildTargets        (BuildModule* InModule);
   void                          ReadBuildSources        (BuildModule* InModule);
   void                          ReadBuildModules        (BuildModuleSet* InBuildModuleSet);
+  void                          ReadBuildModuleSet      (BuildModuleSet* InBuildModuleSet);
 
   static int                    ReadBuildSourcesCB      (void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames);
   static int                    ReadBuildTargetsCB      (void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames);
   static int                    ReadBuildModulesCB      (void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames);
+  static int                    ReadBuildModuleSetCB    (void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames);
   
  //! Public Data
  public :

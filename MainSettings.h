@@ -42,6 +42,9 @@ class MainSettings : public QSettings
   void                          GetMainWindowGeometry   (QPoint &InPosition, QSize &InSize);
   void                          SetMainWindowGeometry   (QPoint InPosition, QSize InSize);
   QFont                         GetTreeHeaderFont       (void);
+  QString                       GetClangPath            (void);
+  QString                       GetClangArgs            (void);
+  QString                       GetClangStdIncludeDir   (void);
 
  //! Public Data
  public :

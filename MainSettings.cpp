@@ -71,7 +71,50 @@ MainSettings::SetMainWindowGeometry
  * Function : GetTreeHeaderFont
  *****************************************************************************/
 QFont
-MainSettings::GetTreeHeaderFont(void)
+MainSettings::GetTreeHeaderFont
+(void)
 {
   return QFont("Segoe UI", 10, QFont::Bold);
 }
+
+/*****************************************************************************!
+ * Function : GetClangPath
+ *****************************************************************************/
+QString
+MainSettings::GetClangPath
+(void)
+{
+  QString                               clangPath;
+
+  clangPath = value("Tooling/Clang/Path", QString("D:\\usr\\local\\bin\\clang.exe")).toString();
+  return clangPath;
+}
+
+/*****************************************************************************!
+ * Function : GetClangArgs
+ *****************************************************************************/
+QString
+MainSettings::GetClangArgs
+(void)
+{
+  QString                               defaultArgs;
+  QString                               args;
+
+  defaultArgs = QString("-emit-ast -c -nostdinc -o %1 -isystem %2 -I %3 %4");
+  args = value("Tooling/Clang/Args", defaultArgs).toString();
+  
+  return args;
+}
+
+/*****************************************************************************!
+ * Function : GetClangStdIncludeDir
+ *****************************************************************************/
+QString
+MainSettings::GetClangStdIncludeDir(void)
+{
+  QString                               st;
+
+  st = value("Tooling/Clang/StdIncludeDir", QString("D:/Source/Vertiv/CodeBases/stdincludes")).toString();
+  return st;
+}
+

@@ -33,6 +33,7 @@ class BuildModuleSet : public QWidget
  //! Constructors
  public :
   BuildModuleSet                ();
+  BuildModuleSet                (QString InTrackName);
 
  //! Destructor
  public :
@@ -58,6 +59,8 @@ class BuildModuleSet : public QWidget
   BuildModule*                  GetBuildModuleByIndex   (int InIndex);
   BuildModule*                  GetBuildModuleByName    (QString InName);
   QList<BuildSource*>           GetAllBuildSources      (void);
+  QString                       GetASTPath              (void);
+  void                          SetASTPath              (QString InASTPath);
 
  //! Public Data
  public :
@@ -77,6 +80,7 @@ class BuildModuleSet : public QWidget
   QList<BuildModule*>           modules;
   QString                       TrackName;
   QString                       TrackPath;
+  QString                       ASTPath;
 
  //! Public Slots
  public slots :

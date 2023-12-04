@@ -567,3 +567,71 @@ CodeDatabase::ReadBuildSourcesCB
   return 0;
 }
 
+/*****************************************************************************!
+ * Function : ReadBuildModuleSet
+ *****************************************************************************/
+void
+CodeDatabase::ReadBuildModuleSet
+(BuildModuleSet* InBuildModuleSet)
+{
+  QString                               errorString;
+  int                                   n;
+  char*                                 e;
+  QMessageBox*                          box;
+  QString                               statement;
+  QString                               trackName;
+
+  trackName = InBuildModuleSet->GetTrackName();
+  
+  statement = QString("SELECT * FROM Track WHERE TrackName is '%1';").arg(trackName.toStdString().c_str());
+  n = sqlite3_exec(Database, statement.toStdString().c_str(), ReadBuildModuleSetCB, InBuildModuleSet, &e);
+  if ( n != SQLITE_OK ) {
+    errorString = QString("sqlite3_exec() FAIL\n"
+                          "%1 %2\n"
+                          "%3\n"
+                          "%4").arg(__FILE__).arg(__LINE__).arg(statement).arg(e);
+    
+    box = new QMessageBox(QMessageBox::Critical, "sqlite3_exec() FAIL",
+                          errorString);
+    box->exec();
+    exit(EXIT_FAILURE);
+  }
+}
+
+/*****************************************************************************!
+ * Function : ReadBuildModuleSetCB
+ *****************************************************************************/
+int
+CodeDatabase::ReadBuildModuleSetCB
+(void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames)
+{
+  QString                               basePath;
+  QString                               ASTPath;
+
+  int                                   i;
+
+  QString                               columnName;
+  QString                               columnValue;
+  BuildModuleSet*                       buildModuleSet;
+
+  buildModuleSet = (BuildModuleSet*)InPointer;
+
+  for (i = 0; i < InColumnCount; i++) {
+    columnValue = InColumnValues[i];
+    columnName  = InColumnNames[i];
+
+    if ( columnName == "BasePath" ) {
+      basePath = columnValue;
+      continue;
+    }
+
+    if ( columnName == "ASTPath" ) {
+      ASTPath = columnValue;
+      continue;
+    }
+  }
+
+  buildModuleSet->SetASTPath(ASTPath);
+  buildModuleSet->SetTrackPath(basePath);
+  return 0;
+}

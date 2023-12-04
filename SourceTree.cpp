@@ -96,6 +96,9 @@ SourceTree::AddModuleSet
   QList<BuildSource*>                   sources2;
   QTreeWidgetItem*                      header;
 
+  ModuleSet1 = InModuleSet1;
+  ModuleSet2 = InModuleSet2;
+  
   header = new QTreeWidgetItem();
   header->setFont(0, MainSystemSettings->GetTreeHeaderFont());
   header->setText(0, "Source Files");
@@ -105,7 +108,8 @@ SourceTree::AddModuleSet
   sources2 = InModuleSet2->GetAllBuildSources();
   source1TrackPath = InModuleSet1->GetTrackPath();
   source2TrackPath = InModuleSet2->GetTrackPath();
-  
+
+  //!  
   for ( auto i2 : sources1 ) {
     name = i2->GetSourceName();
     modName = i2->GetModuleName();
@@ -164,6 +168,10 @@ SourceTree::AddModuleSet
     s2 = st3->GetString2();
     if ( s1 == s2 ) {
       treeItem = new SourceTreeItem(s1);
+      connect(treeItem,
+              SourceTreeItem::SignalFilesSelected,
+              this,
+              SourceTree::SlotFilesSelected);
       treeItem->SetModuleSet1(InModuleSet1);
       treeItem->SetModuleSet2(InModuleSet2);
       commonItems->addChild(treeItem);
@@ -171,6 +179,10 @@ SourceTree::AddModuleSet
     }
     if ( s1.isEmpty() ) {
       treeItem = new SourceTreeItem(s2);
+      connect(treeItem,
+              SourceTreeItem::SignalFilesSelected,
+              this,
+              SourceTree::SlotFilesSelected);
       if ( track3Items == NULL ) {
         track3Items = new QTreeWidgetItem();
         track3Items->setText(0, "Track3 Only");
@@ -186,6 +198,10 @@ SourceTree::AddModuleSet
       addTopLevelItem(track2Items);
     }
     treeItem = new SourceTreeItem(s1);
+    connect(treeItem,
+            SourceTreeItem::SignalFilesSelected,
+            this,
+            SourceTree::SlotFilesSelected);
     track2Items->addChild(treeItem);
     treeItem->SetModuleSet1(InModuleSet1);
   }
@@ -217,4 +233,96 @@ SourceTree::CreateConnections(void)
           QTreeWidget::itemClicked,
           this,
           SourceTree::SlotItemSelected);
+}
+
+/*****************************************************************************!
+ * Function : SlotFilesSelected
+ *****************************************************************************/
+void
+SourceTree::SlotFilesSelected
+(QString InFileName1, QString InASTPath1, QString InLocalIncludeDir1, QString InFileName2, QString InASTPath2, QString InLocalIncludeDir2)
+{
+  int                                   returnCode;
+  QString                               args1;
+  QString                               args2;
+  QString                               clangArgs;
+  QString                               stdIncludeDir;
+  QString                               localIncludeDir;
+  QString                               errors;
+  QString                               output;
+  
+  clangArgs = MainSystemSettings->GetClangArgs();
+  stdIncludeDir = MainSystemSettings->GetClangStdIncludeDir();
+
+  if ( ModuleSet1 ) {
+    args1 = QString(clangArgs).arg(InASTPath1).arg(stdIncludeDir).arg(InLocalIncludeDir1).arg(InFileName1);
+    ExecuteSetup(ModuleSet1);
+    returnCode = Execute(errors, output, args1, ModuleSet1);
+    TRACE_FUNCTION_INT(returnCode);
+  }
+  args2 = QString(clangArgs).arg(InASTPath2).arg(stdIncludeDir).arg(InLocalIncludeDir2).arg(InFileName2);
+}
+
+/*****************************************************************************!
+ * Function : Execute
+ *****************************************************************************/
+int
+SourceTree::Execute
+(QString &InErrors, QString &InOutput, QString InArgs, BuildModuleSet* InModuleSet)
+{
+  QProcess                              makeProcess;
+  QString                               clangPath;
+  QString                               fullPath;
+  
+  clangPath = MainSystemSettings->GetClangPath();
+  TRACE_FUNCTION_QSTRING(clangPath);
+  fullPath = InModuleSet->GetTrackPath();
+  TRACE_FUNCTION_QSTRING(fullPath);
+  TRACE_FUNCTION_QSTRING(InArgs);
+  makeProcess.setArguments(InArgs.split(QRegularExpression("\\s+")));
+  makeProcess.setProgram(clangPath);
+  makeProcess.setWorkingDirectory(fullPath);
+  makeProcess.start();
+  makeProcess.waitForFinished();
+  InErrors = QString(makeProcess.readAllStandardError());
+  InOutput = QString(makeProcess.readAllStandardOutput());
+  ProcessOutput(InOutput);
+  ProcessError(InErrors);
+  return makeProcess.exitCode();
+}
+
+/*****************************************************************************!
+ * Function : ExecuteSetup
+ *****************************************************************************/
+void
+SourceTree::ExecuteSetup
+(BuildModuleSet* InModuleSet)
+{
+  QString                               envString;
+  QString                               fullPath;
+  
+  fullPath = InModuleSet->GetTrackPath();
+  TRACE_FUNCTION_QSTRING(fullPath);
+  envString = QString("ACU_SOURCE_DIR=") + fullPath;
+  putenv(envString.toStdString().c_str());
+}
+
+/*****************************************************************************!
+ * Function : ProcessOutput
+ *****************************************************************************/
+void
+SourceTree::ProcessOutput
+(QString InOutput)
+{
+  TRACE_FUNCTION_QSTRING(InOutput);
+}
+
+/*****************************************************************************!
+ * Function : ProcessError
+ *****************************************************************************/
+void
+SourceTree::ProcessError
+(QString InError)
+{
+  TRACE_FUNCTION_QSTRING(InError);
 }

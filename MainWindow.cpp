@@ -149,3 +149,13 @@ MainWindow::moveEvent
   p = InEvent->pos();
   MainSystemSettings->SetMainWindowGeometry(p, size());
 }
+
+/*****************************************************************************!
+ * Function : SetModuleSets
+ *****************************************************************************/
+void
+MainWindow::SetModuleSets
+(BuildModuleSet* ModuleSet1, BuildModuleSet* ModuleSet2)
+{
+  displayWindow->SetModuleSets(ModuleSet1, ModuleSet2);
+}

@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -49,6 +50,7 @@ TrackViewWindow::initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
+  CreateConnections();
 }
 
 /*****************************************************************************!
@@ -58,6 +60,8 @@ void
 TrackViewWindow::CreateSubWindows()
 {
   header = new MainWindowHeader(titleText, this);
+  astWindow = new ASTDisplayWindow();
+  astWindow->setParent(this);
 }
 
 /*****************************************************************************!
@@ -67,6 +71,7 @@ void
 TrackViewWindow::InitializeSubWindows()
 {
   header = NULL;  
+  astWindow = NULL;
 }
 
 /*****************************************************************************!
@@ -76,6 +81,10 @@ void
 TrackViewWindow::resizeEvent
 (QResizeEvent* InEvent)
 {
+  int                                   astWindowW;
+  int                                   astWindowH;
+  int                                   astWindowY;
+  int                                   astWindowX;
   int                                   headerW;
   int                                   headerH;
   int                                   headerY;
@@ -97,4 +106,69 @@ TrackViewWindow::resizeEvent
   
   header->move(headerX, headerY);
   header->resize(headerW, headerH);
+
+  astWindowX = 0;
+  astWindowY = MAIN_WINDOW_HEADER_HEIGHT;
+  astWindowW = width;
+  astWindowH = height - MAIN_WINDOW_HEADER_HEIGHT;
+  astWindow->move(astWindowX, astWindowY);
+  astWindow->resize(astWindowW, astWindowH);
+}
+
+/*****************************************************************************!
+ * Function : SlotCompileSuccess
+ * Purpose  : Pass AST Compile Success Message
+ *****************************************************************************/
+void
+TrackViewWindow::SlotCompileSuccess
+(QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
+{
+  QString                               trackName;
+  QString                               windowTitle;
+  QString                               filePath;
+  QString                               st;
+  int                                   n;
+  QString                               trackPath;
+
+  trackPath = ModuleSet->GetTrackPath();
+  n = trackPath.length();
+  st = InFileName.left(n);
+  if ( trackPath == st ) {
+    filePath = InFileName.sliced(n);
+  }
+  trackName = ModuleSet->GetTrackName();
+  windowTitle = trackName + " - " + filePath;
+  header->SetText(windowTitle);
+  emit SignalCompileSuccess(InASTPath, InFileName, InErrors, InOutput);
+}
+
+/*****************************************************************************!
+ * Function : CreateConnections
+ *****************************************************************************/
+void
+TrackViewWindow::CreateConnections(void)
+{
+  connect(this,
+          TrackViewWindow::SignalCompileSuccess,
+          astWindow,
+          ASTDisplayWindow::SlotCompileSuccess);
+}
+
+/*****************************************************************************!
+ * Function : GetModuleSet
+ *****************************************************************************/
+BuildModuleSet*
+TrackViewWindow::GetModuleSet(void)
+{
+  return ModuleSet;  
+}
+
+/*****************************************************************************!
+ * Function : SetModuleSet
+ *****************************************************************************/
+void
+TrackViewWindow::SetModuleSet
+(BuildModuleSet* InModuleSet)
+{
+  ModuleSet = InModuleSet;  
 }

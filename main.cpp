@@ -112,6 +112,7 @@ main
   }
   
   w = new MainWindow(NULL);
+  w->SetModuleSets(MainBuildModules["Track2"], MainBuildModules["Track3"]);
   MainSystemSettings->GetMainWindowGeometry(p, s);
   w->resize(s);
   w->move(p);

@@ -20,6 +20,7 @@
  *****************************************************************************/
 #include "MainDisplayWindow.h"
 #include "SystemConfig.h"
+#include "BuildModuleSet.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -47,6 +48,7 @@ class MainWindow : public QMainWindow
 
  //! Public Methods
  public :
+  void                          SetModuleSets           (BuildModuleSet* ModuleSet1, BuildModuleSet* ModuleSet2);
 
  //! Public Data
  public :

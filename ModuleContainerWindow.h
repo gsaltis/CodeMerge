@@ -22,6 +22,7 @@
 #include "ModuleTreeWindow.h"
 #include "SourceTreeWindow.h"
 #include "TargetTreeWindow.h"
+#include "BuildModuleSet.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -79,9 +80,13 @@ class ModuleContainerWindow : public QWidget
   void                          SlotDisplaySource       (void);
   void                          SlotDisplayModules      (void);
   void                          SlotDisplayTargets      (void);
+  void                          SlotErrorMessage        (QString InErrorMessage);
+  void                          SlotCompileSuccess      (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
 
  //! Public Signals
  signals :
+  void                          SignalErrorMessage      (QString InErrorMessage);
+  void                          SignalCompileSuccess    (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
 
  //! Public Actions
  public :

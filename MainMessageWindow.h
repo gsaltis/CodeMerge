@@ -18,6 +18,7 @@
  * Local Headers
  *****************************************************************************/
 #include "MainWindowHeader.h"
+#include "CompileErrorDisplay.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -61,18 +62,22 @@ class MainMessageWindow : public QWidget
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
   void                          paintEvent              (QPaintEvent* InEvent);
+  void                          CreateConnections       (void);
 
  //! Private Data
  private :
   MainWindowHeader*             header;
   QColor                        EndingColor;
   QColor                        StartingColor;
+  CompileErrorDisplay*          compileErrorText;
 
  //! Public Slots
  public slots :
+  void                          SlotErrorMessage        (QString InErrorMessage);
 
  //! Public Signals
  signals :
+  void                          SignalErrorMessage      (QString InErrorMessage);
 
  //! Public Actions
  public :

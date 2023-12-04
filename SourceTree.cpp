@@ -162,7 +162,8 @@ SourceTree::AddModuleSet
 
   track2Items = NULL;
   track3Items = NULL;
-  
+
+  //!
   for ( auto st3 : sources ) {
     s1 = st3->GetString1();
     s2 = st3->GetString2();
@@ -205,6 +206,7 @@ SourceTree::AddModuleSet
     track2Items->addChild(treeItem);
     treeItem->SetModuleSet1(InModuleSet1);
   }
+  commonItems->setExpanded(true);
 }
 
 /*****************************************************************************!
@@ -220,7 +222,6 @@ SourceTree::SlotItemSelected
   item = (SourceTreeItem*)InItem;
   item->ProcessSelected();
   text = item->GetText();
-  TRACE_FUNCTION_QSTRING(text);
 }
 
 /*****************************************************************************!
@@ -258,9 +259,22 @@ SourceTree::SlotFilesSelected
     args1 = QString(clangArgs).arg(InASTPath1).arg(stdIncludeDir).arg(InLocalIncludeDir1).arg(InFileName1);
     ExecuteSetup(ModuleSet1);
     returnCode = Execute(errors, output, args1, ModuleSet1);
-    TRACE_FUNCTION_INT(returnCode);
+    if ( returnCode == 0 ) {
+      ProcessCompile(ModuleSet1->GetTrackName(), InASTPath1, InFileName1, errors, output);
+    } else {      
+      ProcessError(errors);
+    }
   }
-  args2 = QString(clangArgs).arg(InASTPath2).arg(stdIncludeDir).arg(InLocalIncludeDir2).arg(InFileName2);
+  if ( ModuleSet2 ) {
+    args2 = QString(clangArgs).arg(InASTPath2).arg(stdIncludeDir).arg(InLocalIncludeDir2).arg(InFileName2);
+    ExecuteSetup(ModuleSet2);
+    returnCode = Execute(errors, output, args2, ModuleSet2);
+    if ( returnCode == 0 ) {
+      ProcessCompile(ModuleSet2->GetTrackName(), InASTPath2, InFileName2, errors, output);
+    } else {      
+      ProcessError(errors);
+    }
+  }
 }
 
 /*****************************************************************************!
@@ -275,10 +289,7 @@ SourceTree::Execute
   QString                               fullPath;
   
   clangPath = MainSystemSettings->GetClangPath();
-  TRACE_FUNCTION_QSTRING(clangPath);
   fullPath = InModuleSet->GetTrackPath();
-  TRACE_FUNCTION_QSTRING(fullPath);
-  TRACE_FUNCTION_QSTRING(InArgs);
   makeProcess.setArguments(InArgs.split(QRegularExpression("\\s+")));
   makeProcess.setProgram(clangPath);
   makeProcess.setWorkingDirectory(fullPath);
@@ -286,8 +297,6 @@ SourceTree::Execute
   makeProcess.waitForFinished();
   InErrors = QString(makeProcess.readAllStandardError());
   InOutput = QString(makeProcess.readAllStandardOutput());
-  ProcessOutput(InOutput);
-  ProcessError(InErrors);
   return makeProcess.exitCode();
 }
 
@@ -302,7 +311,6 @@ SourceTree::ExecuteSetup
   QString                               fullPath;
   
   fullPath = InModuleSet->GetTrackPath();
-  TRACE_FUNCTION_QSTRING(fullPath);
   envString = QString("ACU_SOURCE_DIR=") + fullPath;
   putenv(envString.toStdString().c_str());
 }
@@ -312,9 +320,8 @@ SourceTree::ExecuteSetup
  *****************************************************************************/
 void
 SourceTree::ProcessOutput
-(QString InOutput)
+(QString )
 {
-  TRACE_FUNCTION_QSTRING(InOutput);
 }
 
 /*****************************************************************************!
@@ -324,5 +331,15 @@ void
 SourceTree::ProcessError
 (QString InError)
 {
-  TRACE_FUNCTION_QSTRING(InError);
+  emit SignalErrorMessage(InError);
+}
+
+/*****************************************************************************!
+ * Function : ProcessCompile
+ *****************************************************************************/
+void
+SourceTree::ProcessCompile
+(QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
+{
+  emit SignalCompileSuccess(InTrackName, InASTPath, InFileName, InErrors, InOutput);
 }

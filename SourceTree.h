@@ -65,6 +65,7 @@ class SourceTree : public QTreeWidget
   void                          ExecuteSetup            (BuildModuleSet* InModuleSet);
   void                          ProcessOutput           (QString InOutput);
   void                          ProcessError            (QString InError);
+  void                          ProcessCompile          (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
   
  //! Private Data
  private :
@@ -79,6 +80,8 @@ class SourceTree : public QTreeWidget
 
  //! Public Signals
  signals :
+  void                          SignalErrorMessage      (QString InErrorMessage);
+  void                          SignalCompileSuccess    (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
 
  //! Public Actions
  public :

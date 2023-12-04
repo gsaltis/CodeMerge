@@ -1,19 +1,19 @@
 /*****************************************************************************
- * FILE NAME    : MainWindowHeader.h
- * DATE         : November 29 2023
+ * FILE NAME    : CompileErrorDisplay.h
+ * DATE         : December 04 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _mainwindowheader_h_
-#define _mainwindowheader_h_
+#ifndef _compileerrordisplay_h_
+#define _compileerrordisplay_h_
 
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
 #include <QtCore>
 #include <QtGui>
+#include <QTextEdit>
 #include <QWidget>
-#include <QLabel>
 
 /*****************************************************************************!
  * Local Headers
@@ -22,33 +22,28 @@
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define MAIN_WINDOW_HEADER_X            200
-#define MAIN_WINDOW_HEADER_Y            200
-#define MAIN_WINDOW_HEADER_WIDTH        200
-#define MAIN_WINDOW_HEADER_HEIGHT       20
-#define MAIN_WINDOW_HEADER_SHORT_HEIGHT 15
+#define COMPILE_ERROR_DISPLAY_X         200
+#define COMPILE_ERROR_DISPLAY_Y         200
+#define COMPILE_ERROR_DISPLAY_WIDTH     200
+#define COMPILE_ERROR_DISPLAY_HEIGHT    200
 
 /*****************************************************************************!
- * Exported Class : MainWindowHeader
+ * Exported Class : CompileErrorDisplay
  *****************************************************************************/
-class MainWindowHeader : public QWidget
+class CompileErrorDisplay : public QTextEdit
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  MainWindowHeader              (QString InText, QWidget* InParent);
+  CompileErrorDisplay           ();
 
  //! Destructor
  public :
-  ~MainWindowHeader             ();
+  ~CompileErrorDisplay          ();
 
  //! Public Methods
  public :
-  void                          SetColors               (QColor InStartingColor, QColor InEndingColor);
-  int                           GetFontSize             (void);
-  void                          SetFontSize             (int InFontSize);
-  void                          SetText                 (QString InText);
 
  //! Public Data
  public :
@@ -62,21 +57,15 @@ class MainWindowHeader : public QWidget
  //! Private Methods
  private :
   void                          initialize              ();
-  void                          CreateSubWindows        ();
-  void                          InitializeSubWindows    ();
-  void                          resizeEvent             (QResizeEvent* InEvent);
-  void                          paintEvent              (QPaintEvent* InEvent);
 
  //! Private Data
  private :
-  QColor                        StartingColor;
-  QColor                        EndingColor;
-  QLabel*                       TextLabel;
-  QString                       text;
-  int                           FontSize;
+  QColor                        BackgroundColor;
+  QColor                        TextColor;
 
  //! Public Slots
  public slots :
+  void                          SlotErrorMessage        (QString InErrorMessage);
 
  //! Public Signals
  signals :
@@ -86,4 +75,4 @@ class MainWindowHeader : public QWidget
 
 };
 
-#endif /* _mainwindowheader_h_*/
+#endif /* _compileerrordisplay_h_*/

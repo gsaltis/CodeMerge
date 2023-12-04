@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : TrackViewWindow.h
- * DATE         : November 29 2023
+ * FILE NAME    : ASTDisplayWindow.h
+ * DATE         : December 04 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _trackviewwindow_h_
-#define _trackviewwindow_h_
+#ifndef _astdisplaywindow_h_
+#define _astdisplaywindow_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -13,41 +13,39 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <clang-c/Index.h>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "MainWindowHeader.h"
-#include "ASTDisplayWindow.h"
-#include "BuildModuleSet.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define TRACK_VIEW_WINDOW_X             200
-#define TRACK_VIEW_WINDOW_Y             200
-#define TRACK_VIEW_WINDOW_WIDTH         200
-#define TRACK_VIEW_WINDOW_HEIGHT        200
+#define ASTDISPLAY_WINDOW_X             200
+#define ASTDISPLAY_WINDOW_Y             200
+#define ASTDISPLAY_WINDOW_WIDTH         200
+#define ASTDISPLAY_WINDOW_HEIGHT        200
 
 /*****************************************************************************!
- * Exported Class : TrackViewWindow
+ * Exported Class : ASTDisplayWindow
  *****************************************************************************/
-class TrackViewWindow : public QWidget
+class ASTDisplayWindow : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  TrackViewWindow               (QString InTitleText);
+  ASTDisplayWindow              ();
 
  //! Destructor
  public :
-  ~TrackViewWindow              ();
+  ~ASTDisplayWindow             ();
 
  //! Public Methods
  public :
-  BuildModuleSet*               GetModuleSet            (void);
-  void                          SetModuleSet            (BuildModuleSet* InModuleSet);
+  QString                       GetASTFileName          (void);
+  void                          SetASTFileName          (QString InASTFileName);
 
  //! Public Data
  public :
@@ -64,14 +62,12 @@ class TrackViewWindow : public QWidget
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
-  void                          CreateConnections       (void);
 
  //! Private Data
  private :
-  MainWindowHeader*             header;
-  QString                       titleText;
-  ASTDisplayWindow*             astWindow;
-  BuildModuleSet*               ModuleSet;
+  CXTranslationUnit             TranslationUnit;
+  QString                       ASTFileName;
+  CXCursor                      ASTCursor;
 
  //! Public Slots
  public slots :
@@ -79,11 +75,10 @@ class TrackViewWindow : public QWidget
 
  //! Public Signals
  signals :
-  void                          SignalCompileSuccess    (QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
 
  //! Public Actions
  public :
 
 };
 
-#endif /* _trackviewwindow_h_*/
+#endif /* _astdisplaywindow_h_*/

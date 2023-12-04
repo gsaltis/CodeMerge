@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -48,6 +49,7 @@ TrackViewContainer::initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
+  CreateConnections();
 }
 
 /*****************************************************************************!
@@ -144,4 +146,102 @@ TrackViewContainer::resizeEvent
   messageWindow->move(messageWindowX, messageWindowY);
   messageWindow->resize(messageWindowW, messageWindowH);
 
+}
+
+/*****************************************************************************!
+ * Function : SlotErrorMessage
+ *****************************************************************************/
+void
+TrackViewContainer::SlotErrorMessage
+(QString InErrorMessage)
+{
+  emit SignalErrorMessage(InErrorMessage);
+}
+
+/*****************************************************************************!
+ * Function : CreateConnections
+ *****************************************************************************/
+void
+TrackViewContainer::CreateConnections(void)
+{
+  connect(this,
+          TrackViewContainer::SignalErrorMessage,
+          messageWindow,
+          MainMessageWindow::SlotErrorMessage);
+  connect(this,
+          TrackViewContainer::SignalCompileSuccess,
+          track2Window,
+          TrackViewWindow::SlotCompileSuccess);
+}
+
+/*****************************************************************************!
+ * Function : SlotCompileSuccess
+ * Purpose  : Pass AST Compile Success Message
+ *****************************************************************************/
+void
+TrackViewContainer::SlotCompileSuccess
+(QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
+{
+  TRACE_FUNCTION_START();
+  TRACE_FUNCTION_QSTRING(InTrackName);
+  if ( InTrackName == "Track2" ) {
+    track2Window->SlotCompileSuccess(InASTPath, InFileName, InErrors, InOutput);
+    TRACE_FUNCTION_END();
+    return;
+  }
+  if ( InTrackName == "Track3" ) {
+    track3Window->SlotCompileSuccess(InASTPath, InFileName, InErrors, InOutput);
+  }
+  TRACE_FUNCTION_END();
+}
+
+/*****************************************************************************!
+ * Function : GetModuleSet1
+ *****************************************************************************/
+BuildModuleSet*
+TrackViewContainer::GetModuleSet1(void)
+{
+  return ModuleSet1;  
+}
+
+/*****************************************************************************!
+ * Function : SetModuleSet1
+ *****************************************************************************/
+void
+TrackViewContainer::SetModuleSet1
+(BuildModuleSet* InModuleSet1)
+{
+  ModuleSet1 = InModuleSet1;  
+}
+
+/*****************************************************************************!
+ * Function : GetModuleSet2
+ *****************************************************************************/
+BuildModuleSet*
+TrackViewContainer::GetModuleSet2(void)
+{
+  return ModuleSet2;  
+}
+
+/*****************************************************************************!
+ * Function : SetModuleSet2
+ *****************************************************************************/
+void
+TrackViewContainer::SetModuleSet2
+(BuildModuleSet* InModuleSet2)
+{
+  ModuleSet2 = InModuleSet2;  
+}
+
+/*****************************************************************************!
+ * Function : SetModuleSets
+ *****************************************************************************/
+void
+TrackViewContainer::SetModuleSets
+(BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2)
+{
+  ModuleSet1 = InModuleSet1;  
+  ModuleSet2 = InModuleSet2;
+  track2Window->SetModuleSet(InModuleSet1);
+  track3Window->SetModuleSet(InModuleSet2);
 }

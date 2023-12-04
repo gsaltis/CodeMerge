@@ -45,6 +45,11 @@ class TrackViewContainer : public QWidget
 
  //! Public Methods
  public :
+  BuildModuleSet*               GetModuleSet1           (void);
+  void                          SetModuleSet1           (BuildModuleSet* InModuleSet1);
+  BuildModuleSet*               GetModuleSet2           (void);
+  void                          SetModuleSet2           (BuildModuleSet* InModuleSet2);
+  void                          SetModuleSets           (BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2);
 
  //! Public Data
  public :
@@ -61,18 +66,25 @@ class TrackViewContainer : public QWidget
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
+  void                          CreateConnections       (void);
 
  //! Private Data
  private :
   MainMessageWindow*            messageWindow;
   TrackViewWindow*              track2Window;
   TrackViewWindow*              track3Window;
+  BuildModuleSet*               ModuleSet1;
+  BuildModuleSet*               ModuleSet2;
 
  //! Public Slots
  public slots :
+  void                          SlotErrorMessage        (QString InErrorMessage);
+  void                          SlotCompileSuccess      (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
 
  //! Public Signals
  signals :
+  void                          SignalErrorMessage      (QString InErrorMessage);
+  void                          SignalCompileSuccess    (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
 
  //! Public Actions
  public :

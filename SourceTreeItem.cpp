@@ -84,6 +84,9 @@ void
 SourceTreeItem::SetModuleSet1
 (BuildModuleSet* InModuleSet1)
 {
+  QString                       trackName1;
+
+  trackName1 = InModuleSet1->GetTrackName();
   moduleSet1 = InModuleSet1;  
 }
 
@@ -103,6 +106,9 @@ void
 SourceTreeItem::SetModuleSet2
 (BuildModuleSet* InModuleSet2)
 {
+  QString                       trackName2;
+
+  trackName2 = InModuleSet2->GetTrackName();
   moduleSet2 = InModuleSet2;  
 }
 

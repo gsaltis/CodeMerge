@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -177,6 +178,15 @@ ModuleContainerWindow::CreateConnections(void)
           ModuleToolBar::SignalDisplayModules,
           this,
           ModuleContainerWindow::SlotDisplayModules);
+  connect(sourceTreeWindow,
+          SourceTreeWindow::SignalErrorMessage,
+          this,
+          ModuleContainerWindow::SlotErrorMessage);
+  
+  connect(sourceTreeWindow,
+          SourceTreeWindow::SignalCompileSuccess,
+          this,
+          ModuleContainerWindow::SlotCompileSuccess);
 }
 
 /*****************************************************************************!
@@ -209,6 +219,26 @@ ModuleContainerWindow::SlotDisplayTargets(void)
 {
   moduleTreeWindow->hide();
   sourceTreeWindow->hide();  
-  targetTreeWindow->show();
-  
+  targetTreeWindow->show();  
+}
+
+/*****************************************************************************!
+ * Function : SlotErrorMessage
+ *****************************************************************************/
+void
+ModuleContainerWindow::SlotErrorMessage
+(QString InErrorMessage)
+{
+  emit SignalErrorMessage(InErrorMessage);
+}
+
+/*****************************************************************************!
+ * Function : SlotCompileSuccess
+ * Purpose  : Pass AST Compile Success Message
+ *****************************************************************************/
+void
+ModuleContainerWindow::SlotCompileSuccess
+(QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
+{
+  emit SignalCompileSuccess(InTrackName, InASTPath, InFileName, InErrors, InOutput);  
 }

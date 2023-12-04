@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -49,6 +50,7 @@ MainDisplayWindow::Initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
+  CreateConnections();
 }
 
 /*****************************************************************************!
@@ -130,4 +132,100 @@ MainDisplayWindow::resizeEvent
   
   splitter->move(splitterX, splitterY);
   splitter->resize(splitterW, splitterH);
+}
+
+/*****************************************************************************!
+ * Function : CreateConnections
+ *****************************************************************************/
+void
+MainDisplayWindow::CreateConnections(void)
+{
+  connect(moduleWindow,
+          ModuleWindow::SignalErrorMessage,
+          this,
+          MainDisplayWindow::SlotErrorMessage);
+  connect(this,
+          MainDisplayWindow::SignalErrorMessage,
+          trackViewContainer,
+          TrackViewContainer::SlotErrorMessage);
+
+  connect(moduleWindow,
+          ModuleWindow::SignalCompileSuccess,
+          this,
+          MainDisplayWindow::SlotCompileSuccess);
+  connect(this,
+          MainDisplayWindow::SignalCompileSuccess,
+          trackViewContainer,
+          TrackViewContainer::SlotCompileSuccess);
+}
+
+/*****************************************************************************!
+ * Function : SlotErrorMessage
+ *****************************************************************************/
+void
+MainDisplayWindow::SlotErrorMessage
+(QString InErrorMessage)
+{
+  emit SignalErrorMessage(InErrorMessage);
+}
+
+/*****************************************************************************!
+ * Function : SlotCompileSuccess
+ * Purpose  : Pass AST Compile Success Message
+ *****************************************************************************/
+void
+MainDisplayWindow::SlotCompileSuccess
+(QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
+{
+  emit SignalCompileSuccess(InTrackName, InASTPath, InFileName, InErrors, InOutput);
+}
+
+/*****************************************************************************!
+ * Function : GetModuleSet1
+ *****************************************************************************/
+BuildModuleSet*
+MainDisplayWindow::GetModuleSet1(void)
+{
+  return ModuleSet1;  
+}
+
+/*****************************************************************************!
+ * Function : SetModuleSet1
+ *****************************************************************************/
+void
+MainDisplayWindow::SetModuleSet1
+(BuildModuleSet* InModuleSet1)
+{
+  ModuleSet1 = InModuleSet1;  
+}
+
+/*****************************************************************************!
+ * Function : GetModuleSet2
+ *****************************************************************************/
+BuildModuleSet*
+MainDisplayWindow::GetModuleSet2(void)
+{
+  return ModuleSet2;  
+}
+
+/*****************************************************************************!
+ * Function : SetModuleSet2
+ *****************************************************************************/
+void
+MainDisplayWindow::SetModuleSet2
+(BuildModuleSet* InModuleSet2)
+{
+  ModuleSet2 = InModuleSet2;  
+}
+
+/*****************************************************************************!
+ * Function : SetModuleSets
+ *****************************************************************************/
+void
+MainDisplayWindow::SetModuleSets
+(BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2)
+{
+  ModuleSet1 = InModuleSet1;
+  ModuleSet2 = InModuleSet2;
+  trackViewContainer->SetModuleSets(InModuleSet1, InModuleSet2);
 }

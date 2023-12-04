@@ -62,6 +62,7 @@ class SourceTreeWindow : public QWidget
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
+  void                          CreateConnections       (void);
  
  //! Private Data
  private :
@@ -70,9 +71,13 @@ class SourceTreeWindow : public QWidget
 
  //! Public Slots
  public slots :
+  void                          SlotErrorMessage        (QString InErrorMessage);
+  void                          SlotCompileSuccess      (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
 
  //! Public Signals
  signals :
+  void                          SignalErrorMessage      (QString InErrorMessage);
+  void                          SignalCompileSuccess    (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
 
  //! Public Actions
  public :

@@ -49,6 +49,7 @@ ModuleWindow::initialize()
   InitializeSubWindows();  
   CreateSubWindows();
   PostWindowCreateProcess();
+  CreateConnections();
 }
 
 /*****************************************************************************!
@@ -188,5 +189,43 @@ ModuleWindow::PostWindowCreateProcess(void)
 {
   QList<QString>                        keys;
   keys = MainBuildModules.keys();
+  std::sort(keys.begin(), keys.end());
   moduleWindow->AddModuleSet(MainBuildModules[keys[0]], MainBuildModules[keys[1]]);
+}
+
+/*****************************************************************************!
+ * Function : CreateConnections
+ *****************************************************************************/
+void
+ModuleWindow::CreateConnections(void)
+{
+  connect(moduleWindow,
+          ModuleContainerWindow::SignalErrorMessage,
+          this,
+          ModuleWindow::SlotErrorMessage);
+  connect(moduleWindow,
+          ModuleContainerWindow::SignalCompileSuccess,
+          this,
+          ModuleWindow::SlotCompileSuccess);
+}
+
+/*****************************************************************************!
+ * Function : SlotErrorMessage
+ *****************************************************************************/
+void
+ModuleWindow::SlotErrorMessage
+(QString InErrorMessage)
+{
+  emit SignalErrorMessage(InErrorMessage);
+}
+
+/*****************************************************************************!
+ * Function : SlotCompileSuccess
+ * Purpose  : Pass AST Compile Success Message
+ *****************************************************************************/
+void
+ModuleWindow::SlotCompileSuccess
+(QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
+{
+  emit SignalCompileSuccess(InTrackName, InASTPath, InFileName, InErrors, InOutput);  
 }

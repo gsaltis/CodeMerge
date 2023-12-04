@@ -1,6 +1,6 @@
 /*****************************************************************************
- * FILE NAME    : MainMessageWindow.cpp
- * DATE         : November 29 2023
+ * FILE NAME    : ASTDisplayWindow.cpp
+ * DATE         : December 04 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -15,29 +16,26 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "MainMessageWindow.h"
+#include "ASTDisplayWindow.h"
 
 /*****************************************************************************!
- * Function : MainMessageWindow
+ * Function : ASTDisplayWindow
  *****************************************************************************/
-MainMessageWindow::MainMessageWindow
+ASTDisplayWindow::ASTDisplayWindow
 () : QWidget()
 {
   QPalette pal;
-
-  StartingColor = QColor(114, 159, 207);
-  EndingColor = QColor(52, 82, 105);
   pal = palette();
-  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
+  pal.setBrush(QPalette::Window, QBrush(QColor(253, 242, 233)));
   setPalette(pal);
   setAutoFillBackground(true);
   initialize();
 }
 
 /*****************************************************************************!
- * Function : ~MainMessageWindow
+ * Function : ~ASTDisplayWindow
  *****************************************************************************/
-MainMessageWindow::~MainMessageWindow
+ASTDisplayWindow::~ASTDisplayWindow
 ()
 {
 }
@@ -46,49 +44,37 @@ MainMessageWindow::~MainMessageWindow
  * Function : initialize
  *****************************************************************************/
 void
-MainMessageWindow::initialize()
+ASTDisplayWindow::initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
-  CreateConnections();
 }
 
 /*****************************************************************************!
  * Function : CreateSubWindows
  *****************************************************************************/
 void
-MainMessageWindow::CreateSubWindows()
+ASTDisplayWindow::CreateSubWindows()
 {
-  header = new MainWindowHeader("Messages", this);
-  compileErrorText = new CompileErrorDisplay();
-  compileErrorText->setParent(this);
+  
 }
 
 /*****************************************************************************!
  * Function : InitializeSubWindows
  *****************************************************************************/
 void
-MainMessageWindow::InitializeSubWindows()
+ASTDisplayWindow::InitializeSubWindows()
 {
-  header = NULL;  
-  compileErrorText = NULL;
+  
 }
 
 /*****************************************************************************!
  * Function : resizeEvent
  *****************************************************************************/
 void
-MainMessageWindow::resizeEvent
+ASTDisplayWindow::resizeEvent
 (QResizeEvent* InEvent)
 {
-  int                                   compileErrorTextW;
-  int                                   compileErrorTextH;
-  int                                   compileErrorTextY;
-  int                                   compileErrorTextX;
-  int                                   headerW;
-  int                                   headerH;
-  int                                   headerY;
-  int                                   headerX;
   QSize					size;  
   int					width;
   int					height;
@@ -96,62 +82,36 @@ MainMessageWindow::resizeEvent
   size = InEvent->size();
   width = size.width();
   height = size.height();
-
-  headerX = 0;
-  headerY = 0;
-  headerW = width;
-  headerH = MAIN_WINDOW_HEADER_HEIGHT;
-  header->move(headerX, headerY);
-  header->resize(headerW, headerH);
-
-  compileErrorTextX = 0;
-  compileErrorTextY = MAIN_WINDOW_HEADER_HEIGHT;
-  compileErrorTextW = width;
-  compileErrorTextH = height - MAIN_WINDOW_HEADER_HEIGHT;
-  compileErrorText->move(compileErrorTextX, compileErrorTextY);
-  compileErrorText->resize(compileErrorTextW, compileErrorTextH);
+  (void)height;
+  (void)width;
 }
 
 /*****************************************************************************!
- * Function : paintEvent
+ * Function : GetASTFileName
  *****************************************************************************/
-void
-MainMessageWindow::paintEvent
-(QPaintEvent* )
+QString
+ASTDisplayWindow::GetASTFileName(void)
 {
-  QPainter                              painter(this);
-  QSize                                 s;
-  QLinearGradient                       grad;
-
-  s = size();
-
-  grad.setStart(QPoint(0, 0));
-  grad.setFinalStop(QPoint(0, size().height()));
-  grad.setColorAt(0, StartingColor);
-  grad.setColorAt(1, EndingColor);
-  painter.setPen(QPen(QColor(StartingColor)));
-  painter.setBrush(QBrush(grad));
-  painter.drawRect(QRect(QPoint(0, 0), s));
+  return ASTFileName;  
 }
 
 /*****************************************************************************!
- * Function : SlotErrorMessage
+ * Function : SetASTFileName
  *****************************************************************************/
 void
-MainMessageWindow::SlotErrorMessage
-(QString InErrorMessage)
+ASTDisplayWindow::SetASTFileName
+(QString InASTFileName)
 {
-  emit SignalErrorMessage(InErrorMessage);
+  ASTFileName = InASTFileName;  
 }
 
 /*****************************************************************************!
- * Function : CreateConnections
+ * Function : SlotCompileSuccess
+ * Purpose  : Pass AST Compile Success Message
  *****************************************************************************/
 void
-MainMessageWindow::CreateConnections(void)
+ASTDisplayWindow::SlotCompileSuccess
+(QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
 {
-  connect(this,
-          MainMessageWindow::SignalErrorMessage,
-          compileErrorText,
-          CompileErrorDisplay::SlotErrorMessage);
+  TRACE_FUNCTION_QSTRING(InASTPath);
 }

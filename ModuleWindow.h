@@ -62,6 +62,7 @@ private :
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
   void                          PostWindowCreateProcess (void);
+  void                          CreateConnections       (void);
 
   //! Private Data
 private :
@@ -76,9 +77,13 @@ private :
 
   //! Public Slots
 public slots :
+  void                          SlotErrorMessage        (QString InErrorMessage);
+  void                          SlotCompileSuccess      (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
 
   //! Public Signals
 signals :
+  void                          SignalErrorMessage      (QString InErrorMessage);
+  void                          SignalCompileSuccess    (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
 
   //! Public Actions
 public :

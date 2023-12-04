@@ -150,3 +150,14 @@ MainWindowHeader::SetFontSize
   FontSize = InFontSize;  
   TextLabel->setFont(QFont("Segoe UI", FontSize, QFont::Normal));
 }
+
+/*****************************************************************************!
+ * Function : SetText
+ *****************************************************************************/
+void
+MainWindowHeader::SetText
+(QString InText)
+{
+  text = InText;
+  TextLabel->setText(text);
+}

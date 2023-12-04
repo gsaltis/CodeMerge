@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -47,6 +48,7 @@ SourceTreeWindow::initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
+  CreateConnections();
 }
 
 /*****************************************************************************!
@@ -118,4 +120,41 @@ SourceTreeWindow::AddModuleSet
 (BuildModuleSet* InModuleSet1, BuildModuleSet* InModuleSet2)
 {
   sourceTree->AddModuleSet(InModuleSet1, InModuleSet2);
+}
+
+/*****************************************************************************!
+ * Function : CreateConnections
+ *****************************************************************************/
+void
+SourceTreeWindow::CreateConnections(void)
+{
+  connect(sourceTree,
+          SourceTree::SignalErrorMessage,
+          this,
+          SourceTreeWindow::SlotErrorMessage);
+  connect(sourceTree,
+          SourceTree::SignalCompileSuccess,
+          this,
+          SourceTreeWindow::SlotCompileSuccess);
+}
+
+/*****************************************************************************!
+ * Function : SlotErrorMessage
+ *****************************************************************************/
+void
+SourceTreeWindow::SlotErrorMessage
+(QString InErrorMessage)
+{
+  emit SignalErrorMessage(InErrorMessage);
+}
+
+/*****************************************************************************!
+ * Function : SlotCompileSuccess
+ * Purpose  : Pass AST Compile Success Message
+ *****************************************************************************/
+void
+SourceTreeWindow::SlotCompileSuccess
+(QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
+{
+  emit SignalCompileSuccess(InTrackName, InASTPath, InFileName, InErrors, InOutput);  
 }

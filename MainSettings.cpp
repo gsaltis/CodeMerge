@@ -24,6 +24,22 @@
 MainSettings::MainSettings
 (QString InOrgName, QString InAppName) : QSettings(InOrgName, InAppName)
 {
+  CodeDatabasePathKey           = "Paths/CodeDatabasePath";
+  CodeDatabasePathDefault       = "D:\\Source\\Vertiv\\CodeDB\\Code.db";
+
+  ClangPathKey                  = "Tooling/Clang/Path";
+  ClangPathDefault              = "D:\\usr\\local\\bin\\clang.exe";
+
+  ClangArgsKey                  = "Tooling/Clang/Args";
+  ClangArgsDefault              = "-emit-ast -c -nostdinc -o %1 -isystem %2 -I %3 %4";
+  
+  ClangStdIncludeDirKey         = "Tooling/Clang/StdIncludeDir";
+  ClangStdIncludeDirDefault     = "D:/Source/Vertiv/CodeBase/stdincludes";
+
+  CheckAndSet(CodeDatabasePathKey, CodeDatabasePathDefault);
+  CheckAndSet(ClangPathKey, ClangPathDefault);
+  CheckAndSet(ClangStdIncludeDirKey, ClangStdIncludeDirDefault);
+  CheckAndSet(ClangArgsKey, ClangArgsDefault);
 }
 
 /*****************************************************************************!
@@ -85,8 +101,12 @@ MainSettings::GetClangPath
 (void)
 {
   QString                               clangPath;
-
-  clangPath = value("Tooling/Clang/Path", QString("D:\\usr\\local\\bin\\clang.exe")).toString();
+  QString                               pathName = "Tooling/Clang/Path";
+  QString                               defaultValue = "D:\\usr\\local\\bin\\clang.exe";
+  if ( ! contains(pathName) ) {
+    setValue(pathName, QString(defaultValue));
+  }
+  clangPath = value(pathName, QString(defaultValue)).toString();
   return clangPath;
 }
 
@@ -101,6 +121,10 @@ MainSettings::GetClangArgs
   QString                               args;
 
   defaultArgs = QString("-emit-ast -c -nostdinc -o %1 -isystem %2 -I %3 %4");
+  if ( ! contains("Tooling/Clang/Args") ) {
+    setValue("Tooling/Clang/Args", defaultArgs);
+  }
+  defaultArgs = QString("-emit-ast -c -nostdinc -o %1 -isystem %2 -I %3 %4");
   args = value("Tooling/Clang/Args", defaultArgs).toString();
   
   return args;
@@ -113,8 +137,49 @@ QString
 MainSettings::GetClangStdIncludeDir(void)
 {
   QString                               st;
-
+  if ( ! contains("Tooling/Clang/StdIncludDir") ) {
+    setValue("Tooling/Clang/StdIncludeDir", QString("D:/Source/Vertiv/CodeBases/stdincludes"));
+  }
   st = value("Tooling/Clang/StdIncludeDir", QString("D:/Source/Vertiv/CodeBases/stdincludes")).toString();
+    
   return st;
 }
 
+/*****************************************************************************!
+ * Function : GetCodeDatabasePath
+ *****************************************************************************/
+QString
+MainSettings::GetCodeDatabasePath(void)
+{
+  QString                               st;
+
+  if ( ! contains(CodeDatabasePathKey) ) {
+    SetCodeDatabasePath(CodeDatabasePathDefault);
+  }
+  st = value(CodeDatabasePathKey, CodeDatabasePathDefault).toString();
+
+  return st;
+}
+
+/*****************************************************************************!
+ * Function : SetCodeDatabasePath
+ *****************************************************************************/
+void
+MainSettings::SetCodeDatabasePath
+(QString InCodeDatabasePath)
+{
+  setValue(CodeDatabasePathKey, InCodeDatabasePath);
+}
+
+/*****************************************************************************!
+ * Function : CheckAndSet
+ *****************************************************************************/
+void
+MainSettings::CheckAndSet
+(QString InKey, QString InValue)
+{
+  if ( contains(InKey) ) {
+    return;
+  }
+  setValue(InKey, InValue);
+}

@@ -24,6 +24,8 @@
 SourceTreeItem::SourceTreeItem
 (QString InText) : QWidget(), QTreeWidgetItem()
 {
+  ASTCreatedColor = QColor(128, 0, 0);
+  ASTCreatedFont = QFont("Segoe UI", 10, QFont::Bold);
   initialize();
   text = InText;
   setText(0, text);
@@ -88,6 +90,7 @@ SourceTreeItem::SetModuleSet1
 
   trackName1 = InModuleSet1->GetTrackName();
   moduleSet1 = InModuleSet1;  
+  CheckASTPath(moduleSet1);
 }
 
 /*****************************************************************************!
@@ -109,7 +112,8 @@ SourceTreeItem::SetModuleSet2
   QString                       trackName2;
 
   trackName2 = InModuleSet2->GetTrackName();
-  moduleSet2 = InModuleSet2;  
+  moduleSet2 = InModuleSet2;
+  CheckASTPath(moduleSet2);
 }
 
 /*****************************************************************************!
@@ -152,4 +156,46 @@ SourceTreeItem::ProcessSelected(void)
   }
 
   emit SignalFilesSelected(fullPath1, astPath1, includeDir1, fullPath2, astPath2, includeDir2);
+}
+
+/*****************************************************************************!
+ * Function : CheckASTPath
+ *****************************************************************************/
+void
+SourceTreeItem::CheckASTPath
+(BuildModuleSet* InModuleSet)
+{
+  QFileInfo                             fileInfo;
+  QString                               astPath;
+
+  astPath = GetASTPath(InModuleSet);
+  fileInfo.setFile(astPath);
+  if ( fileInfo.exists() ) {
+    setForeground(0, QBrush(ASTCreatedColor));
+    QTreeWidgetItem::setFont(0, ASTCreatedFont);
+  }
+}
+
+/*****************************************************************************!
+ * Function : GetASTPath
+ *****************************************************************************/
+QString
+SourceTreeItem::GetASTPath
+(BuildModuleSet* InModuleSet)
+{
+  QFileInfo                             info;
+  QString                               astPath;
+  QString                               baseName;
+  QString                               filePath;
+  QString                               fullPath1;
+  QString                               path;
+
+  path = InModuleSet->GetTrackPath();
+  fullPath1 = path + text;
+
+  info.setFile(text);
+  filePath = info.path();
+  baseName = info.completeBaseName();
+  astPath = InModuleSet->GetASTPath() + filePath.replace(QChar('/'), QChar('-')) + "-" + baseName + ".ast";
+  return astPath;
 }

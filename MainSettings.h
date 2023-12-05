@@ -45,6 +45,8 @@ class MainSettings : public QSettings
   QString                       GetClangPath            (void);
   QString                       GetClangArgs            (void);
   QString                       GetClangStdIncludeDir   (void);
+  QString                       GetCodeDatabasePath     (void);
+  void                          SetCodeDatabasePath     (QString InCodeDatabasePath);
 
  //! Public Data
  public :
@@ -57,10 +59,22 @@ class MainSettings : public QSettings
 
  //! Private Methods
  private :
+  void                          CheckAndSet             (QString InKey, QString InValue);
 
  //! Private Data
  private :
+  QString                       CodeDatabasePathKey;
+  QString                       CodeDatabasePathDefault;
 
+  QString                       ClangPathKey;
+  QString                       ClangPathDefault;
+
+  QString                       ClangArgsKey;
+  QString                       ClangArgsDefault;
+
+  QString                       ClangStdIncludeDirKey;
+  QString                       ClangStdIncludeDirDefault;
+  
  //! Public Slots
  public slots :
 

@@ -65,12 +65,16 @@ class SourceTreeItem : public QWidget, public QTreeWidgetItem
  //! Private Methods
  private :
   void                          initialize              ();
+  void                          CheckASTPath            (BuildModuleSet* InModuleSet);
+  QString                       GetASTPath              (BuildModuleSet* InModuleSet);
 
  //! Private Data
  private :
   QString                       text;
   BuildModuleSet*               moduleSet1;
   BuildModuleSet*               moduleSet2;
+  QColor                        ASTCreatedColor;
+  QFont                         ASTCreatedFont;
 
  //! Public Slots
  public slots :

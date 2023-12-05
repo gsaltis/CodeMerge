@@ -207,5 +207,3 @@ MainSortStringTupleList
               return InSt2->Compare(InSt1) < 0;
             });
 }
-
-

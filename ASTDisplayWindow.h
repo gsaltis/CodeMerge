@@ -47,6 +47,14 @@ class ASTDisplayWindow : public QWidget
  public :
   QString                       GetASTFileName          (void);
   void                          SetASTFileName          (QString InASTFileName);
+  uint32_t                      GetLevel                (void);
+  void                          SetLevel                (uint32_t  InLevel);
+  void                          IncreaseLevel           (void);
+  void                          DecreaseLevel           (void);
+  static CXChildVisitResult     VisitChildrenCB         (CXCursor InCursor, CXCursor InParent, CXClientData InClientData);
+  void                          ProcessASTCursor        (CXCursor InASTCursor);
+  QString                       GetFileName             (void);
+  void                          SetFileName             (QString InFileName);
 
  //! Public Data
  public :
@@ -63,7 +71,8 @@ class ASTDisplayWindow : public QWidget
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
-
+  void                          ASTProcess              ();
+  
  //! Private Data
  private :
   CXTranslationUnit             TranslationUnit;
@@ -71,6 +80,8 @@ class ASTDisplayWindow : public QWidget
   CXCursor                      ASTCursor;
   CXIndex                       ASTIndex;
   ASTElementWindow*             elementWindow;
+  uint32_t                      level;
+  QString                       FileName;
 
  //! Public Slots
  public slots :

@@ -1,5 +1,5 @@
 /*****************************************************************************
- * FILE NAME    : ASTDisplayWindow.cpp
+ * FILE NAME    : ASTElementWindow.cpp
  * DATE         : December 04 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
@@ -8,7 +8,6 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
-#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -16,26 +15,26 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "ASTDisplayWindow.h"
+#include "ASTElementWindow.h"
 
 /*****************************************************************************!
- * Function : ASTDisplayWindow
+ * Function : ASTElementWindow
  *****************************************************************************/
-ASTDisplayWindow::ASTDisplayWindow
-() : QWidget()
+ASTElementWindow::ASTElementWindow
+() : QTextEdit()
 {
   QPalette pal;
   pal = palette();
-  pal.setBrush(QPalette::Window, QBrush(QColor(253, 242, 233)));
+  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
   setPalette(pal);
   setAutoFillBackground(true);
   initialize();
 }
 
 /*****************************************************************************!
- * Function : ~ASTDisplayWindow
+ * Function : ~ASTElementWindow
  *****************************************************************************/
-ASTDisplayWindow::~ASTDisplayWindow
+ASTElementWindow::~ASTElementWindow
 ()
 {
 }
@@ -44,7 +43,7 @@ ASTDisplayWindow::~ASTDisplayWindow
  * Function : initialize
  *****************************************************************************/
 void
-ASTDisplayWindow::initialize()
+ASTElementWindow::initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
@@ -54,32 +53,27 @@ ASTDisplayWindow::initialize()
  * Function : CreateSubWindows
  *****************************************************************************/
 void
-ASTDisplayWindow::CreateSubWindows()
+ASTElementWindow::CreateSubWindows()
 {
-  elementWindow = new ASTElementWindow();
-  elementWindow->setParent(this);
+  
 }
 
 /*****************************************************************************!
  * Function : InitializeSubWindows
  *****************************************************************************/
 void
-ASTDisplayWindow::InitializeSubWindows()
+ASTElementWindow::InitializeSubWindows()
 {
-  elementWindow = NULL;
+  
 }
 
 /*****************************************************************************!
  * Function : resizeEvent
  *****************************************************************************/
 void
-ASTDisplayWindow::resizeEvent
+ASTElementWindow::resizeEvent
 (QResizeEvent* InEvent)
 {
-  int                                   elementWindowW;
-  int                                   elementWindowH;
-  int                                   elementWindowY;
-  int                                   elementWindowX;
   QSize					size;  
   int					width;
   int					height;
@@ -89,45 +83,4 @@ ASTDisplayWindow::resizeEvent
   height = size.height();
   (void)height;
   (void)width;
-  elementWindowX = 0;
-  elementWindowY = 0;
-  elementWindowW = width;
-  elementWindowH = height;
-  elementWindow->move(elementWindowX, elementWindowY);
-  elementWindow->resize(elementWindowW, elementWindowH);
-}
-
-/*****************************************************************************!
- * Function : GetASTFileName
- *****************************************************************************/
-QString
-ASTDisplayWindow::GetASTFileName(void)
-{
-  return ASTFileName;  
-}
-
-/*****************************************************************************!
- * Function : SetASTFileName
- *****************************************************************************/
-void
-ASTDisplayWindow::SetASTFileName
-(QString InASTFileName)
-{
-  ASTFileName = InASTFileName;
-  ASTIndex = clang_createIndex(1, 1);
-  TranslationUnit = clang_createTranslationUnit(ASTIndex, ASTFileName.toStdString().c_str());
-  if ( NULL == TranslationUnit ) {
-    TRACE_FUNCTION_LOCATION();
-  }
-}
-
-/*****************************************************************************!
- * Function : SlotCompileSuccess
- * Purpose  : Pass AST Compile Success Message
- *****************************************************************************/
-void
-ASTDisplayWindow::SlotCompileSuccess
-(QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
-{
-  TRACE_FUNCTION_QSTRING(InASTPath);
 }

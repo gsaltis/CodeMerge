@@ -1,52 +1,49 @@
 /*****************************************************************************
- * FILE NAME    : ASTDisplayWindow.h
+ * FILE NAME    : ASTElementWindow.h
  * DATE         : December 04 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _astdisplaywindow_h_
-#define _astdisplaywindow_h_
+#ifndef _astelementwindow_h_
+#define _astelementwindow_h_
 
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
 #include <QtCore>
 #include <QtGui>
+#include <QTextEdit>
 #include <QWidget>
-#include <clang-c/Index.h>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "ASTElementWindow.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define ASTDISPLAY_WINDOW_X             200
-#define ASTDISPLAY_WINDOW_Y             200
-#define ASTDISPLAY_WINDOW_WIDTH         200
-#define ASTDISPLAY_WINDOW_HEIGHT        200
+#define ASTELEMENT_WINDOW_X             200
+#define ASTELEMENT_WINDOW_Y             200
+#define ASTELEMENT_WINDOW_WIDTH         200
+#define ASTELEMENT_WINDOW_HEIGHT        200
 
 /*****************************************************************************!
- * Exported Class : ASTDisplayWindow
+ * Exported Class : ASTElementWindow
  *****************************************************************************/
-class ASTDisplayWindow : public QWidget
+class ASTElementWindow : public QTextEdit
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  ASTDisplayWindow              ();
+  ASTElementWindow              ();
 
  //! Destructor
  public :
-  ~ASTDisplayWindow             ();
+  ~ASTElementWindow             ();
 
  //! Public Methods
  public :
-  QString                       GetASTFileName          (void);
-  void                          SetASTFileName          (QString InASTFileName);
 
  //! Public Data
  public :
@@ -66,15 +63,9 @@ class ASTDisplayWindow : public QWidget
 
  //! Private Data
  private :
-  CXTranslationUnit             TranslationUnit;
-  QString                       ASTFileName;
-  CXCursor                      ASTCursor;
-  CXIndex                       ASTIndex;
-  ASTElementWindow*             elementWindow;
 
  //! Public Slots
  public slots :
-  void                          SlotCompileSuccess      (QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
 
  //! Public Signals
  signals :
@@ -84,4 +75,4 @@ class ASTDisplayWindow : public QWidget
 
 };
 
-#endif /* _astdisplaywindow_h_*/
+#endif /* _astelementwindow_h_*/

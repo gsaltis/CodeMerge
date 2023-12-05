@@ -1,41 +1,26 @@
-(defun sigs()
+(defun NewSignal()
   (interactive)
-  (sigs-create-signal "SourceTreeWindow.h")
-  (sigs-create-signal "ModuleContainerWindow.h")
-  (sigs-create-signal "ModuleWindow.h")
-  (sigs-create-signal "MainDisplayWindow.h")
-  (sigs-create-signal "TrackViewContainer.h"))
+  (sigs-create-signal "TrackViewContainer.h")
+  (sigs-create-signal "TrackViewWindow.h"))
 
 (defun sigs-create-signal(InHeaderName)
   (myqt-new-method-declaration-create InHeaderName
-                                      "void" "SignalCompileSuccess"
-                                      (list (list "QString" "InTrackName")
-                                            (list "QString" "InASTPath")
-                                            (list "QString" "InFileName")
-                                            (list "QString" "InErrors")
-                                            (list "QString" "InOutput"))
+                                      "void" "SignalTreeClear"
+                                      nil
                                       "Public Signals"))
 
-(defun new-slot()
+(defun NewSlot()
   (interactive)
-  (new-slot-create "SourceTreeWindow")
-  (new-slot-create "ModuleContainerWindow")
-  (new-slot-create "ModuleWindow")
-  (new-slot-create "MainDisplayWindow")
-  (new-slot-create "TrackViewContainer")
+  (new-slot-create "ASTDisplayWindow")
   (new-slot-create "TrackViewWindow"))
 
 (defun new-slot-create(InClassName)
   (interactive)
-  (myqt-new-method-create "Pass AST Compile Success Message"
+  (myqt-new-method-create "Send 'Clear Source Tree Window' message "
                           "void"
-                          "SlotCompileSuccess"
+                          "SlotTreeClear"
                           InClassName
-                          (list (list "QString" "InTrackName")
-                                (list "QString" "InASTPath")
-                                (list "QString" "InFileName")
-                                (list "QString" "InErrors")
-                                (list "QString" "InOutput"))
+                          nil
                           "Public Slots"
                           nil))
    

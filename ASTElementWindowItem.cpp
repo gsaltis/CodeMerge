@@ -1,6 +1,6 @@
 /*****************************************************************************
- * FILE NAME    : CompileErrorDisplay.cpp
- * DATE         : December 04 2023
+ * FILE NAME    : ASTElementWindowItem.cpp
+ * DATE         : December 05 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
@@ -8,7 +8,6 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
-#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -16,25 +15,46 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "CompileErrorDisplay.h"
+#include "ASTElementWindowItem.h"
 
 /*****************************************************************************!
- * Function : CompileErrorDisplay
+ * Function : ASTElementWindowItem
  *****************************************************************************/
-CompileErrorDisplay::CompileErrorDisplay
-() : QTextEdit()
+ASTElementWindowItem::ASTElementWindowItem
+() : QWidget(), QTreeWidgetItem()
 {
-  BackgroundColor = QColor(52, 82, 105);
-  TextColor = QColor(255, 255, 0);
-  setStyleSheet("QTextEdit { background-color : rgb(52, 82, 105); }");
-  setAutoFillBackground(true);
   initialize();
 }
 
 /*****************************************************************************!
- * Function : ~CompileErrorDisplay
+ * Function : SetCursor
  *****************************************************************************/
-CompileErrorDisplay::~CompileErrorDisplay
+void
+ASTElementWindowItem::SetCursor
+(CXCursor InASTCursor)
+{
+  CXCursorKind                          kind;
+  CXString                              cursorkindName;
+  QString                               kindName;
+  
+  CXString                              cursorText;
+  QString                               elementName;
+  
+  kind = clang_getCursorKind(InASTCursor);
+  cursorkindName = clang_getCursorKindSpelling(kind);
+  kindName = QString(clang_getCString(cursorkindName));
+                     
+  cursorText = clang_getCursorSpelling(InASTCursor);
+  elementName = QString(clang_getCString(cursorText));
+
+  setText(0, kindName);
+  setText(1, elementName);
+}
+
+/*****************************************************************************!
+ * Function : ~ASTElementWindowItem
+ *****************************************************************************/
+ASTElementWindowItem::~ASTElementWindowItem
 ()
 {
 }
@@ -43,31 +63,7 @@ CompileErrorDisplay::~CompileErrorDisplay
  * Function : initialize
  *****************************************************************************/
 void
-CompileErrorDisplay::initialize()
+ASTElementWindowItem::initialize()
 {
-  setTextBackgroundColor(BackgroundColor);
-  setTextColor(TextColor);
 }
 
-/*****************************************************************************!
- * Function : SlotErrorMessage
- *****************************************************************************/
-void
-CompileErrorDisplay::SlotErrorMessage
-(QString InErrorMessage)
-{
-  QString                               st;
-  
-  st = toPlainText() + QString("\n\n") + InErrorMessage;
-  setPlainText(st);
-}
-
-/*****************************************************************************!
- * Function : SlotErrorClear
- * Purpose  : Send 'Clear Error Display Window' message 
- *****************************************************************************/
-void
-CompileErrorDisplay::SlotErrorClear()
-{
-  setPlainText("");
-}

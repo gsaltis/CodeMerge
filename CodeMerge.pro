@@ -32,6 +32,7 @@ DEFINES                         += \
 SOURCES                         += \
                                    ASTDisplayWindow.cpp                         \
                                    ASTElementWindow.cpp                         \
+                                   ASTElementWindowItem.cpp                     \
 				   BuildModule.cpp                              \
 				   BuildModuleSet.cpp                           \
 				   BuildSource.cpp                              \
@@ -67,6 +68,7 @@ SOURCES                         += \
 HEADERS                         += \
                                    ASTDisplayWindow.h                           \
                                    ASTElementWindow.h                           \
+                                   ASTElementWindowItem.h                       \
 				   BuildModule.h                                \
 				   BuildModuleSet.h                             \
 				   BuildSource.h                                \

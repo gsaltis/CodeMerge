@@ -255,6 +255,7 @@ SourceTree::SlotFilesSelected
   clangArgs = MainSystemSettings->GetClangArgs();
   stdIncludeDir = MainSystemSettings->GetClangStdIncludeDir();
 
+  emit SignalErrorClear();
   if ( ModuleSet1 ) {
     args1 = QString(clangArgs).arg(InASTPath1).arg(stdIncludeDir).arg(InLocalIncludeDir1).arg(InFileName1);
     ExecuteSetup(ModuleSet1);

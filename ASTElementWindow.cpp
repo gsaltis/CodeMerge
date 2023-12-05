@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -21,12 +22,8 @@
  * Function : ASTElementWindow
  *****************************************************************************/
 ASTElementWindow::ASTElementWindow
-() : QTextEdit()
+() : QTreeWidget()
 {
-  QPalette pal;
-  pal = palette();
-  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
-  setPalette(pal);
   setAutoFillBackground(true);
   initialize();
 }
@@ -45,42 +42,71 @@ ASTElementWindow::~ASTElementWindow
 void
 ASTElementWindow::initialize()
 {
-  InitializeSubWindows();  
-  CreateSubWindows();
+  itemsCount = 0;
+  setColumnCount(2);
 }
 
 /*****************************************************************************!
- * Function : CreateSubWindows
+ * Function : AddItem
  *****************************************************************************/
 void
-ASTElementWindow::CreateSubWindows()
+ASTElementWindow::AddItem
+(int InLevel, CXCursor InASTCursor)
 {
+  QString                               elementName;
+  QString                               outputString;
+  CXSourceLocation                      loc;
+  CXCursorKind                          kind;
+  CXString                              kindName;
+  CXFile                                file;
+  unsigned int                          line;
+  unsigned int                          column;
+  unsigned int                          offset;
+  CXString                              cursorText;
+  CXType                                type;
+  CXString                              cursorTypeName;
+  QString                               typeName;
+  ASTElementWindowItem*                 treeItem;
   
-}
+  loc = clang_getCursorLocation(InASTCursor);
+  clang_getSpellingLocation(loc, &file, &line, &column, &offset);
 
-/*****************************************************************************!
- * Function : InitializeSubWindows
- *****************************************************************************/
-void
-ASTElementWindow::InitializeSubWindows()
-{
+  kind = clang_getCursorKind(InASTCursor);
+  kindName = clang_getCursorKindSpelling(kind);
+
+  type = clang_getCursorType(InASTCursor);
+  cursorTypeName = clang_getTypeSpelling(type);
+  typeName = QString(clang_getCString(cursorTypeName));
   
+  cursorText = clang_getCursorSpelling(InASTCursor);
+  elementName = QString(clang_getCString(cursorText));
+  outputString = QString("%1 : %2 %3 : %4 : %5 %6").
+    arg(InLevel).
+    arg(line).
+    arg(column).
+    arg(clang_getCString(kindName)).
+    arg(elementName).
+    arg(typeName);
+
+  treeItem = new ASTElementWindowItem();
+  treeItem->SetCursor(InASTCursor);
+  if ( InLevel == 0 ) {
+    addTopLevelItem(treeItem);
+  } else {
+    items[InLevel-1]->addChild(treeItem);
+  }
+  items[InLevel] = treeItem;
+  
+  clang_disposeString(kindName);
+  clang_disposeString(cursorText);
+  clang_disposeString(cursorTypeName);
 }
 
 /*****************************************************************************!
- * Function : resizeEvent
+ * Function : SlotTreeClear
  *****************************************************************************/
 void
-ASTElementWindow::resizeEvent
-(QResizeEvent* InEvent)
+ASTElementWindow::SlotTreeClear(void)
 {
-  QSize					size;  
-  int					width;
-  int					height;
-
-  size = InEvent->size();
-  width = size.width();
-  height = size.height();
-  (void)height;
-  (void)width;
+  clear();
 }

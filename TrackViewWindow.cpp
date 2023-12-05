@@ -152,6 +152,10 @@ TrackViewWindow::CreateConnections(void)
           TrackViewWindow::SignalCompileSuccess,
           astWindow,
           ASTDisplayWindow::SlotCompileSuccess);
+  connect(this,
+          TrackViewWindow::SignalTreeClear,
+          astWindow,
+          ASTDisplayWindow::SlotTreeClear);
 }
 
 /*****************************************************************************!
@@ -171,4 +175,14 @@ TrackViewWindow::SetModuleSet
 (BuildModuleSet* InModuleSet)
 {
   ModuleSet = InModuleSet;  
+}
+
+/*****************************************************************************!
+ * Function : SlotTreeClear
+ * Purpose  : Send 'Clear Source Tree Window' message 
+ *****************************************************************************/
+void
+TrackViewWindow::SlotTreeClear()
+{
+  emit SignalTreeClear();
 }

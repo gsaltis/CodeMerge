@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -204,6 +205,10 @@ ModuleWindow::CreateConnections(void)
           this,
           ModuleWindow::SlotErrorMessage);
   connect(moduleWindow,
+          ModuleContainerWindow::SignalErrorClear,
+          this,
+          ModuleWindow::SlotErrorClear);
+  connect(moduleWindow,
           ModuleContainerWindow::SignalCompileSuccess,
           this,
           ModuleWindow::SlotCompileSuccess);
@@ -228,4 +233,14 @@ ModuleWindow::SlotCompileSuccess
 (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
 {
   emit SignalCompileSuccess(InTrackName, InASTPath, InFileName, InErrors, InOutput);  
+}
+
+/*****************************************************************************!
+ * Function : SlotErrorClear
+ * Purpose  : Send 'Clear Error Display Window' message 
+ *****************************************************************************/
+void
+ModuleWindow::SlotErrorClear()
+{
+  emit SignalErrorClear();
 }

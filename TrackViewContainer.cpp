@@ -156,6 +156,7 @@ TrackViewContainer::SlotErrorMessage
 (QString InErrorMessage)
 {
   emit SignalErrorMessage(InErrorMessage);
+  emit SignalTreeClear();
 }
 
 /*****************************************************************************!
@@ -168,10 +169,26 @@ TrackViewContainer::CreateConnections(void)
           TrackViewContainer::SignalErrorMessage,
           messageWindow,
           MainMessageWindow::SlotErrorMessage);
+
+  connect(this,
+          TrackViewContainer::SignalErrorClear,
+          messageWindow,
+          MainMessageWindow::SlotErrorClear);
+
   connect(this,
           TrackViewContainer::SignalCompileSuccess,
           track2Window,
           TrackViewWindow::SlotCompileSuccess);
+
+  connect(this,
+          TrackViewContainer::SignalTreeClear,
+          track2Window,
+          TrackViewWindow::SignalTreeClear);
+
+  connect(this,
+          TrackViewContainer::SignalTreeClear,
+          track3Window,
+          TrackViewWindow::SignalTreeClear);
 }
 
 /*****************************************************************************!
@@ -182,17 +199,13 @@ void
 TrackViewContainer::SlotCompileSuccess
 (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
 {
-  TRACE_FUNCTION_START();
-  TRACE_FUNCTION_QSTRING(InTrackName);
   if ( InTrackName == "Track2" ) {
     track2Window->SlotCompileSuccess(InASTPath, InFileName, InErrors, InOutput);
-    TRACE_FUNCTION_END();
     return;
   }
   if ( InTrackName == "Track3" ) {
     track3Window->SlotCompileSuccess(InASTPath, InFileName, InErrors, InOutput);
   }
-  TRACE_FUNCTION_END();
 }
 
 /*****************************************************************************!
@@ -244,4 +257,14 @@ TrackViewContainer::SetModuleSets
   ModuleSet2 = InModuleSet2;
   track2Window->SetModuleSet(InModuleSet1);
   track3Window->SetModuleSet(InModuleSet2);
+}
+
+/*****************************************************************************!
+ * Function : SlotErrorClear
+ * Purpose  : Send 'Clear Error Display Window' message 
+ *****************************************************************************/
+void
+TrackViewContainer::SlotErrorClear()
+{
+  emit SignalErrorClear();
 }

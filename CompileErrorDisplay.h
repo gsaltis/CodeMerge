@@ -66,6 +66,7 @@ class CompileErrorDisplay : public QTextEdit
  //! Public Slots
  public slots :
   void                          SlotErrorMessage        (QString InErrorMessage);
+  void                          SlotErrorClear          ();
 
  //! Public Signals
  signals :

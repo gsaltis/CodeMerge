@@ -82,6 +82,7 @@ class MainWindow : public QMainWindow
 
  //! Public Signals
  signals :
+  void                          SignalErrorClear        ();
 
  //! Public Actions
  public :

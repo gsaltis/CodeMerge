@@ -1,75 +1,70 @@
 /*****************************************************************************
- * FILE NAME    : ASTElementWindow.h
- * DATE         : December 04 2023
+ * FILE NAME    : ASTElementWindowItem.h
+ * DATE         : December 05 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _astelementwindow_h_
-#define _astelementwindow_h_
+#ifndef _astelementwindowitem_h_
+#define _astelementwindowitem_h_
 
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
 #include <QtCore>
 #include <QtGui>
-#include <QTreeWidget>
 #include <QWidget>
+#include <QTreeWidgetItem>
 #include <clang-c/Index.h>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "ASTElementWindowItem.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define ASTELEMENT_WINDOW_X             200
-#define ASTELEMENT_WINDOW_Y             200
-#define ASTELEMENT_WINDOW_WIDTH         200
-#define ASTELEMENT_WINDOW_HEIGHT        200
-
-#define MAX_WINDOW_ITEMS                128
+#define ASTELEMENT_WINDOW_ITEM_X        200
+#define ASTELEMENT_WINDOW_ITEM_Y        200
+#define ASTELEMENT_WINDOW_ITEM_WIDTH    200
+#define ASTELEMENT_WINDOW_ITEM_HEIGHT   200
 
 /*****************************************************************************!
- * Exported Class : ASTElementWindow
+ * Exported Class : ASTElementWindowItem
  *****************************************************************************/
-class ASTElementWindow : public QTreeWidget
+class ASTElementWindowItem : public QWidget, public QTreeWidgetItem
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  ASTElementWindow              ();
+  ASTElementWindowItem          ();
 
  //! Destructor
  public :
-  ~ASTElementWindow             ();
+  ~ASTElementWindowItem         ();
 
  //! Public Methods
  public :
-  void                          AddItem                 (int InLevel, CXCursor InASTCursor);
+  void                          SetCursor               (CXCursor InASTCursor);
 
  //! Public Data
  public :
 
  //! Protected Methods
  protected :
-  
+
  //! Protected Data
  protected :
 
  //! Private Methods
  private :
   void                          initialize              ();
-
+  
  //! Private Data
  private :
-  ASTElementWindowItem*         items[MAX_WINDOW_ITEMS];
-  int                           itemsCount;
+
  //! Public Slots
  public slots :
-  void                          SlotTreeClear           ();
 
  //! Public Signals
  signals :
@@ -79,4 +74,4 @@ class ASTElementWindow : public QTreeWidget
 
 };
 
-#endif /* _astelementwindow_h_*/
+#endif /* _astelementwindowitem_h_*/

@@ -76,10 +76,12 @@ class TrackViewWindow : public QWidget
  //! Public Slots
  public slots :
   void                          SlotCompileSuccess      (QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
+  void                          SlotTreeClear           ();
 
  //! Public Signals
  signals :
   void                          SignalCompileSuccess    (QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
+  void                          SignalTreeClear         ();
 
  //! Public Actions
  public :

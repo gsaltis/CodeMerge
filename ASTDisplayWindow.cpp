@@ -49,6 +49,7 @@ ASTDisplayWindow::initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
+  CreateConnections();
 }
 
 /*****************************************************************************!
@@ -125,11 +126,9 @@ ASTDisplayWindow::ASTProcess
 ()
 {
   CXCursor                              cursor;
+  elementWindow->clear();
   ASTIndex = clang_createIndex(1, 1);
   TranslationUnit = clang_createTranslationUnit(ASTIndex, ASTFileName.toStdString().c_str());
-  if ( NULL == TranslationUnit ) {
-    TRACE_FUNCTION_LOCATION();
-  }
   cursor = clang_getTranslationUnitCursor(TranslationUnit);
   clang_visitChildren(cursor, ASTDisplayWindow::VisitChildrenCB, this);
 }
@@ -142,8 +141,7 @@ void
 ASTDisplayWindow::SlotCompileSuccess
 (QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
 {
-  TRACE_FUNCTION_QSTRING(InASTPath);
-  TRACE_FUNCTION_QSTRING(InFileName);
+  elementWindow->clear();
   SetFileName(InFileName);
   SetASTFileName(InASTPath);
   ASTProcess();
@@ -214,21 +212,17 @@ void
 ASTDisplayWindow::ProcessASTCursor
 (CXCursor InASTCursor)
 {
-  QString                               elementName;
-  QString                               outputString;
+  CXString                              cursorFilename;
+  QString                               localFilename;
   CXSourceLocation                      loc;
-  CXCursorKind                          kind;
-  CXString                              kindName;
   CXFile                                file;
   unsigned int                          line;
   unsigned int                          column;
   unsigned int                          offset;
-  QString                               localFilename;
-  CXString                              cursorFilename;
-  CXString                              cursorText;
-  
+
   loc = clang_getCursorLocation(InASTCursor);
   clang_getSpellingLocation(loc, &file, &line, &column, &offset);
+  
   cursorFilename = clang_getFileName(file);
   localFilename = QString(clang_getCString(cursorFilename));
 
@@ -236,24 +230,8 @@ ASTDisplayWindow::ProcessASTCursor
     clang_disposeString(cursorFilename);
     return;
   }
-  kind = clang_getCursorKind(InASTCursor);
-  kindName = clang_getCursorKindSpelling(kind);
-
-  cursorText = clang_getCursorSpelling(InASTCursor);
-  elementName = QString(clang_getCString(cursorText));
-  outputString = QString("%1 : %2 %3 %4 %5 : %6 %7").
-    arg(level).
-    arg(localFilename).
-    arg(line).
-    arg(column).
-    arg(offset).
-    arg(clang_getCString(kindName)).
-    arg(elementName);
-
-  TRACE_FUNCTION_QSTRING(outputString);
-  clang_disposeString(kindName);
+  elementWindow->AddItem(level, InASTCursor);
   clang_disposeString(cursorFilename);
-  clang_disposeString(cursorText);
 }
 
 /*****************************************************************************!
@@ -273,4 +251,26 @@ ASTDisplayWindow::SetFileName
 (QString InFileName)
 {
   FileName = InFileName;  
+}
+
+/*****************************************************************************!
+ * Function : SlotTreeClear
+ * Purpose  : Send 'Clear Source Tree Window' message 
+ *****************************************************************************/
+void
+ASTDisplayWindow::SlotTreeClear()
+{
+  emit SignalTreeClear();
+}
+
+/*****************************************************************************!
+ * Function : CreateConnections
+ *****************************************************************************/
+void
+ASTDisplayWindow::CreateConnections(void)
+{
+  connect(this,
+          ASTDisplayWindow::SignalTreeClear,
+          elementWindow,
+          ASTElementWindow::SlotTreeClear);
 }

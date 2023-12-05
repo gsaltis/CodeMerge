@@ -82,6 +82,7 @@ class SourceTree : public QTreeWidget
  signals :
   void                          SignalErrorMessage      (QString InErrorMessage);
   void                          SignalCompileSuccess    (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
+  void                          SignalErrorClear        ();
 
  //! Public Actions
  public :

@@ -178,10 +178,16 @@ ModuleContainerWindow::CreateConnections(void)
           ModuleToolBar::SignalDisplayModules,
           this,
           ModuleContainerWindow::SlotDisplayModules);
+
   connect(sourceTreeWindow,
           SourceTreeWindow::SignalErrorMessage,
           this,
           ModuleContainerWindow::SlotErrorMessage);
+  
+  connect(sourceTreeWindow,
+          SourceTreeWindow::SignalErrorClear,
+          this,
+          ModuleContainerWindow::SlotErrorClear);
   
   connect(sourceTreeWindow,
           SourceTreeWindow::SignalCompileSuccess,
@@ -241,4 +247,14 @@ ModuleContainerWindow::SlotCompileSuccess
 (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
 {
   emit SignalCompileSuccess(InTrackName, InASTPath, InFileName, InErrors, InOutput);  
+}
+
+/*****************************************************************************!
+ * Function : SlotErrorClear
+ * Purpose  : Send 'Clear Error Display Window' message 
+ *****************************************************************************/
+void
+ModuleContainerWindow::SlotErrorClear()
+{
+  emit SignalErrorClear();
 }

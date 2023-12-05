@@ -154,4 +154,18 @@ MainMessageWindow::CreateConnections(void)
           MainMessageWindow::SignalErrorMessage,
           compileErrorText,
           CompileErrorDisplay::SlotErrorMessage);
+  connect(this,
+          MainMessageWindow::SignalErrorClear,
+          compileErrorText,
+          CompileErrorDisplay::SlotErrorClear);
+}
+
+/*****************************************************************************!
+ * Function : SlotErrorClear
+ * Purpose  : Send 'Clear Error Display Window' message 
+ *****************************************************************************/
+void
+MainMessageWindow::SlotErrorClear()
+{
+  emit SignalErrorClear();
 }

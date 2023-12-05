@@ -136,6 +136,10 @@ SourceTreeWindow::CreateConnections(void)
           SourceTree::SignalCompileSuccess,
           this,
           SourceTreeWindow::SlotCompileSuccess);
+  connect(sourceTree,
+          SourceTree::SignalErrorClear,
+          this,
+          SourceTreeWindow::SlotErrorClear);
 }
 
 /*****************************************************************************!
@@ -157,4 +161,14 @@ SourceTreeWindow::SlotCompileSuccess
 (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput)
 {
   emit SignalCompileSuccess(InTrackName, InASTPath, InFileName, InErrors, InOutput);  
+}
+
+/*****************************************************************************!
+ * Function : SlotErrorClear
+ * Purpose  : Send 'Clear Error Display Window' message 
+ *****************************************************************************/
+void
+SourceTreeWindow::SlotErrorClear()
+{
+  emit SignalErrorClear();
 }

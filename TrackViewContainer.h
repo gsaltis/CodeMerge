@@ -80,11 +80,14 @@ class TrackViewContainer : public QWidget
  public slots :
   void                          SlotErrorMessage        (QString InErrorMessage);
   void                          SlotCompileSuccess      (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
+  void                          SlotErrorClear          ();
 
  //! Public Signals
  signals :
   void                          SignalErrorMessage      (QString InErrorMessage);
   void                          SignalCompileSuccess    (QString InTrackName, QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
+  void                          SignalErrorClear        ();
+  void                          SignalTreeClear         ();
 
  //! Public Actions
  public :

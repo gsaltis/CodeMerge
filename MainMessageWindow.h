@@ -74,10 +74,12 @@ class MainMessageWindow : public QWidget
  //! Public Slots
  public slots :
   void                          SlotErrorMessage        (QString InErrorMessage);
+  void                          SlotErrorClear          ();
 
  //! Public Signals
  signals :
   void                          SignalErrorMessage      (QString InErrorMessage);
+  void                          SignalErrorClear        ();
 
  //! Public Actions
  public :

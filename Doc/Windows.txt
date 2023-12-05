@@ -25,6 +25,7 @@ MainWindow
           SourceTreeWindow                      sourceTreeWindow
             MainWindowHeader                    header
             SourceTree                          sourceTree
+              SourceTreeItem                    []
           TargetTreeWindow                      targetTreeWindow
             MainWindowHeader                    header
             TargetTree                          targetTree
@@ -34,6 +35,7 @@ MainWindow
 TrackViewWindow
   MainWindowHeader                              header
   ASTDisplayWindow                              astWindow
-  
+    ASTElementWindowItem                        elements[]
+    
 ModuleSectionWindow
   MainWindowHeader                              header

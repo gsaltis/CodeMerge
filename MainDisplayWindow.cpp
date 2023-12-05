@@ -144,10 +144,21 @@ MainDisplayWindow::CreateConnections(void)
           ModuleWindow::SignalErrorMessage,
           this,
           MainDisplayWindow::SlotErrorMessage);
+
+  connect(moduleWindow,
+          ModuleWindow::SignalErrorClear,
+          this,
+          MainDisplayWindow::SlotErrorClear);
+
   connect(this,
           MainDisplayWindow::SignalErrorMessage,
           trackViewContainer,
           TrackViewContainer::SlotErrorMessage);
+
+  connect(this,
+          MainDisplayWindow::SignalErrorClear,
+          trackViewContainer,
+          TrackViewContainer::SlotErrorClear);
 
   connect(moduleWindow,
           ModuleWindow::SignalCompileSuccess,
@@ -228,4 +239,14 @@ MainDisplayWindow::SetModuleSets
   ModuleSet1 = InModuleSet1;
   ModuleSet2 = InModuleSet2;
   trackViewContainer->SetModuleSets(InModuleSet1, InModuleSet2);
+}
+
+/*****************************************************************************!
+ * Function : SlotErrorClear
+ * Purpose  : Send 'Clear Error Display Window' message 
+ *****************************************************************************/
+void
+MainDisplayWindow::SlotErrorClear()
+{
+  emit SignalErrorClear();
 }

@@ -72,6 +72,7 @@ class ASTDisplayWindow : public QWidget
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
   void                          ASTProcess              ();
+  void                          CreateConnections       (void);
   
  //! Private Data
  private :
@@ -86,9 +87,11 @@ class ASTDisplayWindow : public QWidget
  //! Public Slots
  public slots :
   void                          SlotCompileSuccess      (QString InASTPath, QString InFileName, QString InErrors, QString InOutput);
+  void                          SlotTreeClear           ();
 
  //! Public Signals
  signals :
+  void                          SignalTreeClear         ();
 
  //! Public Actions
  public :

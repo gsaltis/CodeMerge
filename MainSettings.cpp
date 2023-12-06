@@ -36,10 +36,20 @@ MainSettings::MainSettings
   ClangStdIncludeDirKey         = "Tooling/Clang/StdIncludeDir";
   ClangStdIncludeDirDefault     = "D:/Source/Vertiv/CodeBase/stdincludes";
 
-  CheckAndSet(CodeDatabasePathKey, CodeDatabasePathDefault);
+  MakePathKey                   = "Tooling/Make/Path";
+  MakePathDefault               = "C:\\Qt\\Tools\\mingw1120_64\\bin\\make.exe";
+
+  MakeArgsKey                   = "Tooling/Make/Args";
+  MakeArgsDefault               = "-B -n";
+  
   CheckAndSet(ClangPathKey, ClangPathDefault);
-  CheckAndSet(ClangStdIncludeDirKey, ClangStdIncludeDirDefault);
   CheckAndSet(ClangArgsKey, ClangArgsDefault);
+
+  CheckAndSet(CodeDatabasePathKey, CodeDatabasePathDefault);
+  CheckAndSet(ClangStdIncludeDirKey, ClangStdIncludeDirDefault);
+
+  CheckAndSet(MakePathKey, MakePathDefault);
+  CheckAndSet(MakeArgsKey, MakeArgsDefault);
 }
 
 /*****************************************************************************!
@@ -182,4 +192,42 @@ MainSettings::CheckAndSet
     return;
   }
   setValue(InKey, InValue);
+}
+
+/*****************************************************************************!
+ * Function : GetMakePath
+ *****************************************************************************/
+QString
+MainSettings::GetMakePath(void)
+{
+  return value(MakePathKey, MakePathDefault).toString();
+}
+
+/*****************************************************************************!
+ * Function : SetMakePath
+ *****************************************************************************/
+void
+MainSettings::SetMakePath
+(QString InMakePath)
+{
+  setValue(MakePathKey, InMakePath);
+}
+
+/*****************************************************************************!
+ * Function : GetMakeArgs
+ *****************************************************************************/
+QString
+MainSettings::GetMakeArgs(void)
+{
+  return value (MakeArgsKey, MakeArgsDefault).toString();
+}
+
+/*****************************************************************************!
+ * Function : SetMakeArgs
+ *****************************************************************************/
+void
+MainSettings::SetMakeArgs
+(QString InMakeArgs)
+{
+  setValue(MakeArgsKey, InMakeArgs);
 }

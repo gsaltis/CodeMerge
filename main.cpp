@@ -150,7 +150,7 @@ void
 MainOpenCodeDatabase
 ()
 {
-  MainCodeDatabase = new CodeDatabase("D:\\Source\\Vertiv\\CodeDB\\Code.db");
+  MainCodeDatabase = new CodeDatabase(MainSystemSettings->GetCodeDatabasePath());
   MainCodeDatabase->OpenDatabase();
 }
 

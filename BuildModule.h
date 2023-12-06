@@ -61,8 +61,6 @@ class BuildModule : public QWidget
 
  //! Public Data
  public :
-  static QString                MakeExeName;
-  static QString                MakeExeArgs;
   
  //! Protected Methods
  protected :

@@ -24,11 +24,6 @@
 /*****************************************************************************!
  * Static Data
  *****************************************************************************/
-QString
-BuildModule::MakeExeName = "C:\\Qt\\Tools\\mingw1120_64\\bin\\make.exe";
-
-QString
-BuildModule::MakeExeArgs = "-B -n";
 
 /*****************************************************************************!
  * Function : BuildModule
@@ -123,9 +118,13 @@ int
 BuildModule::Execute(QString &InErrors, QString &InOutput)
 {
   QProcess                              makeProcess;
+  QString                               makeArgs;
+  QString                               makePath;
 
-  makeProcess.setArguments(MakeExeArgs.split(QRegularExpression("\\s+")));
-  makeProcess.setProgram(MakeExeName);
+  makePath = MainSystemSettings->GetMakePath();
+  makeArgs = MainSystemSettings->GetMakeArgs();
+  makeProcess.setArguments(makeArgs.split(QRegularExpression("\\s+")));
+  makeProcess.setProgram(makePath);
   makeProcess.setWorkingDirectory(FullPathName);
   makeProcess.start();
   makeProcess.waitForFinished();

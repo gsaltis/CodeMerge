@@ -47,6 +47,10 @@ class MainSettings : public QSettings
   QString                       GetClangStdIncludeDir   (void);
   QString                       GetCodeDatabasePath     (void);
   void                          SetCodeDatabasePath     (QString InCodeDatabasePath);
+  QString                       GetMakePath             (void);
+  void                          SetMakePath             (QString InMakePath);
+  QString                       GetMakeArgs             (void);
+  void                          SetMakeArgs             (QString InMakeArgs);
 
  //! Public Data
  public :
@@ -74,6 +78,13 @@ class MainSettings : public QSettings
 
   QString                       ClangStdIncludeDirKey;
   QString                       ClangStdIncludeDirDefault;
+
+  QString                       MakePathKey;
+  QString                       MakePathDefault;
+
+  QString                       MakeArgsKey;
+  QString                       MakeArgsDefault;
+
   
  //! Public Slots
  public slots :

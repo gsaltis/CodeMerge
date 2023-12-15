@@ -146,13 +146,7 @@ MainSettings::GetClangArgs
 QString
 MainSettings::GetClangStdIncludeDir(void)
 {
-  QString                               st;
-  if ( ! contains("Tooling/Clang/StdIncludDir") ) {
-    setValue("Tooling/Clang/StdIncludeDir", QString("D:/Source/Vertiv/CodeBases/stdincludes"));
-  }
-  st = value("Tooling/Clang/StdIncludeDir", QString("D:/Source/Vertiv/CodeBases/stdincludes")).toString();
-    
-  return st;
+  return value(ClangStdIncludeDirKey, ClangStdIncludeDirDefault).toString();
 }
 
 /*****************************************************************************!

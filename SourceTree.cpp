@@ -259,7 +259,6 @@ SourceTree::SlotFilesSelected
   if ( ModuleSet1 ) {
     args1 = QString(clangArgs).arg(InASTPath1).arg(stdIncludeDir).arg(InLocalIncludeDir1).arg(InFileName1);
     ExecuteSetup(ModuleSet1);
-    printf("%s %d : %s\n", __FILE__, __LINE__, args1.toStdString().c_str());
     returnCode = Execute(errors, output, args1, ModuleSet1);
     if ( returnCode == 0 ) {
       ProcessCompile(ModuleSet1->GetTrackName(), InASTPath1, InFileName1, errors, output);
@@ -270,7 +269,6 @@ SourceTree::SlotFilesSelected
   if ( ModuleSet2 ) {
     args2 = QString(clangArgs).arg(InASTPath2).arg(stdIncludeDir).arg(InLocalIncludeDir2).arg(InFileName2);
     ExecuteSetup(ModuleSet2);
-    printf("%s %d : %s\n", __FILE__, __LINE__, args2.toStdString().c_str());
     returnCode = Execute(errors, output, args2, ModuleSet2);
     if ( returnCode == 0 ) {
       ProcessCompile(ModuleSet2->GetTrackName(), InASTPath2, InFileName2, errors, output);

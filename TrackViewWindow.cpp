@@ -174,7 +174,12 @@ void
 TrackViewWindow::SetModuleSet
 (BuildModuleSet* InModuleSet)
 {
-  ModuleSet = InModuleSet;  
+  QString                               windowName;
+  
+  ModuleSet = InModuleSet;
+
+  windowName = ModuleSet->GetTrackName() +  " : " + ModuleSet->GetVersion();
+  header->SetText(windowName);
 }
 
 /*****************************************************************************!

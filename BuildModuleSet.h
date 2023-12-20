@@ -30,17 +30,17 @@ class BuildModuleSet : public QWidget
 {
   Q_OBJECT;
 
- //! Constructors
- public :
+  //! Constructors
+public :
   BuildModuleSet                ();
   BuildModuleSet                (QString InTrackName);
 
- //! Destructor
- public :
+  //! Destructor
+public :
   ~BuildModuleSet               ();
 
- //! Public Methods
- public :
+  //! Public Methods
+public :
   int                           GetModuleCount          (void);
   QString                       GetTrackName            (void);
   void                          SetTrackName            (QString InTrackName);
@@ -61,35 +61,38 @@ class BuildModuleSet : public QWidget
   QList<BuildSource*>           GetAllBuildSources      (void);
   QString                       GetASTPath              (void);
   void                          SetASTPath              (QString InASTPath);
+  QString                       GetVersion              (void);
+  void                          SetVersion              (QString InVersion);
 
- //! Public Data
- public :
+  //! Public Data
+public :
 
- //! Protected Methods
- protected :
+  //! Protected Methods
+protected :
 
- //! Protected Data
- protected :
+  //! Protected Data
+protected :
 
- //! Private Methods
- private :
+  //! Private Methods
+private :
   void                          BuildDatabase           (QString InFilePath);
 
- //! Private Data
- private :
+  //! Private Data
+private :
   QList<BuildModule*>           modules;
   QString                       TrackName;
   QString                       TrackPath;
   QString                       ASTPath;
+  QString                       Version;
 
- //! Public Slots
- public slots :
+  //! Public Slots
+public slots :
 
- //! Public Signals
- signals :
+  //! Public Signals
+signals :
 
- //! Public Actions
- public :
+  //! Public Actions
+public :
 
 };
 

@@ -58,6 +58,8 @@ class BuildModule : public QWidget
   QList<BuildSource*>           GetBuildSources         (void);
   class BuildModuleSet*         GetBuildModuleSetParent (void);
   void                          SetBuildModuleSetParent (class BuildModuleSet* InBuildModuleSetParent);
+  QString                       GetVersion              (void);
+  void                          SetVersion              (QString InVersion);
 
  //! Public Data
  public :
@@ -89,6 +91,7 @@ class BuildModule : public QWidget
   QList<BuildTarget*>           Targets;
   QList<BuildSource*>           Sources;
   class BuildModuleSet*         BuildModuleSetParent;
+  QString                       Version;
 
  //! Public Slots
  public slots :

@@ -283,3 +283,22 @@ BuildModuleSet::SetASTPath
 {
   ASTPath = InASTPath;  
 }
+
+/*****************************************************************************!
+ * Function : GetVersion
+ *****************************************************************************/
+QString
+BuildModuleSet::GetVersion(void)
+{
+  return Version;  
+}
+
+/*****************************************************************************!
+ * Function : SetVersion
+ *****************************************************************************/
+void
+BuildModuleSet::SetVersion
+(QString InVersion)
+{
+  Version = InVersion;  
+}

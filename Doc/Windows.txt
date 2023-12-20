@@ -6,8 +6,7 @@ MainWindow
         TrackViewWindow                         track3Window
         MainMessageWindow                       messageWindow
           MainWindowHeader                      header
-          CompileErrorDisplay                   compileErrorText
-    
+          CompileErrorDisplay                   compileErrorText    
     
       ModuleWindow                              moduleWindow
         MainWindowHeader                        header

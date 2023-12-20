@@ -438,3 +438,22 @@ BuildModule::Initialize(void)
   FullPathName          = QString();
   TrackName             = QString();
 }
+
+/*****************************************************************************!
+ * Function : GetVersion
+ *****************************************************************************/
+QString
+BuildModule::GetVersion(void)
+{
+  return Version;  
+}
+
+/*****************************************************************************!
+ * Function : SetVersion
+ *****************************************************************************/
+void
+BuildModule::SetVersion
+(QString InVersion)
+{
+  Version = InVersion;  
+}

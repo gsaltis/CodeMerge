@@ -605,6 +605,7 @@ int
 CodeDatabase::ReadBuildModuleSetCB
 (void* InPointer, int InColumnCount, char** InColumnValues, char** InColumnNames)
 {
+  QString                               version;
   QString                               basePath;
   QString                               ASTPath;
 
@@ -629,9 +630,15 @@ CodeDatabase::ReadBuildModuleSetCB
       ASTPath = columnValue;
       continue;
     }
+
+    if ( columnName == "Version" ) {
+      version = columnValue;
+      continue;
+    }
   }
 
   buildModuleSet->SetASTPath(ASTPath);
   buildModuleSet->SetTrackPath(basePath);
+  buildModuleSet->SetVersion(version);
   return 0;
 }

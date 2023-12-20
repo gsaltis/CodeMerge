@@ -87,7 +87,7 @@ ASTElementWindow::AddItem
     arg(clang_getCString(kindName)).
     arg(elementName).
     arg(typeName);
-
+  TRACE_FUNCTION_QSTRING(outputString);
   treeItem = new ASTElementWindowItem();
   treeItem->SetCursor(InASTCursor);
   if ( InLevel == 0 ) {
